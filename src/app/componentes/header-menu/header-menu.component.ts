@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { Component, OnInit } from '@angular/core';
+import { MegaMenuItem, MenuItem } from 'primeng/api';
 
 
 @Component({
@@ -7,7 +7,8 @@ import { MenuItem } from 'primeng/api';
     templateUrl: './header-menu.component.html',
     styleUrls: ['./header-menu.component.css'],
 })
-export class HeaderMenuComponent {
+export class HeaderMenuComponent implements OnInit{
+    // items!: MegaMenuItem[];
     items!: MenuItem[];
 
     ngOnInit() {
@@ -20,6 +21,12 @@ export class HeaderMenuComponent {
                 
             },
             {
+                label: 'Eventos Usuario',
+                icon: 'pi pi-fw pi-server',
+                routerLink: ['/eventos/usuario'],
+                routerLinkActiveOptions: 'active'
+            },
+            {
                 label: 'Eventos',
                 icon: 'pi pi-fw pi-server',
                 routerLink: ['/eventos'],
@@ -28,7 +35,8 @@ export class HeaderMenuComponent {
             {
                 label: 'Clientes',
                 icon: 'pi pi-fw pi-id-card',
-                routerLink: ['/home']
+                routerLink: ['/clientes'],
+                routerLinkActiveOptions: 'active'
             },
             {
                 label: 'Productos',
@@ -78,6 +86,54 @@ export class HeaderMenuComponent {
                     },
                 ],
             },
+            // {
+            //     label: 'Admin',
+            //     icon: 'pi pi-fw pi-user',
+            //     items: [
+            //         [
+            //             {
+            //                 label: 'Producto',
+            //                 items: [
+            //                     {
+            //                         label: 'productos'
+            //                     },
+            //                     {
+            //                         label: 'modulos'
+            //                     },
+            //                     {
+            //                         label: 'entornos'
+            //                     }
+            //                 ]
+            //             }
+            //         ],
+            //         [
+            //             {
+            //                 label: 'Tipo Evento',
+            //                 items: [
+            //                     {
+            //                         label: 'Tipos Evento'
+            //                     },
+            //                     {
+            //                         label: 'Tareas'
+            //                     }
+            //                 ]
+            //             }
+            //         ],
+            //         [
+            //             {
+            //                 label: 'Usuario',
+            //                 items: [
+            //                     {
+            //                         label: 'Usuarios'
+            //                     },
+            //                     {
+            //                         label: 'Roles'
+            //                     }
+            //                 ]
+            //             }
+            //         ],
+            //     ]
+            // },
         ];
     }
 }
