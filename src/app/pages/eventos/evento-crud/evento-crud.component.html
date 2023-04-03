@@ -14,7 +14,7 @@
                 <div class="flex flex-column gap-2">
                     <label htmlFor="username">Tipo</label>
                     <!-- <input pInputText id="username" aria-describedby="username-help" formControlName="tipo" /> -->
-                    <p-autoComplete [dropdown]="true" [suggestions]="tipoEventoFiltrado" (completeMethod)="filtroTipoEvento($event)" formControlName="tipo"></p-autoComplete>
+                    <p-autoComplete [dropdown]="true" [suggestions]="tipoEventoFiltrado" (completeMethod)="filtroTipoEvento($event)" formControlName="tipo" [readonly]="modo==='M'"></p-autoComplete>
                     <small id="username-help" [hidden]="crudEvento.get('tipo')?.valid" >Enter your username to reset your password.</small>
                 </div>
             </div>

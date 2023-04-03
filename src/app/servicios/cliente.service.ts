@@ -19,4 +19,12 @@ export class ClienteService {
   getClientes(){
     return this.http.get(`${this.URL_COMPLETA}/cliente`);
   }
+
+  setCliente(cliente: any){
+    return this.http.post(`${this.URL_COMPLETA}/cliente`, cliente);
+  }
+
+  putCliente(cliente: any){
+    return this.http.put(`${this.URL_COMPLETA}/cliente`, cliente);
+  }
 }

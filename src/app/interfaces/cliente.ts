@@ -1,5 +1,5 @@
 export interface Cliente {
-    id:     string;
+    id:     string | null;
     sigla:  string;
     nombre: string;
     activo: number;

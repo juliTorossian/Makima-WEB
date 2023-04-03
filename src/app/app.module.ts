@@ -37,6 +37,7 @@ import { EventosUsuarioComponent } from './pages/eventos/eventos-usuario/eventos
 import { EventoCRUDComponent } from './pages/eventos/evento-crud/evento-crud.component';
 import { ClientesComponent } from './pages/cliente/clientes/clientes.component';
 import { ActivoPipe } from './pipes/activo.pipe';
+import { ClienteCrudComponent } from './pages/cliente/cliente-crud/cliente-crud.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { ActivoPipe } from './pipes/activo.pipe';
     EventosUsuarioComponent,
     EventoCRUDComponent,
     ClientesComponent,
-    ActivoPipe
+    ActivoPipe,
+    ClienteCrudComponent
   ],
   imports: [
     BrowserModule,

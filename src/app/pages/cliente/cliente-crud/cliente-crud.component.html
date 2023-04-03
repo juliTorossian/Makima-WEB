@@ -1,0 +1,28 @@
+
+<div class="container">
+
+    <form [formGroup]="cliente">
+
+        <div class="grid">
+            <div class="col-3">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="sigla">Sigla</label>
+                    <input pInputText id="sigla" aria-describedby="sigla-help" formControlName="sigla" />
+                    <small id="sigla-help" [hidden]="cliente.get('sigla')?.valid">Ingrese una sigla.</small>
+                </div>
+            </div>
+            <div class="col-7  col-offset-2">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="nombre">Nombre</label>
+                    <input pInputText id="nombre" aria-describedby="nombre-help" formControlName="nombre" />
+                    <small id="nombre-help" [hidden]="cliente.get('nombre')?.valid">Ingrese un nombre.</small>
+                </div>
+            </div>
+        </div>
+
+        <button pButton pRipple label="Crear" class="p-button-success" (click)="crearCliente()" [hidden]="modo==='A'"></button>
+        <!-- <button pButton pRipple label="Modificar" class="p-button-warning" (click)="crearCliente()" [hidden]="modo==='M'"></button> -->
+
+    </form>
+
+</div>

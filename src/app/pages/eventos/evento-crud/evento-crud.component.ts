@@ -9,12 +9,17 @@ import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 })
 export class EventoCRUDComponent implements OnInit {
 
+  modo!: any;
+
   tiposEvento : any[] = ["CUS", "CAS", "TEC", "ORG", "MEG"];
   tipoEventoFiltrado! : any[];
 
   prioridades :any[] = [1, 2, 3, 4, 5];
 
   evento!: any;
+
+  private ref = inject(DynamicDialogRef);
+  private config = inject(DynamicDialogConfig);
 
 
   crudEvento = new FormGroup({
@@ -24,20 +29,24 @@ export class EventoCRUDComponent implements OnInit {
     // titulo: new FormControl('', [Validators.required]),
   });
 
-  constructor(
-    private ref: DynamicDialogRef,
-    private config: DynamicDialogConfig
-  ) {}
+  // constructor(
+  //   private ref: DynamicDialogRef,
+  //   private config: DynamicDialogConfig
+  // ) {}
 
   ngOnInit(){
     
     
-    console.log(this.config.data);
-    this.evento = this.config.data;
+    // console.log(this.config.data);
+    this.modo = this.config.data.modo;
+    this.evento = this.config.data.evento;
     
-    this.crudEvento.get("tipo")?.setValue(this.evento.tipo);
-    this.crudEvento.get("prioridad")?.setValue(this.evento.prioridad);
-    this.crudEvento.get("titulo")?.setValue(this.evento.titulo);
+    if (this.evento){
+      this.crudEvento.get("tipo")?.setValue(this.evento.tipo);
+      // this.crudEvento.get("tipo")?.;
+      this.crudEvento.get("prioridad")?.setValue(this.evento.prioridad);
+      this.crudEvento.get("titulo")?.setValue(this.evento.titulo);
+    }
     
   }
   /*

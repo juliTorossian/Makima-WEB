@@ -44,8 +44,9 @@ export class EventosComponent implements OnInit {
 
   openNew() {
     // this.evento = {};
-    this.submitted = false;
-    this.eventoDialog = true;
+
+    this.mostrarModalCrud(null, 'A');
+
   }
 
   deleteEventoSeleccionado() {
@@ -63,23 +64,22 @@ export class EventosComponent implements OnInit {
 
   editEvento(evento: Evento) {
 
+    this.mostrarModalCrud(evento, 'M');
 
-    this.ref = this.dialogService.open(EventoCRUDComponent, {
-      header: 'Editar evento',
-      width: '70%',
-      data: evento
-    });
+    // this.ref = this.dialogService.open(EventoCRUDComponent, {
+    //   header: 'Editar evento',
+    //   width: '70%',
+    //   contentStyle: { overflow: 'auto' },
+    //   baseZIndex: 10000,
+    //   maximizable: true,
+    //   data: evento
+    // });
 
-    this.ref.onClose.subscribe((eventoCrud: Evento) => {
-      if (eventoCrud) {
-        this.messageService.add({ severity: 'info', summary: 'Product Selected', detail: eventoCrud.titulo });
-      }
-    });
-
-    this.ref.onMaximize.subscribe((value) => {
-      this.messageService.add({ severity: 'info', summary: 'Maximized', detail: `maximized: ${value.maximized}` });
-    });
-    
+    // this.ref.onClose.subscribe((eventoCrud: Evento) => {
+    //   if (eventoCrud) {
+    //     this.messageService.add({ severity: 'info', summary: 'Product Selected', detail: eventoCrud.titulo });
+    //   }
+    // });
 
     // this.evento = { ...evento };
     // this.eventoDialog = true;
@@ -151,6 +151,26 @@ export class EventosComponent implements OnInit {
     }else{
       this.eventos = this.eventosSave.filter((r:any) => r.cerrado === 0);
     }
+  }
+
+  mostrarModalCrud(evento: Evento | null, modo:any){
+
+    const data = {evento, modo}
+
+    this.ref = this.dialogService.open(EventoCRUDComponent, {
+      header: 'Editar evento',
+      width: '70%',
+      contentStyle: { overflow: 'auto' },
+      baseZIndex: 10000,
+      maximizable: true,
+      data: data
+    });
+
+    this.ref.onClose.subscribe((eventoCrud: Evento) => {
+      if (eventoCrud) {
+        this.messageService.add({ severity: 'info', summary: 'Product Selected', detail: eventoCrud.titulo });
+      }
+    });
   }
 
   // createId(): string {

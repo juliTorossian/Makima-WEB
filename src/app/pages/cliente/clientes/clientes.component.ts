@@ -3,6 +3,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Cliente } from 'src/app/interfaces/cliente';
 import { ClienteService } from 'src/app/servicios/cliente.service';
+import { ClienteCrudComponent } from '../cliente-crud/cliente-crud.component';
 
 @Component({
   selector: 'app-clientes',
@@ -38,13 +39,53 @@ export class ClientesComponent {
       error: (err) => {
         console.log(err);
       }
-    });    
+    });
+
   }
 
   openNew() {
-    // this.evento = {};
-    this.submitted = false;
-    this.clienteDialog = true;
+    this.mostrarModalCrud(null, 'A');
+    let clienteRes;
+
+    
+    this.ref.onClose.subscribe((clienteCrud: Cliente) => {
+      clienteRes = clienteCrud
+    });
+
+    if (clienteRes) {
+      this.clienteService.setCliente(clienteRes).subscribe({
+        next: (res) => {
+          console.log(res);
+          this.messageService.add({ severity: 'success', summary: 'Cliente creado', detail: `Se creo el cliente` });
+        },
+        error: (err) => {
+          console.log(err);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `Ocurrio un error al crear el cliente` });
+        }
+      });
+    }
+  }
+
+  editCliente(cliente: Cliente) {
+    this.mostrarModalCrud(cliente, 'M');
+    let clienteRes;
+
+    this.ref.onClose.subscribe((clienteCrud: Cliente) => {
+      clienteRes = clienteCrud
+    });
+
+    if (clienteRes) {
+      this.clienteService.putCliente(clienteRes).subscribe({
+        next: (res) => {
+          console.log(res);
+          this.messageService.add({ severity: 'success', summary: 'Cliente modificado', detail: `Se modifico el cliente` });
+        },
+        error: (err) => {
+          console.log(err);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `Ocurrio un error al modificar el cliente` });
+        }
+      });
+    }
   }
 
   deleteClienteSeleccionado() {
@@ -58,34 +99,6 @@ export class ClientesComponent {
         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
       }
     });
-  }
-
-  editCliente(cliente: Cliente) {
-
-    console.log(cliente);
-
-    // this.ref = this.dialogService.open(EventoCRUDComponent, {
-    //   header: 'Editar evento',
-    //   width: '70%',
-    //   contentStyle: { overflow: 'auto' },
-    //   baseZIndex: 10000,
-    //   maximizable: true,
-    //   data: {"evento": cliente}
-    // });
-
-    // this.ref.onClose.subscribe((clienteCrud: Cliente) => {
-    //   if (clienteCrud) {
-    //     this.messageService.add({ severity: 'info', summary: 'Product Selected', detail: clienteCrud.nombre });
-    //   }
-    // });
-
-  //   this.ref.onMaximize.subscribe((value) => {
-  //     this.messageService.add({ severity: 'info', summary: 'Maximized', detail: `maximized: ${value.maximized}` });
-  //   });
-    
-
-  //   // this.evento = { ...evento };
-  //   // this.eventoDialog = true;
   }
 
   deleteCliente(cliente: Cliente) {
@@ -146,6 +159,26 @@ export class ClientesComponent {
   getEventValue($event:any) :string {
     return $event.target.value;
   } 
+  
+  mostrarModalCrud(cliente: Cliente | null, modo:any){
+    const data = {cliente, modo}
+
+    this.ref = this.dialogService.open(ClienteCrudComponent, {
+      header: 'Editar cliente',
+      width: '70%',
+      contentStyle: { overflow: 'auto' },
+      baseZIndex: 10000,
+      maximizable: true,
+      data: data
+    });
+
+    // this.ref.onClose.subscribe((product: Product) => {
+    //     if (product) {
+    //         this.messageService.add({ severity: 'info', summary: 'Product Selected', detail: product.name });
+    //     }
+    // });
+
+  }
 
   // filtraEventosCerrado(){
   //   console.log(this.filtroVerCerrados);
