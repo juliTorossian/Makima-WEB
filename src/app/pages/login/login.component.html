@@ -1,0 +1,22 @@
+<div class="card-container">
+    <p-card  class="p-card-container">
+      <h1 style="text-align: center;">Iniciar sesión</h1>
+      <p-messages></p-messages>
+      <form (ngSubmit)="login()" [formGroup]="loginForm" class="formLogin">
+        <div class="p-field p-fluid loginInput">
+          <label for="usuario">Usuario</label>
+          <input id="usuario" type="text" aria-describedby="usuario-help" class="p-invalid" pInputText formControlName="usuario" [autofocus]="true"/>
+          <small id="usuario-help" class="p-invalid" *ngIf="errorUsuario">Ingrese un usuario valido</small>
+        </div>
+        <div class="p-field p-fluid loginInput">
+          <label for="password">Contraseña</label>
+          <p-password [toggleMask]="true" [feedback]="false" formControlName="password" id="password" aria-describedby="password-help"></p-password>
+          <!-- <input id="password" type="text" aria-describedby="password-help" class="p-invalid" pInputText formControlName="password"/> -->
+          <small id="password-help" class="p-invalid" *ngIf="errorPassword">Ingrese una contraseña valida</small>
+        </div>
+        <div class="buttons">
+            <button type="submit" pButton>Entrar</button>
+        </div>
+      </form>
+    </p-card>
+  </div>

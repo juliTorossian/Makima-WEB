@@ -1,3 +1,6 @@
 .mr-5{
     margin-right: 0.6 rem;
 }
+.p-megamenu{
+    display: flex !important;
+}

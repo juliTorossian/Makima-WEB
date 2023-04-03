@@ -1,0 +1,33 @@
+.card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 75vh;
+
+}
+.p-card-container{
+    /* min-width: 450px !important; */
+    width: 450px !important;
+}
+
+.formLogin{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loginInput{
+    max-width: 200px;
+}
+
+.loginInput input,
+.loginInput p-password{
+    margin: 10px 0;
+}
+
+.card-container .buttons{
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+
+}
