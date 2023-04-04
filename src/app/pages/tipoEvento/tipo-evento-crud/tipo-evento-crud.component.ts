@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
@@ -10,18 +10,56 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 export class TipoEventoCrudComponent {
   modo!: any;
 
+  opcionesTareas : any[] = [{ label: "Ingreso", value: "ing" },
+                            { label: "Desarrollo", value: "desa" },
+                            { label: "Testeo", value: "test" },];
+
+  countTareas:number = 1;
+
+  tareaFormArray!: FormArray;
+  tareas = [];
+
+  constructor(private fb: FormBuilder) {}
+
+
+  agregarFila() {
+    const tarea = this.fb.group({
+      tarea: ['', Validators.required],
+      etapaRevertir: ['', Validators.required]
+    });
+    this.tareaFormArray.push(tarea);
+    // this.tareas.push({
+    //   etapa: this.tareas.length + 1,
+    //   tarea: '',
+    //   etapaRevertir: ''
+    // });
+  }
+
+
+  // tareaFrom = new FormGroup({
+  //   etapa: new FormControl(this.countTareas),
+  //   tarea: new FormControl("", [Validators.required]),
+  //   rollback: new FormControl(null),
+  // });
+
+  // tareas = [{etapa: this.countTareas, tarea: "", rollback: null}]
+
   tipoEvento = new FormGroup({
     id: new FormControl("", [Validators.required]), 
     descripcion: new FormControl("", [Validators.required]),
-    activo: new FormControl(true, [Validators.required]),
+    activo: new FormControl(true),
     color: new FormControl("", [Validators.required]),
-    propio: new FormControl(false, [Validators.required]),
+    propio: new FormControl(false)
   });
+
 
   private ref = inject(DynamicDialogRef);
   private config = inject(DynamicDialogConfig);
 
   ngOnInit(){
+    this.tareaFormArray = this.fb.array([]);
+
+
     console.log(this.config.data);
     this.modo = this.config.data.modo;
     let tipoEvento = this.config.data.tipoEvento;

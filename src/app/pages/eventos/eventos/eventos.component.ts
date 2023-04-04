@@ -167,6 +167,8 @@ export class EventosComponent implements OnInit {
     });
 
     this.ref.onClose.subscribe((eventoCrud: Evento) => {
+      console.log(eventoCrud);
+      
       if (eventoCrud) {
         this.messageService.add({ severity: 'info', summary: 'Product Selected', detail: eventoCrud.titulo });
       }

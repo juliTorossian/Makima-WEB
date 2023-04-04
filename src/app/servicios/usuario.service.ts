@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
-import { map, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { Usuario } from '../interfaces/usuario';
 import { environment } from 'src/environments/environment.development';
 
@@ -28,16 +28,24 @@ export class UsuarioService {
     */
     return this.http.get(`${this.URL_COMPLETA}/usuario/gestion/iniciarSesion`, {params});
   }
-  getUsuarioToken(token: string) {
+  
+  getUsuarioToken(token: string) : Observable<Usuario> {
+    if (token === ""){
+      token = this.getToken();
+    }
     return this.http.get(`${this.URL_COMPLETA}/usuario/${token}?token=true`).pipe(
+      tap( (res:any) => console.log(res)),
       map( (res:any) => res.tokenUsuario )
     );
   }
+
   getUsuario(usuarioId: string){
     return this.http.get(`${this.URL_COMPLETA}/usuario/${usuarioId}`).pipe(
       map( (res:any) => res.tokenUsuario )
     );
   }
+
+
 
 
   // TOKEN

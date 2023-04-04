@@ -24,6 +24,8 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { DropdownModule } from 'primeng/dropdown';
 import { TagModule } from 'primeng/tag';
 import { DialogModule } from 'primeng/dialog';
+import { ColorPickerModule } from 'primeng/colorpicker';
+import { ToggleButtonModule } from 'primeng/togglebutton';
 
 import { AppComponent } from './app.component';
 import { EventosComponent } from './pages/eventos/eventos/eventos.component';
@@ -41,6 +43,8 @@ import { TareasComponent } from './pages/tarea/tareas/tareas.component';
 import { TareaCrudComponent } from './pages/tarea/tarea-crud/tarea-crud.component';
 import { TipoEventoCrudComponent } from './pages/tipoEvento/tipo-evento-crud/tipo-evento-crud.component';
 import { TiposEventoComponent } from './pages/tipoEvento/tipos-evento/tipos-evento.component';
+import { ActivoPipe } from './pipes/activo.pipe';
+import { ClienteSeleccionComponent } from './pages/cliente/cliente-seleccion/cliente-seleccion.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +60,9 @@ import { TiposEventoComponent } from './pages/tipoEvento/tipos-evento/tipos-even
     TareasComponent,
     TareaCrudComponent,
     TipoEventoCrudComponent,
-    TiposEventoComponent
+    TiposEventoComponent,
+    ActivoPipe,
+    ClienteSeleccionComponent
   ],
   imports: [
     BrowserModule,
@@ -84,6 +90,8 @@ import { TiposEventoComponent } from './pages/tipoEvento/tipos-evento/tipos-even
     DropdownModule,
     TagModule,
     DialogModule,
+    ColorPickerModule,
+    ToggleButtonModule,
   ],
   providers: [
     CookieService,

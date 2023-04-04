@@ -27,6 +27,7 @@
             dataKey="id"
             currentPageReportTemplate="Mostrando desde {first} a {last} de {totalRecords} registros"
             [showCurrentPageReport]="true"
+            styleClass="p-datatable-sm"
         >
             <ng-template pTemplate="caption">
                 <div class="flex align-items-center justify-content-between" style="display: flex;">
@@ -60,7 +61,7 @@
                     <td hidden>{{ cliente.id }}</td>
                     <td>{{ cliente.sigla }}</td>
                     <td>{{ cliente.nombre }}</td>
-                    <td>{{ cliente.activo }}</td>
+                    <td><p-tag [value]="cliente.activo | activo" [severity]="getSeverity(cliente.activo)"></p-tag></td>
                     <td>
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning botonRedondoChico mr-2" (click)="mostrarModalCrud(cliente, 'M')"></button>
                         <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger botonRedondoChico mr-2" (click)="deleteClienteSolo(cliente)"></button>

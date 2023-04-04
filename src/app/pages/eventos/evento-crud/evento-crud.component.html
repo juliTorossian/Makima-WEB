@@ -7,33 +7,56 @@
 
 <div class="container">
 
-    <form [formGroup]="crudEvento">
+    <form>
 
         <div class="grid">
-            <div class="col-3">
+            <div class="col">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="username">Tipo</label>
-                    <!-- <input pInputText id="username" aria-describedby="username-help" formControlName="tipo" /> -->
-                    <p-autoComplete [dropdown]="true" [suggestions]="tipoEventoFiltrado" (completeMethod)="filtroTipoEvento($event)" formControlName="tipo" [readonly]="modo==='M'"></p-autoComplete>
-                    <small id="username-help" [hidden]="crudEvento.get('tipo')?.valid" >Enter your username to reset your password.</small>
+                    <p-autoComplete [dropdown]="true" [suggestions]="tipoEventoFiltrado" (completeMethod)="filtroTipoEvento($event)" [formControl]="tipo" [readonly]="modo==='M'"></p-autoComplete>
+                    <small id="username-help" [hidden]="tipo.valid" >Enter your username to reset your password.</small>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="numero">Numero</label>
+                    <input pInputText id="numero" [formControl]="numero" />
+                </div>
+            </div>
+            <div class="col">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="username">Prioridad</label>
-                    <!-- <input pInputText id="username" aria-describedby="username-help" formControlName="prioridad" /> -->
-                    <p-dropdown [options]="prioridades" formControlName="prioridad"></p-dropdown>
-                    <small id="username-help" [hidden]="crudEvento.get('prioridad')?.valid">Enter your username to reset your password.</small>
+                    <p-dropdown [options]="prioridades" [formControl]="prioridad" ></p-dropdown>
+                    <small id="username-help" [hidden]="prioridad.valid">Enter your username to reset your password.</small>
                 </div>
             </div>
             <div class="col">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="username">Titulo</label>
-                    <input pInputText id="username" aria-describedby="username-help" formControlName="titulo" />
-                    <small id="username-help" [hidden]="crudEvento.get('titulo')?.valid">Enter your username to reset your password.</small>
+                    <input pInputText id="username" aria-describedby="username-help" [formControl]="titulo"  />
+                    <small id="username-help" [hidden]="titulo.valid">Enter your username to reset your password.</small>
                 </div>
             </div>
 
+        </div>
+        
+        <div class="grid">
+            <div class="col-10">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="cliente">Cliente</label>
+                    <p [hidden]="cliente.sigla === ''">{{cliente.sigla}} - {{cliente.nombre}}</p>
+                </div>
+            </div>
+            <div class="col-2">
+                <button pButton pRipple label="" icon="pi pi-search" class="p-button-success mr-2 botonChico" (click)="selectCliente()"></button>
+            </div>
+        </div>
+        
+        <div [hidden]="!(modo==='A')">
+            <button pButton pRipple label="Crear" class="p-button-success" (click)="accion($event)"></button>
+        </div>
+        <div [hidden]="!(modo==='M')">
+            <button pButton pRipple label="Modificar" class="p-button-warning" (click)="accion($event)"></button>
         </div>
 
     </form>

@@ -147,6 +147,14 @@ export class ClientesComponent {
     });
   }
 
+  getSeverity(status: boolean) {
+    if (status){
+      return 'success';
+    }else{
+      return 'danger';
+    } 
+  }
+
   // hideDialog() {
   //   this.eventoDialog = false;
   //   this.submitted = false;

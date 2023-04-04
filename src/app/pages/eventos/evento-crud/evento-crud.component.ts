@@ -1,6 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { DynamicDialogRef, DynamicDialogConfig, DialogService } from 'primeng/dynamicdialog';
+import { map, tap } from 'rxjs';
+import { Cliente } from 'src/app/interfaces/cliente';
+import { Usuario } from 'src/app/interfaces/usuario';
+import { ClienteService } from 'src/app/servicios/cliente.service';
+import { UsuarioService } from 'src/app/servicios/usuario.service';
+import { ClienteSeleccionComponent } from '../../cliente/cliente-seleccion/cliente-seleccion.component';
 
 @Component({
   selector: 'app-evento-crud',
@@ -19,20 +25,33 @@ export class EventoCRUDComponent implements OnInit {
   evento!: any;
 
   private ref = inject(DynamicDialogRef);
+  private dialogService = inject(DialogService);
   private config = inject(DynamicDialogConfig);
+  private clienteService = inject(ClienteService);
+  private usuarioService = inject(UsuarioService);
 
+  cliente: Cliente = {
+    id: "",
+    sigla: "",
+    nombre: "",
+    activo: 1
+  };
+  // producto!: Producto;
 
-  crudEvento = new FormGroup({
-    tipo: new FormControl("", [Validators.required]),
-    prioridad: new FormControl("", [Validators.required]),
-    titulo: new FormControl("", [Validators.required]),
-    // titulo: new FormControl('', [Validators.required]),
-  });
+  // crudEvento = new FormGroup({
+  //   tipo: new FormControl("", [Validators.required]),
+  //   prioridad: new FormControl("", [Validators.required]),
+  //   titulo: new FormControl("", [Validators.required]),
+  //   clienteId: new FormControl('', [Validators.required]),
+  // });
 
-  // constructor(
-  //   private ref: DynamicDialogRef,
-  //   private config: DynamicDialogConfig
-  // ) {}
+  id = new FormControl("");
+  tipo = new FormControl("", [Validators.required]);
+  numero = new FormControl(0);
+  prioridad = new FormControl("", [Validators.required]);
+  titulo = new FormControl("", [Validators.required]);
+  clienteId = new FormControl("", [Validators.required]);
+
 
   ngOnInit(){
     
@@ -42,10 +61,18 @@ export class EventoCRUDComponent implements OnInit {
     this.evento = this.config.data.evento;
     
     if (this.evento){
-      this.crudEvento.get("tipo")?.setValue(this.evento.tipo);
-      // this.crudEvento.get("tipo")?.;
-      this.crudEvento.get("prioridad")?.setValue(this.evento.prioridad);
-      this.crudEvento.get("titulo")?.setValue(this.evento.titulo);
+      this.clienteService.getCliente(this.evento.cliente).subscribe({
+        next: (res:any) => {
+          console.log(res);
+          this.cliente = res;
+        }
+      });
+
+      this.tipo.setValue(this.evento.tipo);
+      this.numero.setValue(this.evento.nuemro);
+      this.prioridad.setValue(this.evento.prioridad);
+      this.titulo.setValue(this.evento.titulo);
+      this.clienteId.setValue(this.evento.cliente);
     }
     
   }
@@ -61,8 +88,28 @@ export class EventoCRUDComponent implements OnInit {
 
 
 
-  cerrarDialog() {
-    this.ref.close(this.evento);
+  accion($event:any) {
+    $event.preventDefault();
+
+    let usuario! : Usuario; 
+    this.usuarioService.getUsuarioToken("").subscribe({
+      next: (res : Usuario) => {
+        
+        usuario = res;
+      }
+    });
+
+    const evento = {
+      id:             this.id.value,
+      tipo:           this.tipo.value,
+      titulo:         this.titulo.value,
+      cliente:        this.clienteId.value,
+      // producto:       this.productoId.value,
+      usuarioAlta:    usuario.id
+    }
+
+
+    this.ref.close(evento);
   }
 
   filtroTipoEvento(event:any) {
@@ -79,6 +126,22 @@ export class EventoCRUDComponent implements OnInit {
     console.log(filtered);
 
     this.tipoEventoFiltrado = filtered;
+  }
+
+  selectCliente(){
+    this.ref = this.dialogService.open(ClienteSeleccionComponent, {
+      header: 'Seleccionar cliente',
+      width: '70%',
+      contentStyle: { overflow: 'auto' },
+      baseZIndex: 11000,
+      maximizable: true
+    });
+
+    this.ref.onClose.subscribe((cliente: Cliente) => {
+      console.log(cliente);
+      this.cliente = cliente;
+    });
+
   }
 
 }
