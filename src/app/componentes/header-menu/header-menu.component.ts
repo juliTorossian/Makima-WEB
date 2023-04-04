@@ -44,15 +44,21 @@ export class HeaderMenuComponent implements OnInit{
                 items: [
                     {
                         label: 'Productos',
+                        routerLink: ['/productos'],
+                        routerLinkActiveOptions: 'active'
                     },
                     {
                         separator: true,
                     },
                     {
                         label: 'Modulos',
+                        routerLink: ['/modulos'],
+                        routerLinkActiveOptions: 'active'
                     },
                     {
                         label: 'Entornos',
+                        routerLink: ['/entornos'],
+                        routerLinkActiveOptions: 'active'
                     },
                 ],
             },
@@ -62,12 +68,16 @@ export class HeaderMenuComponent implements OnInit{
                 items: [
                     {
                         label: 'Tipos Evento',
+                        routerLink: ['/tiposEvento'],
+                        routerLinkActiveOptions: 'active'
                     },
                     {
                         separator: true,
                     },
                     {
                         label: 'Tareas',
+                        routerLink: ['/tareas'],
+                        routerLinkActiveOptions: 'active'
                     },
                 ],
             },
@@ -77,12 +87,16 @@ export class HeaderMenuComponent implements OnInit{
                 items: [
                     {
                         label: 'Usuarios',
+                        routerLink: ['/usuario'],
+                        routerLinkActiveOptions: 'active'
                     },
                     {
                         separator: true,
                     },
                     {
                         label: 'Roles',
+                        routerLink: ['/roles'],
+                        routerLinkActiveOptions: 'active'
                     },
                 ],
             },

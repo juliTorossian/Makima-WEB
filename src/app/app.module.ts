@@ -36,8 +36,11 @@ import { MessageService } from 'primeng/api';
 import { EventosUsuarioComponent } from './pages/eventos/eventos-usuario/eventos-usuario.component';
 import { EventoCRUDComponent } from './pages/eventos/evento-crud/evento-crud.component';
 import { ClientesComponent } from './pages/cliente/clientes/clientes.component';
-import { ActivoPipe } from './pipes/activo.pipe';
 import { ClienteCrudComponent } from './pages/cliente/cliente-crud/cliente-crud.component';
+import { TareasComponent } from './pages/tarea/tareas/tareas.component';
+import { TareaCrudComponent } from './pages/tarea/tarea-crud/tarea-crud.component';
+import { TipoEventoCrudComponent } from './pages/tipoEvento/tipo-evento-crud/tipo-evento-crud.component';
+import { TiposEventoComponent } from './pages/tipoEvento/tipos-evento/tipos-evento.component';
 
 @NgModule({
   declarations: [
@@ -49,8 +52,11 @@ import { ClienteCrudComponent } from './pages/cliente/cliente-crud/cliente-crud.
     EventosUsuarioComponent,
     EventoCRUDComponent,
     ClientesComponent,
-    ActivoPipe,
-    ClienteCrudComponent
+    ClienteCrudComponent,
+    TareasComponent,
+    TareaCrudComponent,
+    TipoEventoCrudComponent,
+    TiposEventoComponent
   ],
   imports: [
     BrowserModule,

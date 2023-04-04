@@ -11,7 +11,6 @@ import { Cliente } from 'src/app/interfaces/cliente';
 export class ClienteCrudComponent  implements OnInit {
 
   modo!: any;
-  // cliente!: any;
 
   cliente = new FormGroup({
     id: new FormControl(""), 
@@ -36,13 +35,17 @@ export class ClienteCrudComponent  implements OnInit {
     }
   }
 
-  crearCliente(){
+  crearCliente($event:any){
+    $event.preventDefault();
     const cliente : any = {
       id: this.cliente.get('id')?.value,
       sigla: this.cliente.get('sigla')?.value,
       nombre: this.cliente.get('nombre')?.value,
       activo: this.cliente.get('activo')?.value
     }
+
+    console.log(cliente);
+    
 
     this.ref.close(cliente);
   }

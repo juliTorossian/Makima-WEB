@@ -27,4 +27,12 @@ export class ClienteService {
   putCliente(cliente: any){
     return this.http.put(`${this.URL_COMPLETA}/cliente`, cliente);
   }
+
+  deleteCliente(cliente: any){
+    return this.http.delete(`${this.URL_COMPLETA}/cliente/${cliente.id}`);
+  }
+
+  reactivarCliente(cliente: any){
+    return this.http.get(`${this.URL_COMPLETA}/cliente/${cliente.id}/reactivar`);
+  }
 }

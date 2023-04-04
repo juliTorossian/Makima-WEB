@@ -8,6 +8,7 @@ import { EventosUsuarioComponent } from './pages/eventos/eventos-usuario/eventos
 import { EventosComponent } from './pages/eventos/eventos/eventos.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ClientesComponent } from './pages/cliente/clientes/clientes.component';
+import { TareasComponent } from './pages/tarea/tareas/tareas.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
@@ -18,6 +19,7 @@ const routes: Routes = [
     { path: 'nuevo', component: EventoCRUDComponent }
   ]},
   { path: 'clientes', component: ClientesComponent, canActivate: [UsuarioLogeadoGuard]},
+  { path: 'tareas', component: TareasComponent, canActivate: [UsuarioLogeadoGuard]},
   { path: 'login', component: LoginComponent}
 ];
 

@@ -1,9 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmEventType, ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Cliente } from 'src/app/interfaces/cliente';
 import { ClienteService } from 'src/app/servicios/cliente.service';
 import { ClienteCrudComponent } from '../cliente-crud/cliente-crud.component';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-clientes',
@@ -23,14 +24,16 @@ export class ClientesComponent {
   submitted!: boolean;
   // statuses!: any[];
 
-  // // constructor(private productService: ProductService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
-
   private dialogService = inject(DialogService);
   private clienteService = inject(ClienteService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
 
   ngOnInit() {
+    this.buscarClientes();
+  }
+
+  buscarClientes(){
     this.clienteService.getClientes().subscribe({
       next: (res : any) => {
         // console.log(res);
@@ -40,20 +43,12 @@ export class ClientesComponent {
         console.log(err);
       }
     });
-
   }
 
-  openNew() {
-    this.mostrarModalCrud(null, 'A');
-    let clienteRes;
-
+  newCliente(cliente : Cliente) {
     
-    this.ref.onClose.subscribe((clienteCrud: Cliente) => {
-      clienteRes = clienteCrud
-    });
-
-    if (clienteRes) {
-      this.clienteService.setCliente(clienteRes).subscribe({
+    if (cliente) {
+      this.clienteService.setCliente(cliente).subscribe({
         next: (res) => {
           console.log(res);
           this.messageService.add({ severity: 'success', summary: 'Cliente creado', detail: `Se creo el cliente` });
@@ -61,60 +56,93 @@ export class ClientesComponent {
         error: (err) => {
           console.log(err);
           this.messageService.add({ severity: 'error', summary: 'Error', detail: `Ocurrio un error al crear el cliente` });
+        },
+        complete: () => {
+          this.buscarClientes();
         }
       });
     }
+    
   }
 
   editCliente(cliente: Cliente) {
-    this.mostrarModalCrud(cliente, 'M');
-    let clienteRes;
 
-    this.ref.onClose.subscribe((clienteCrud: Cliente) => {
-      clienteRes = clienteCrud
-    });
-
-    if (clienteRes) {
-      this.clienteService.putCliente(clienteRes).subscribe({
-        next: (res) => {
-          console.log(res);
+    if (cliente) {
+      this.clienteService.putCliente(cliente).subscribe({
+        next: () => {
           this.messageService.add({ severity: 'success', summary: 'Cliente modificado', detail: `Se modifico el cliente` });
         },
         error: (err) => {
           console.log(err);
           this.messageService.add({ severity: 'error', summary: 'Error', detail: `Ocurrio un error al modificar el cliente` });
+        },
+        complete: () => {
+          this.buscarClientes();
         }
       });
     }
+    this.buscarClientes();
   }
 
   deleteClienteSeleccionado() {
+    console.log(this.clienteSeleccionado);
+    
+    this.clienteSeleccionado.map( (cliente) => {
+      console.log(cliente);
+      this.deleteCliente(cliente);
+    })
+  }
+
+  deleteClienteSolo(cliente : Cliente){
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete the selected products?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
+      message: 'Esta seguro que queres eliminar el cliente?',
+      header: 'Eliminar Cliente',
+      icon: 'pi pi-info-circle',
       accept: () => {
-        this.clientes = this.clientes.filter((val) => !this.clienteSeleccionado.includes(val));
-        // this.eventoSeleccionado = null;
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
+        this.deleteCliente(cliente);
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: '', detail: 'No se elimino el cliente' });
       }
     });
   }
 
   deleteCliente(cliente: Cliente) {
+    this.clienteService.deleteCliente(cliente).subscribe({
+      next: () => {
+        this.messageService.add({ severity: 'info', summary: '', detail: 'Cliente Eliminado' });
+      },
+      error: (err) => {
+        console.log(err);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `Ocurrio un error al eliminar el cliente` });
+      },
+      complete: () => {
+        this.buscarClientes();
+      }
+    });
+  }
 
-    console.log('deleteCliente');
-    console.log(cliente);
-    
-
+  reactivarCliente(cliente: Cliente) {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete ' + cliente.nombre + '?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
+      message: 'Esta seguro que queres reactivar el cliente?',
+      header: 'Reactivar Cliente',
+      icon: 'pi pi-info-circle',
       accept: () => {
-        this.clientes = this.clientes.filter((val) => val.id !== cliente.id);
-        // this.evento = {};
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
+        this.clienteService.reactivarCliente(cliente).subscribe({
+          next: () => {
+            this.messageService.add({ severity: 'success', summary: '', detail: 'Cliente Reactivado' });
+          },
+          error: (err) => {
+            console.log(err);
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: `Ocurrio un error al reactivar el cliente` });
+          },
+          complete: () => {
+            this.buscarClientes();
+          }
+        });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: '', detail: 'No se reactivo el cliente' });
       }
     });
   }
@@ -161,6 +189,7 @@ export class ClientesComponent {
   } 
   
   mostrarModalCrud(cliente: Cliente | null, modo:any){
+    let clienteRes! : Cliente;
     const data = {cliente, modo}
 
     this.ref = this.dialogService.open(ClienteCrudComponent, {
@@ -172,11 +201,16 @@ export class ClientesComponent {
       data: data
     });
 
-    // this.ref.onClose.subscribe((product: Product) => {
-    //     if (product) {
-    //         this.messageService.add({ severity: 'info', summary: 'Product Selected', detail: product.name });
-    //     }
-    // });
+    this.ref.onClose.subscribe((clienteCrud: Cliente) => {
+      clienteRes = clienteCrud
+      if (modo === 'M'){
+        this.editCliente(clienteRes)
+      }
+      if (modo === 'A'){
+        this.newCliente(clienteRes)
+      }
+    });
+
 
   }
 
