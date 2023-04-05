@@ -34,7 +34,6 @@ export class UsuarioService {
       token = this.getToken();
     }
     return this.http.get(`${this.URL_COMPLETA}/usuario/${token}?token=true`).pipe(
-      tap( (res:any) => console.log(res)),
       map( (res:any) => res.tokenUsuario )
     );
   }

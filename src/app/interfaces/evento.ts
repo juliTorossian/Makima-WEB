@@ -1,3 +1,4 @@
+import { Cliente } from "./cliente";
 import { UsuarioCorto } from "./usuario";
 
 export interface Evento {
@@ -6,7 +7,7 @@ export interface Evento {
     numero:         number;
     titulo:         string;
     tareaNombre:    string;
-    cliente:        string;
+    cliente:        Cliente;
     producto:       string;
     usuarioAlta:    UsuarioCorto;
     usuarioActual:  UsuarioCorto;

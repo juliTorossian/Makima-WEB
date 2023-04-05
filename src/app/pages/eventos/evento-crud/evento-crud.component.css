@@ -1,0 +1,13 @@
+
+.falso-input{
+    margin: 0;
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+}
+
+.cell-boton{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

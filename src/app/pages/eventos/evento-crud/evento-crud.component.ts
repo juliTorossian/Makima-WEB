@@ -14,7 +14,7 @@ import { ClienteSeleccionComponent } from '../../cliente/cliente-seleccion/clien
   styleUrls: ['./evento-crud.component.css']
 })
 export class EventoCRUDComponent implements OnInit {
-
+  usuario!: Usuario;
   modo!: any;
 
   tiposEvento : any[] = ["CUS", "CAS", "TEC", "ORG", "MEG"];
@@ -25,6 +25,7 @@ export class EventoCRUDComponent implements OnInit {
   evento!: any;
 
   private ref = inject(DynamicDialogRef);
+  private refCliente = inject(DynamicDialogRef);
   private dialogService = inject(DialogService);
   private config = inject(DynamicDialogConfig);
   private clienteService = inject(ClienteService);
@@ -59,17 +60,23 @@ export class EventoCRUDComponent implements OnInit {
     // console.log(this.config.data);
     this.modo = this.config.data.modo;
     this.evento = this.config.data.evento;
+
+    this.usuarioService.getUsuarioToken("").subscribe({
+      next: (res:Usuario) => {
+        this.usuario = res;
+      }
+    });
     
     if (this.evento){
-      this.clienteService.getCliente(this.evento.cliente).subscribe({
+      this.clienteService.getCliente(this.evento.cliente.id).subscribe({
         next: (res:any) => {
-          console.log(res);
+          // console.log(res);
           this.cliente = res;
         }
       });
 
       this.tipo.setValue(this.evento.tipo);
-      this.numero.setValue(this.evento.nuemro);
+      this.numero.setValue(this.evento.numero);
       this.prioridad.setValue(this.evento.prioridad);
       this.titulo.setValue(this.evento.titulo);
       this.clienteId.setValue(this.evento.cliente);
@@ -91,21 +98,16 @@ export class EventoCRUDComponent implements OnInit {
   accion($event:any) {
     $event.preventDefault();
 
-    let usuario! : Usuario; 
-    this.usuarioService.getUsuarioToken("").subscribe({
-      next: (res : Usuario) => {
-        
-        usuario = res;
-      }
-    });
+    console.log(this.cliente);
+    
 
     const evento = {
       id:             this.id.value,
       tipo:           this.tipo.value,
       titulo:         this.titulo.value,
-      cliente:        this.clienteId.value,
+      cliente:        this.cliente.id,
       // producto:       this.productoId.value,
-      usuarioAlta:    usuario.id
+      usuarioAlta:    this.usuario.id
     }
 
 
@@ -129,7 +131,7 @@ export class EventoCRUDComponent implements OnInit {
   }
 
   selectCliente(){
-    this.ref = this.dialogService.open(ClienteSeleccionComponent, {
+    this.refCliente = this.dialogService.open(ClienteSeleccionComponent, {
       header: 'Seleccionar cliente',
       width: '70%',
       contentStyle: { overflow: 'auto' },
@@ -137,8 +139,8 @@ export class EventoCRUDComponent implements OnInit {
       maximizable: true
     });
 
-    this.ref.onClose.subscribe((cliente: Cliente) => {
-      console.log(cliente);
+    this.refCliente.onClose.subscribe((cliente: Cliente) => {
+      // console.log(cliente);
       this.cliente = cliente;
     });
 

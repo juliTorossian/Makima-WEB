@@ -20,7 +20,7 @@
             <div class="col">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="numero">Numero</label>
-                    <input pInputText id="numero" [formControl]="numero" />
+                    <input pInputText id="numero" [formControl]="numero" [readonly]="true"/>
                 </div>
             </div>
             <div class="col">
@@ -44,11 +44,11 @@
             <div class="col-10">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="cliente">Cliente</label>
-                    <p [hidden]="cliente.sigla === ''">{{cliente.sigla}} - {{cliente.nombre}}</p>
+                    <p class="falso-input">{{cliente.sigla}} - {{cliente.nombre}}</p>
                 </div>
             </div>
-            <div class="col-2">
-                <button pButton pRipple label="" icon="pi pi-search" class="p-button-success mr-2 botonChico" (click)="selectCliente()"></button>
+            <div class="col-2 cell-boton">
+                <button pButton pRipple icon="pi pi-search" class="p-button-success" (click)="selectCliente()"></button>
             </div>
         </div>
         

@@ -5,8 +5,8 @@
         <p-toast></p-toast>
         <p-toolbar styleClass="mb-4 gap-2">
             <ng-template pTemplate="left">
-                <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2 botonChico" (click)="openNew()"></button>
-                <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger botonChico" (click)="deleteEventoSeleccionado()" [disabled]="!eventoSeleccionado || !eventoSeleccionado.length"></button>
+                <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2 botonChico" (click)="mostrarModalCrud(null, 'A')"></button>
+                <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger botonChico" (click)="deleteSeleccion()" [disabled]="!eventoSeleccionado || !eventoSeleccionado.length"></button>
             </ng-template>
 
             <ng-template pTemplate="right">
@@ -65,13 +65,13 @@
                     <td hidden>{{ evento.numero }}</td>
                     <td>{{ evento.tipo +'-'+ evento.numero }}</td>
                     <td>{{ evento.titulo }}</td>
-                    <td>{{ evento.cliente }}</td>
+                    <td>{{ evento.cliente.nombre }}</td>
                     <td>{{ evento.producto }}</td>
                     <td>{{ evento.usuarioActual.usuario }}</td>
                     <td>{{ evento.usuarioAlta.usuario }}</td>
                     <td>
-                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success botonRedondoChico mr-2" (click)="editEvento(evento)" [disabled]="evento.cerrado"></button>
-                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning botonRedondoChico" (click)="deleteEvento(evento)" [disabled]="evento.cerrado"></button>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success botonRedondoChico mr-2" (click)="mostrarModalCrud(evento, 'M')" [disabled]="evento.cerrado"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning botonRedondoChico" (click)="deleteSolo(evento)" [disabled]="evento.cerrado"></button>
                     </td>
                 </tr>
             </ng-template>
