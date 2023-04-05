@@ -84,11 +84,6 @@ export class EventosUsuarioComponent {
     });
   }
 
-  hideDialog() {
-    this.eventoDialog = false;
-    this.submitted = false;
-  }
-
   saveEvento() {
     this.submitted = true;
 
@@ -126,7 +121,6 @@ export class EventosUsuarioComponent {
   } 
 
   filtraEventosCerrado(){
-    console.log(this.filtroVerCerrados);
     if (this.filtroVerCerrados){
       this.eventos = this.eventosSave;
     }else{

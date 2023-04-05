@@ -45,6 +45,14 @@ import { TipoEventoCrudComponent } from './pages/tipoEvento/tipo-evento-crud/tip
 import { TiposEventoComponent } from './pages/tipoEvento/tipos-evento/tipos-evento.component';
 import { ActivoPipe } from './pipes/activo.pipe';
 import { ClienteSeleccionComponent } from './pages/cliente/cliente-seleccion/cliente-seleccion.component';
+import { EntornosComponent } from './pages/entorno/entornos/entornos.component';
+import { EntornoCrudComponent } from './pages/entorno/entorno-crud/entorno-crud.component';
+import { ModulosComponent } from './pages/modulo/modulos/modulos.component';
+import { ModuloCrudComponent } from './pages/modulo/modulo-crud/modulo-crud.component';
+import { RolCrudComponent } from './pages/rol/rol-crud/rol-crud.component';
+import { RolesComponent } from './pages/rol/roles/roles.component';
+import { UsuariosComponent } from './pages/usuario/usuarios/usuarios.component';
+import { UsuarioCrudComponent } from './pages/usuario/usuario-crud/usuario-crud.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +70,15 @@ import { ClienteSeleccionComponent } from './pages/cliente/cliente-seleccion/cli
     TipoEventoCrudComponent,
     TiposEventoComponent,
     ActivoPipe,
-    ClienteSeleccionComponent
+    ClienteSeleccionComponent,
+    EntornosComponent,
+    EntornoCrudComponent,
+    ModulosComponent,
+    ModuloCrudComponent,
+    RolCrudComponent,
+    RolesComponent,
+    UsuariosComponent,
+    UsuarioCrudComponent
   ],
   imports: [
     BrowserModule,

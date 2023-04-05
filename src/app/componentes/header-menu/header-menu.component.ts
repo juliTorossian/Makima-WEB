@@ -87,7 +87,7 @@ export class HeaderMenuComponent implements OnInit{
                 items: [
                     {
                         label: 'Usuarios',
-                        routerLink: ['/usuario'],
+                        routerLink: ['/usuarios'],
                         routerLinkActiveOptions: 'active'
                     },
                     {

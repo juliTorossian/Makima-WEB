@@ -85,7 +85,6 @@ export class EventosComponent implements OnInit {
   } 
 
   filtraEventosCerrado(){
-    console.log(this.filtroVerCerrados);
     if (this.filtroVerCerrados){
       this.eventos = this.eventosSave;
     }else{

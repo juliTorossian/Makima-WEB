@@ -15,7 +15,7 @@ export class RolService {
   URL_COMPLETA = `${this.API_BASEURL}:${this.API_PORT}/${this.API_VERSION}`;
 
   getRoles(){
-    return this.http.get(`${this.URL_COMPLETA}/roles`);
+    return this.http.get(`${this.URL_COMPLETA}/rol`);
   }
 
   setRol(rol: Rol){

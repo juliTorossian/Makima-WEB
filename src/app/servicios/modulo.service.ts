@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { Modulo } from '../interfaces/modulo';
 
@@ -16,7 +17,7 @@ export class ModuloService {
 
 
   getModulos(){
-    return this.http.get(`${this.URL_COMPLETA}/modulos`);
+    return this.http.get(`${this.URL_COMPLETA}/modulo`);
   }
 
   setModulo(modulo: Modulo){

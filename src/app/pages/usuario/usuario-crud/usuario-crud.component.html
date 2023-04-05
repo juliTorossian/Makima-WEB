@@ -1,0 +1,74 @@
+
+<div class="container">
+
+    <form [formGroup]="usuario">
+
+        <div class="grid">
+            <div class="col-6">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="nombre">Nombre</label>
+                    <input pInputText id="nombre" aria-describedby="nombre-help" formControlName="nombre" />
+                    <small id="nombre-help" [hidden]="usuario.get('nombre')?.valid">Ingrese un nombre valido.</small>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="apellido">Apellido</label>
+                    <input pInputText id="apellido" aria-describedby="apellido-help" formControlName="apellido" />
+                    <small id="apellido-help" [hidden]="usuario.get('apellido')?.valid">Ingrese un apellido valido.</small>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="mail">Mail</label>
+                    <input type="email" pInputText id="mail" aria-describedby="mail-help" formControlName="mail" />
+                    <small id="mail-help" [hidden]="usuario.get('mail')?.valid">Ingrese un mail valido.</small>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="usuario">Usuario</label>
+                    <input pInputText id="usuario" aria-describedby="usuario-help" formControlName="usuario" />
+                    <small id="usuario-help" [hidden]="usuario.get('usuario')?.valid">Ingrese un usuario valido.</small>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="rol">Rol</label>
+                    <input pInputText id="rol" aria-describedby="rol-help" formControlName="rol" />
+                    <small id="rol-help" [hidden]="usuario.get('rol')?.valid">Ingrese un rol valido.</small>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="color">Color</label>
+                    <p-colorPicker id="color" formControlName="color"></p-colorPicker>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="password">Contraseña</label>
+                    <p-password [toggleMask]="true" [feedback]="true" formControlName="password" id="password" aria-describedby="password-help"></p-password>
+                    <small id="password-help" [hidden]="usuario.get('password')?.valid">Ingrese una contraseña valida.</small>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="confirmPass">Repetir Contraseña</label>
+                    <p-password [toggleMask]="true" [feedback]="true" formControlName="confirmPass" id="confirmPass" aria-describedby="confirmPass-help"></p-password>
+                    <!-- <small id="confirmPass-help" [hidden]="usuario.get('confirmPass')?.valid">Ingrese un usuario valido.</small> -->
+                </div>
+            </div>
+        
+        </div>
+
+        <div [hidden]="!(modo==='A')">
+            <button pButton pRipple label="Crear" class="p-button-success" (click)="accion($event)"></button>
+        </div>
+        <div [hidden]="!(modo==='M')">
+            <button pButton pRipple label="Modificar" class="p-button-warning" (click)="accion($event)"></button>
+        </div>
+
+    </form>
+
+</div>

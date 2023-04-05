@@ -10,6 +10,10 @@ import { LoginComponent } from './pages/login/login.component';
 import { ClientesComponent } from './pages/cliente/clientes/clientes.component';
 import { TareasComponent } from './pages/tarea/tareas/tareas.component';
 import { TiposEventoComponent } from './pages/tipoEvento/tipos-evento/tipos-evento.component';
+import { EntornosComponent } from './pages/entorno/entornos/entornos.component';
+import { ModulosComponent } from './pages/modulo/modulos/modulos.component';
+import { RolesComponent } from './pages/rol/roles/roles.component';
+import { UsuariosComponent } from './pages/usuario/usuarios/usuarios.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
@@ -22,6 +26,10 @@ const routes: Routes = [
   { path: 'clientes', component: ClientesComponent, canActivate: [UsuarioLogeadoGuard]},
   { path: 'tiposEvento', component: TiposEventoComponent, canActivate: [UsuarioLogeadoGuard]},
   { path: 'tareas', component: TareasComponent, canActivate: [UsuarioLogeadoGuard]},
+  { path: 'entornos', component: EntornosComponent, canActivate: [UsuarioLogeadoGuard]},
+  { path: 'modulos', component: ModulosComponent, canActivate: [UsuarioLogeadoGuard]},
+  { path: 'roles', component: RolesComponent, canActivate: [UsuarioLogeadoGuard]},
+  { path: 'usuarios', component: UsuariosComponent, canActivate: [UsuarioLogeadoGuard]},
   { path: 'login', component: LoginComponent}
 ];
 

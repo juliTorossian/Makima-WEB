@@ -19,16 +19,28 @@ export class UsuarioService {
   API_VERSION = environment.API_VERSION;
   URL_COMPLETA = `${this.API_BASEURL}:${this.API_PORT}/${this.API_VERSION}`;
 
+
+  getUsuarios(){
+    return this.http.get(`${this.URL_COMPLETA}/usuario`);
+  }
+
+  setUsuario(usuario: any){
+    return this.http.post(`${this.URL_COMPLETA}/usuario`, usuario);
+  }
+
+  putUsuario(usuario: any){
+    return this.http.put(`${this.URL_COMPLETA}/usuario`, usuario);
+  }
+
+  deleteUsuario(usuario: any){
+    return this.http.delete(`${this.URL_COMPLETA}/usuario/${usuario.id}`);
+  }
+
+  /* */
+
   login(params: any){
-    /*
-    {
-      "usuario": usuario,
-      "password": password
-    }
-    */
     return this.http.get(`${this.URL_COMPLETA}/usuario/gestion/iniciarSesion`, {params});
   }
-  
   getUsuarioToken(token: string) : Observable<Usuario> {
     if (token === ""){
       token = this.getToken();
@@ -37,15 +49,11 @@ export class UsuarioService {
       map( (res:any) => res.tokenUsuario )
     );
   }
-
   getUsuario(usuarioId: string){
     return this.http.get(`${this.URL_COMPLETA}/usuario/${usuarioId}`).pipe(
       map( (res:any) => res.tokenUsuario )
     );
   }
-
-
-
 
   // TOKEN
   
