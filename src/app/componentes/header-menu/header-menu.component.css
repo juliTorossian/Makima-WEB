@@ -4,3 +4,6 @@
 .p-megamenu{
     display: flex !important;
 }
+.itemDscUsuario a{
+    background-color: aquamarine !important;
+}

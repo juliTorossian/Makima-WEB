@@ -41,6 +41,9 @@ export class UsuarioService {
   login(params: any){
     return this.http.get(`${this.URL_COMPLETA}/usuario/gestion/iniciarSesion`, {params});
   }
+  logout(){
+    return this.cookies.delete("userToken");
+  }
   getUsuarioToken(token: string) : Observable<Usuario> {
     if (token === ""){
       token = this.getToken();
@@ -62,6 +65,9 @@ export class UsuarioService {
   }
   getToken(){
     return this.cookies.get("userToken");
+  }
+  delToken(key:string){
+    return this.cookies.delete(key);
   }
 
 }

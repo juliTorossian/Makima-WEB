@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, tap } from 'rxjs';
 import { Evento } from '../interfaces/evento';
@@ -46,5 +46,10 @@ export class EventoService {
     return this.http.get(`${this.URL_COMPLETA}/evento/${eventoId}/comentarios`).pipe(
       tap( (res) => console.log(res))
     );
+  }
+  setComentario(eventoId : string, comentario:any){
+    const headers = new HttpHeaders();
+    headers.set('Content-Type', ['multipart/form-data']);
+    return this.http.post(`${this.URL_COMPLETA}/evento/${eventoId}/comentar`, comentario, { headers });
   }
 }

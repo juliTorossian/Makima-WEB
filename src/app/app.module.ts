@@ -32,6 +32,8 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { EditorModule } from 'primeng/editor';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { MenuModule } from 'primeng/menu';
+import { FileUploadModule } from 'primeng/fileupload';
 
 import { AppComponent } from './app.component';
 import { EventosComponent } from './pages/eventos/eventos/eventos.component';
@@ -70,6 +72,8 @@ import { ComentarioComponent } from './componentes/comentario/comentario.compone
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { GraficoTiposComponent } from './pages/dashboard/componentes/grafico-tipos/grafico-tipos.component';
 
 @NgModule({
   declarations: [
@@ -104,16 +108,19 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
     ModalSeleccionUsuarioComponent,
     ModalEstimacionComponent,
     BotonBackComponent,
-    ComentarioComponent
+    ComentarioComponent,
+    GraficoTiposComponent
   ],
   imports: [
     CKEditorModule,
+    NgApexchartsModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
     ButtonModule,
+    MenuModule,
     MenubarModule,
     MegaMenuModule,
     TableModule,
@@ -140,6 +147,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
     ProgressBarModule,
     EditorModule,
     InputNumberModule,
+    FileUploadModule,
   ],
   providers: [
     CookieService,

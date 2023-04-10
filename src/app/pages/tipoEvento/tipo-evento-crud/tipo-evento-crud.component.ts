@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { Tarea } from 'src/app/interfaces/tarea';
+import { TareaService } from 'src/app/servicios/tarea.service';
 
 @Component({
   selector: 'app-tipo-evento-crud',
@@ -8,6 +9,11 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
   styleUrls: ['./tipo-evento-crud.component.css']
 })
 export class TipoEventoCrudComponent {
+  private ref = inject(DynamicDialogRef);
+  private config = inject(DynamicDialogConfig);
+
+  private tareaService = inject(TareaService);
+
   modo!: any;
 
   opcionesTareas : any[] = [{ label: "Ingreso", value: "ing" },
@@ -16,73 +22,72 @@ export class TipoEventoCrudComponent {
 
   countTareas:number = 1;
 
-  tareaFormArray!: FormArray;
-  tareas = [];
-
-  constructor(private fb: FormBuilder) {}
+  tareas!: Tarea[];
+  tareasFiltradas!: Tarea[];
 
 
-  agregarFila() {
-    const tarea = this.fb.group({
-      tarea: ['', Validators.required],
-      etapaRevertir: ['', Validators.required]
+  id!: string;
+  descripcion!: string;
+  color!: string;
+  activo: boolean = true;
+  propio: boolean = false;
+  tareasAsignadas: any[] = [
+    { etapa: 1, tarea: '', rollback: null }
+  ];
+  
+
+  agregarTarea() {
+    this.tareasAsignadas.push({
+      etapa: (this.tareasAsignadas[this.tareasAsignadas.length-1].etapa + 1),
+      tarea: "",
+      rollback: null
+    })
+  }
+  eliminarTarea(tareaEliminar:any) {
+    this.tareasAsignadas = this.tareasAsignadas.filter((item) => item.etapa !== tareaEliminar.etapa)
+    let count = 1;
+    this.tareasAsignadas.map( (item) => {
+      item.etapa = count;
+      count++;
     });
-    this.tareaFormArray.push(tarea);
-    // this.tareas.push({
-    //   etapa: this.tareas.length + 1,
-    //   tarea: '',
-    //   etapaRevertir: ''
-    // });
+  }
+  getTareasForm(){
   }
 
-
-  // tareaFrom = new FormGroup({
-  //   etapa: new FormControl(this.countTareas),
-  //   tarea: new FormControl("", [Validators.required]),
-  //   rollback: new FormControl(null),
-  // });
-
-  // tareas = [{etapa: this.countTareas, tarea: "", rollback: null}]
-
-  tipoEvento = new FormGroup({
-    id: new FormControl("", [Validators.required]), 
-    descripcion: new FormControl("", [Validators.required]),
-    activo: new FormControl(true),
-    color: new FormControl("", [Validators.required]),
-    propio: new FormControl(false)
-  });
-
-
-  private ref = inject(DynamicDialogRef);
-  private config = inject(DynamicDialogConfig);
-
   ngOnInit(){
-    this.tareaFormArray = this.fb.array([]);
 
+    this.tareaService.getTareas().subscribe({
+      next: (res:any) => {
+        this.tareas = res;
+        this.tareasFiltradas = this.tareas;
+      }
+    })
 
     console.log(this.config.data);
     this.modo = this.config.data.modo;
     let tipoEvento = this.config.data.tipoEvento;
     
     if (tipoEvento){
-      this.tipoEvento.get("id")?.setValue(tipoEvento.id);
-      this.tipoEvento.get("descripcion")?.setValue(tipoEvento.descripcion);
-      this.tipoEvento.get("activo")?.setValue(tipoEvento.activo);
-      this.tipoEvento.get("color")?.setValue(tipoEvento.color);
-      this.tipoEvento.get("propio")?.setValue(tipoEvento.propio);
+      this.id = tipoEvento.id;
+      this.descripcion = tipoEvento.descripcion;
+      this.color = tipoEvento.color;
+      this.propio = tipoEvento.propio;
+      this.tareasAsignadas = tipoEvento.tareas;
     }
   }
 
   accion($event:any){
     $event.preventDefault();
     const tipoEvento : any = {
-      id: this.tipoEvento.get('id')?.value,
-      descripcion: this.tipoEvento.get('descripcion')?.value,
-      activo: this.tipoEvento.get('activo')?.value,
-      color: this.tipoEvento.get('color')?.value,
-      propio: this.tipoEvento.get('propio')?.value
+      id: this.id,
+      descripcion: this.descripcion,
+      activo: this.activo,
+      color: this.color,
+      propio: this.propio,
+      tareas: this.tareasAsignadas
     }
 
     this.ref.close(tipoEvento);
   }
+
 }

@@ -33,6 +33,10 @@ html{
   background-color: orange;
 }
 
+.contenedor {
+  margin: 30px 25px 10px 25px;
+}
+
 /* MARGIN */
 /* MARGIN RIGHT */
 .mr-1{margin-right: 0.25rem;}

@@ -1,47 +1,69 @@
-
 <div class="container">
 
-    <form [formGroup]="tipoEvento">
+  <!-- <form [formGroup]="tipoEvento"> -->
 
+    <div class="grid">
+      <div class="col">
         <div class="grid">
-            <div class="col">
-                <div class="grid">
-                    <div class="col-4">
-                        <div class="flex flex-column gap-2">
-                            <label htmlFor="id">Codigo</label>
-                            <input pInputText id="id" aria-describedby="id-help" formControlName="id" />
-                            <small id="id-help" [hidden]="tipoEvento.get('id')?.valid">Ingrese un codigo valido.</small>
-                        </div>
-                    </div>
-                    <div class="col-8">
-                        <div class="flex flex-column gap-2">
-                            <label htmlFor="descripcion">Descripcion</label>
-                            <input pInputText id="descripcion" aria-describedby="descripcion-help" formControlName="descripcion" />
-                            <small id="descripcion-help" [hidden]="tipoEvento.get('descripcion')?.valid">Ingrese una descripcion valida.</small>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="flex flex-column gap-2">
-                            <label htmlFor="propio">Propio</label>
-                            <p-toggleButton formControlName="propio" onLabel="Propio" offLabel="Externo" [style]="{ width: '10em' }"></p-toggleButton>
-                            <small id="propio-help" [hidden]="tipoEvento.get('propio')?.valid">Ingrese una nombre.</small>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="flex-1 flex flex-column align-items-center gap-3">
-                            <label htmlFor="cp-hex" class="font-bold block mb-2"> Color </label>
-                            <p-colorPicker formControlName="color"></p-colorPicker>
-                        </div>
-                    </div>
-                </div>
+          <div class="col-4">
+            <div class="flex flex-column gap-2">
+              <label htmlFor="id">Codigo</label>
+              <input pInputText id="id" aria-describedby="id-help" [(ngModel)]="id" />
+              <!-- <small id="id-help" [hidden]="tipoEvento.get('id')?.valid">Ingrese un codigo valido.</small> -->
             </div>
-            <div class="col">
-                
-                <div class="p-col-12">
-                    <button type="button" (click)="agregarFila()" class="p-button p-button-success">Agregar fila</button>
-                  </div>
-                  
-                  <!-- <div class="p-col-12">
+          </div>
+          <div class="col-8">
+            <div class="flex flex-column gap-2">
+              <label htmlFor="descripcion">Descripcion</label>
+              <input pInputText id="descripcion" aria-describedby="descripcion-help" [(ngModel)]="descripcion" />
+              <!-- <small id="descripcion-help" [hidden]="tipoEvento.get('descripcion')?.valid">Ingrese una descripcion valida.</small> -->
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="flex flex-column gap-2">
+              <label htmlFor="propio">Propio</label>
+              <p-toggleButton [(ngModel)]="propio" onLabel="Propio" offLabel="Externo" [style]="{ width: '10em' }">
+              </p-toggleButton>
+              <!-- <small id="propio-help" [hidden]="tipoEvento.get('propio')?.valid">Ingrese una nombre.</small> -->
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="flex-1 flex flex-column align-items-center gap-3">
+              <label htmlFor="cp-hex" class="font-bold block mb-2"> Color </label>
+              <p-colorPicker [(ngModel)]="color"></p-colorPicker>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+
+        <div class="col-12">
+          <table>
+            <thead>
+              <tr>
+                <th>Etapa</th>
+                <th>Tarea</th>
+                <th>Rollback</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let tarea of tareasAsignadas; index as i;">
+                <!-- <td><input [(ngModel)]="tarea.etapa" /></td> -->
+                <td><p-inputNumber inputId="integeronly" [(ngModel)]="tarea.etapa" [disabled]="true"> </p-inputNumber></td>
+                <!-- <td><input [(ngModel)]="tarea.tarea" /></td> -->
+                <p-dropdown [options]="tareas" [(ngModel)]="tarea.tarea" optionLabel="nombre" optionValue="id"  appendTo="body"></p-dropdown>
+                <!-- <td><input [(ngModel)]="tarea.rollback" /></td> -->
+                <td><p-inputNumber inputId="integeronly" [(ngModel)]="tarea.rollback" [max]="tarea.etapa-1"> </p-inputNumber></td>
+                <!-- <td><button (click)="eliminarTarea(tarea)">Eliminar</button></td> -->
+                <td><button type="button" (click)="eliminarTarea(tarea)" class="p-button p-button-danger">-</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <button type="button" (click)="agregarTarea()" class="p-button p-button-success">Agregar fila</button>
+        </div>
+
+        <!-- <div class="p-col-12">
                     <p-table [value]="tareaFormArray.controls" [editable]="true">
                       <ng-template pTemplate="header">
                         <tr>
@@ -78,16 +100,16 @@
                     </p-table>
                   </div> -->
 
-            </div>
-        </div>
+      </div>
+    </div>
 
-        <div [hidden]="!(modo==='A')">
-            <button pButton pRipple label="Crear" class="p-button-success" (click)="accion($event)"></button>
-        </div>
-        <div [hidden]="!(modo==='M')">
-            <button pButton pRipple label="Modificar" class="p-button-warning" (click)="accion($event)"></button>
-        </div>
+    <div [hidden]="!(modo==='A')">
+      <button pButton pRipple label="Crear" class="p-button-success" (click)="accion($event)"></button>
+    </div>
+    <div [hidden]="!(modo==='M')">
+      <button pButton pRipple label="Modificar" class="p-button-warning" (click)="accion($event)"></button>
+    </div>
 
-    </form>
+  <!-- </form> -->
 
 </div>

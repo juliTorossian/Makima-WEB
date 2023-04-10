@@ -39,12 +39,25 @@
                 </div>
             </div>
         </ng-template>
+        
+        <ng-template pTemplate="footer">
+            <div>
+                <!-- <form [formGroup]="comentarioForm" (ngSubmit)="comentar(evento)"> -->
+                    <div class="grid">
+                        <div class="col-10">
+                            <ckeditor [editor]="Editor" [(ngModel)]="comentario"></ckeditor>
+                        </div>
+                        <div class="col-2">
+                            <div class="card flex justify-content-center">
+                                <input #adjunto id="adjunto" type="file">
+                            </div>
+                        </div>
+                    </div>
+                    <button pButton type="submit" pRipple label="Comentar" class="p-button-success"style="margin-top:10px;" (click)="comentar(evento)"></button>
+                <!-- </form> -->
+            </div>
+        </ng-template>
     </p-card>
-</div>
-
-<div style="margin: 20px 100px;">
-    <ckeditor [editor]="Editor" [(ngModel)]="nuevoComentario"></ckeditor>
-    <button pButton pRipple label="Comentar" class="p-button-success" (click)="comentar()"></button>
 </div>
 
 <div style="margin: 20px 100px;">

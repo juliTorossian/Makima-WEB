@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MegaMenuItem, MenuItem } from 'primeng/api';
+import { Usuario } from 'src/app/interfaces/usuario';
+import { UsuarioService } from 'src/app/servicios/usuario.service';
 
 
 @Component({
@@ -8,10 +11,36 @@ import { MegaMenuItem, MenuItem } from 'primeng/api';
     styleUrls: ['./header-menu.component.css'],
 })
 export class HeaderMenuComponent implements OnInit{
+    private usuarioService = inject(UsuarioService);
+    private router = inject(Router);
+
+    usuario!: Usuario;
+
     // items!: MegaMenuItem[];
     items!: MenuItem[];
+    itemsUsuario!: MenuItem[];
 
     ngOnInit() {
+
+        this.usuarioService.getUsuarioToken(this.usuarioService.getToken()).subscribe({
+            next: (res:any) => {
+                this.usuario = res;
+                this.cargarItems();
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        });
+
+        
+    }
+
+    cerrarSesion(){
+        this.usuarioService.logout();
+        this.router.navigate(['/login']);
+    }
+
+    cargarItems(){
         this.items = [
             {
                 label: 'Dashboard',
@@ -100,54 +129,45 @@ export class HeaderMenuComponent implements OnInit{
                     },
                 ],
             },
-            // {
-            //     label: 'Admin',
-            //     icon: 'pi pi-fw pi-user',
-            //     items: [
-            //         [
-            //             {
-            //                 label: 'Producto',
-            //                 items: [
-            //                     {
-            //                         label: 'productos'
-            //                     },
-            //                     {
-            //                         label: 'modulos'
-            //                     },
-            //                     {
-            //                         label: 'entornos'
-            //                     }
-            //                 ]
-            //             }
-            //         ],
-            //         [
-            //             {
-            //                 label: 'Tipo Evento',
-            //                 items: [
-            //                     {
-            //                         label: 'Tipos Evento'
-            //                     },
-            //                     {
-            //                         label: 'Tareas'
-            //                     }
-            //                 ]
-            //             }
-            //         ],
-            //         [
-            //             {
-            //                 label: 'Usuario',
-            //                 items: [
-            //                     {
-            //                         label: 'Usuarios'
-            //                     },
-            //                     {
-            //                         label: 'Roles'
-            //                     }
-            //                 ]
-            //             }
-            //         ],
-            //     ]
-            // },
         ];
+
+        this.itemsUsuario = [
+            {
+                label: `${this.usuario.nombre} ${this.usuario.apellido}`,
+                disabled: true,
+                styleClass: "itemDscUsuario"
+            },
+            {
+                label: `${this.usuario.rol.descipcion}`,
+                disabled: true,
+                styleClass: "itemDscUsuario"
+            },
+            {
+                separator: true,
+            },
+            {
+                label: 'Mi Perfil',
+                icon: 'pi pi-fw pi-user',
+                routerLink: [`/usuario/${this.usuario.id}`],
+                routerLinkActiveOptions: 'active'
+            },
+            {
+                separator: true,
+            },
+            {
+                label: 'Solicitar Licencia',
+                icon: 'pi pi-fw pi-pencil',
+                url: 'https://docs.google.com/a/gaci.com.ar/forms/d/e/1FAIpQLSdbSw6Cs9pj3WF1g5ly8xwnM01Ag3_PaWrpMqFUwCMyHh0wMQ/viewform',
+                target: '_blank'
+            },
+            {
+                separator: true,
+            },
+            {
+                label: 'Cerrar Sesion',
+                icon: 'pi pi-fw pi-sign-out',
+                command: () => this.cerrarSesion()
+            }
+        ]
     }
 }

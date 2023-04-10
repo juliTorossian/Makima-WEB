@@ -4,9 +4,10 @@
         <ng-template pTemplate="start" styleClass="mr-5">
             <img src="../../../assets/img/G_abreviada.png" height="40" />
         </ng-template>
-        <ng-template pTemplate="end">
-            
-        </ng-template>
+            <ng-template pTemplate="end">
+                <p-menu #menuUsuario [model]="itemsUsuario" [popup]="true"></p-menu>
+                <p-button *ngIf="usuario" (click)="menuUsuario.toggle($event)" icon="pi pi-angle-down" iconPos="right" [label]="usuario.usuario" styleClass="p-button-link"></p-button>
+            </ng-template>
     </p-menubar>
 </div>
 
