@@ -32,31 +32,36 @@
                     <small id="usuario-help" [hidden]="usuario.get('usuario')?.valid">Ingrese un usuario valido.</small>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-4">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="rol">Rol</label>
-                    <input pInputText id="rol" aria-describedby="rol-help" formControlName="rol" />
+                    <!-- <input pInputText id="rol" aria-describedby="rol-help" formControlName="rol" /> -->
+                    <p-dropdown formControlName="rol" [options]="roles" optionValue="id" optionLabel="descripcion" id="rol" aria-describedby="rol-help"></p-dropdown>
                     <small id="rol-help" [hidden]="usuario.get('rol')?.valid">Ingrese un rol valido.</small>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-2" style="display:flex;justify-content: center;">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="color">Color</label>
                     <p-colorPicker id="color" formControlName="color"></p-colorPicker>
                 </div>
             </div>
-            <div class="col-6">
-                <div class="flex flex-column gap-2">
-                    <label htmlFor="password">Contraseña</label>
-                    <p-password [toggleMask]="true" [feedback]="true" formControlName="password" id="password" aria-describedby="password-help"></p-password>
-                    <small id="password-help" [hidden]="usuario.get('password')?.valid">Ingrese una contraseña valida.</small>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="flex flex-column gap-2">
-                    <label htmlFor="confirmPass">Repetir Contraseña</label>
-                    <p-password [toggleMask]="true" [feedback]="true" formControlName="confirmPass" id="confirmPass" aria-describedby="confirmPass-help"></p-password>
-                    <!-- <small id="confirmPass-help" [hidden]="usuario.get('confirmPass')?.valid">Ingrese un usuario valido.</small> -->
+            <div class="col-6" [hidden]="modo==='M'">
+                <div class="grid">
+                    <div class="col-6">
+                        <div class="flex flex-column gap-2">
+                            <label htmlFor="password">Contraseña</label>
+                            <p-password [toggleMask]="true" [feedback]="true" formControlName="password" id="password" aria-describedby="password-help"></p-password>
+                            <small id="password-help" [hidden]="usuario.get('password')?.valid">Ingrese una contraseña valida.</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="flex flex-column gap-2">
+                            <label htmlFor="confirmPass">Repetir Contraseña</label>
+                            <p-password [toggleMask]="true" [feedback]="true" formControlName="confirmPass" id="confirmPass" aria-describedby="confirmPass-help"></p-password>
+                            <!-- <small id="confirmPass-help" [hidden]="usuario.get('confirmPass')?.valid">Ingrese un usuario valido.</small> -->
+                        </div>
+                    </div>
                 </div>
             </div>
         

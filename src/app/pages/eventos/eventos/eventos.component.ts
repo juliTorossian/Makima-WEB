@@ -14,6 +14,15 @@ import { EventoCRUDComponent } from '../evento-crud/evento-crud.component';
 })
 
 export class EventosComponent implements OnInit {
+  private dialogService = inject(DialogService);
+  private eventoService = inject(EventoService);
+  private messageService = inject(MessageService);
+  private confirmationService = inject(ConfirmationService);
+  
+  ref!: DynamicDialogRef;
+  submitted!: boolean;
+  statuses!: any[];
+
   eventoDialog!: boolean;
   eventos!: Evento[];
   eventosSave!: Evento[];
@@ -22,62 +31,101 @@ export class EventosComponent implements OnInit {
 
   filtroVerCerrados: boolean = false; // false no muestra los cerrados
 
-  ref!: DynamicDialogRef;
-  submitted!: boolean;
-  statuses!: any[];
-
-  // constructor(private productService: ProductService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
-
-  private dialogService = inject(DialogService);
-  private eventoService = inject(EventoService);
-  private messageService = inject(MessageService);
-  private confirmationService = inject(ConfirmationService);
-
   ngOnInit() {
-    this.eventoService.getEventos().pipe(
-    ).subscribe((res) => {
-      // console.log(res);
+    this.llenarTabla()
+  }
+
+  llenarTabla(){
+    this.eventoService.getEventos().subscribe((res) => {
+      console.log(res);
       this.eventosSave = res;
       this.eventos = this.eventosSave.filter((r:any) => r.cerrado === 0);
     });
   }
 
   alta(evento : Evento) {
-
+    console.log("alta: ");
+    console.log(evento);
+    if (evento) {
+      this.eventoService.setEvento(evento).subscribe({
+        next: (res) => {
+          console.log(res);
+          this.messageService.add({ severity: 'success', summary: 'Evento creado', detail: `Se creo el evento` });
+        },
+        error: (err) => {
+          console.log(err);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `Ocurrio un error al crear el evento` });
+        },
+        complete: () => {
+          this.llenarTabla();
+        }
+      });
+    }
   }
 
   editar(evento: Evento) {
- 
+    // console.log("editar: ");
+    // console.log(evento);
+    if (evento) {
+      this.eventoService.putEvento(evento).subscribe({
+        next: () => {
+          this.messageService.add({ severity: 'success', summary: 'Evento modificado', detail: `Se modifico el Evento` });
+        },
+        error: (err) => {
+          console.log(err);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `Ocurrio un error al modificar el Evento` });
+        },
+        complete: () => {
+          this.llenarTabla();
+        }
+      });
+    }
   }
   
   deleteSeleccion() {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete the selected products?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
+      message: 'Esta seguro que queres eliminar masivamente?',
+      header: 'Eliminar Eventos',
+      icon: 'pi pi-info-circle',
       accept: () => {
-        this.eventos = this.eventos.filter((val) => !this.eventoSeleccionado.includes(val));
-        // this.eventoSeleccionado = null;
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
+        this.eventoSeleccionado.map( (evento) => {
+          // console.log(evento);
+          this.delete(evento);
+        })
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: '', detail: 'No se eliminaron los eventos' });
       }
     });
   }
   
   deleteSolo(evento: Evento) {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete ' + evento.tipo +evento.numero.toString() + '?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
+      message: 'Esta seguro que queres eliminar el evento?',
+      header: 'Eliminar Evento',
+      icon: 'pi pi-info-circle',
       accept: () => {
-        this.eventos = this.eventos.filter((val) => val.id !== evento.id);
-        // this.evento = {};
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
+        this.delete(evento);
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: '', detail: 'No se elimino el evento' });
       }
     });
   }
 
   delete(evento : Evento){
-    
+    this.eventoService.deleteEvento(evento).subscribe({
+      next: () => {
+        this.messageService.add({ severity: 'info', summary: '', detail: 'Evento Eliminado' });
+      },
+      error: (err) => {
+        console.log(err);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `Ocurrio un error al eliminar el Evento` });
+      },
+      complete: () => {
+        this.llenarTabla();
+      }
+    });
   }
 
   getEventValue($event:any) :string {
@@ -106,8 +154,6 @@ export class EventosComponent implements OnInit {
     });
 
     this.ref.onClose.subscribe((eventoCrud: Evento) => {
-      console.log(eventoCrud);
-      
       if (eventoCrud) {
         if (modo === 'M'){
           this.editar(eventoCrud)

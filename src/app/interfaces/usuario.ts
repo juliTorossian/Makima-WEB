@@ -18,6 +18,7 @@ export interface UsuarioCorto {
 }
 
 export interface Rol {
-    codigo:     string;
+    id:         string;
     descipcion: string;
+    nivel:      number;
 }

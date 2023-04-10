@@ -10,20 +10,41 @@ import { environment } from 'src/environments/environment.development';
 export class EventoService {
   private http = inject(HttpClient);
 
-  API_BASEURL = environment.API_BASEURL;
-  API_PORT = environment.API_PORT;
-  API_VERSION = environment.API_VERSION;
-  URL_COMPLETA = `${this.API_BASEURL}:${this.API_PORT}/${this.API_VERSION}`;
-
+  private API_BASEURL = environment.API_BASEURL;
+  private API_PORT = environment.API_PORT;
+  private API_VERSION = environment.API_VERSION;
+  private URL_COMPLETA = `${this.API_BASEURL}:${this.API_PORT}/${this.API_VERSION}`;
 
   getEventos(){
     return this.http.get(`${this.URL_COMPLETA}/evento`).pipe(
       map( (res:any) => res.results )
     );
   }
+  getEvento(eventoId : string){
+    return this.http.get(`${this.URL_COMPLETA}/evento/${eventoId}`).pipe(
+      // tap( (res) => console.log(res))
+    );
+  }
   getEventosUsuario(usuarioId: string){
     return this.http.get(`${this.URL_COMPLETA}/evento/usuario/${usuarioId}`).pipe(
       map( (res:any) => res.results )
+    );
+  }
+  setEvento(evento: any){
+    return this.http.post(`${this.URL_COMPLETA}/evento`, evento);
+  }
+
+  putEvento(evento: any){
+    return this.http.put(`${this.URL_COMPLETA}/evento`, evento);
+  }
+
+  deleteEvento(evento: any){
+    return this.http.delete(`${this.URL_COMPLETA}/evento/${evento.id}`);
+  }
+
+  getComentarios(eventoId : string){
+    return this.http.get(`${this.URL_COMPLETA}/evento/${eventoId}/comentarios`).pipe(
+      tap( (res) => console.log(res))
     );
   }
 }

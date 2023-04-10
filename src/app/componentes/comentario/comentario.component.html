@@ -1,0 +1,19 @@
+<div class="comentario">
+    <div class="comentario_Head">
+        <span>{{comentario.usuario.usuario}}</span>
+        <span class="momento">{{comentario.fecha | date}}</span> 
+    </div>
+    <div class="comentario_Body ck-content" [innerHTML]="commentHtml">
+    </div>
+    <div class="comentario_footer" *ngIf="comentario.adjunto.tiene">
+        <a [href]="attachmentData" target="_blank" rel="noopener noreferrer" download="attachment.bin">{{comentario.adjunto.nombre}}</a>
+    </div>
+</div>
+
+<!-- <p-card header="{{comentario.usuario.usuario}}">
+    <div  [innerHTML]="commentHtml">
+    </div>
+    <ng-template *ngIf="comentario.adjunto.tiene" pTemplate="footer">
+        <a  [href]="attachmentData" target="_blank" rel="noopener noreferrer" download="attachment.bin">{{comentario.adjunto.nombre}}</a>
+    </ng-template>
+</p-card> -->

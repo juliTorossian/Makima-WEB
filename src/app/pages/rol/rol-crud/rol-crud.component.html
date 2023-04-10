@@ -6,9 +6,9 @@
         <div class="grid">
             <div class="col-6">
                 <div class="flex flex-column gap-2">
-                    <label htmlFor="codigo">Codigo</label>
-                    <input pInputText id="codigo" aria-describedby="codigo-help" formControlName="codigo" />
-                    <small id="codigo-help" [hidden]="rol.get('codigo')?.valid">Ingrese un codigo valido.</small>
+                    <label htmlFor="id">Codigo</label>
+                    <input pInputText id="id" aria-describedby="id-help" formControlName="id"/>
+                    <small id="id-help" [hidden]="rol.get('id')?.valid || modo==='M'">Ingrese un codigo valido.</small>
                 </div>
             </div>
             <div class="col-6">

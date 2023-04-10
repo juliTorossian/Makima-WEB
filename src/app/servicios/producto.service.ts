@@ -30,4 +30,8 @@ export class ProductoService {
   deleteProducto(producto: Producto){
     return this.http.delete(`${this.URL_COMPLETA}/producto/${producto.id}`);
   }
+  
+  getProducto(productoId : string){
+    return this.http.get(`${this.URL_COMPLETA}/producto/${productoId}`);
+  }
 }

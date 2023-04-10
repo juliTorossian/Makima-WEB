@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { RolService } from 'src/app/servicios/rol.service';
 
 @Component({
   selector: 'app-tarea-crud',
@@ -8,10 +9,13 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
   styleUrls: ['./tarea-crud.component.css']
 })
 export class TareaCrudComponent {
-  modo!: any;
+  private ref = inject(DynamicDialogRef);
+  private config = inject(DynamicDialogConfig);
 
-  roles = ['DESA', 'CONS', 'ADMIN'];
-  rolesFiltrados!: any[];
+  private rolService = inject(RolService);
+
+  modo!: any;
+  roles! : any;
 
   tarea = new FormGroup({
     id: new FormControl(""), 
@@ -19,11 +23,15 @@ export class TareaCrudComponent {
     rol: new FormControl("", [Validators.required])
   });
 
-  private ref = inject(DynamicDialogRef);
-  private config = inject(DynamicDialogConfig);
 
   ngOnInit(){
-    console.log(this.config.data);
+    this.rolService.getRoles().subscribe({
+      next: (res) => {
+        this.roles = res;
+      }
+    })
+
+    // console.log(this.config.data);
     this.modo = this.config.data.modo;
     let tarea = this.config.data.tarea;
     
@@ -44,18 +52,4 @@ export class TareaCrudComponent {
 
     this.ref.close(tarea);
   }
-
-
-  filtroRoles(event:any) {
-    let filtered: any[] = [];
-    let query = event.query;
-
-    for (let i = 0; i < this.roles.length; i++) {
-      let rol = this.roles[i];
-      if (rol.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-        filtered.push(rol);
-      }
-    }
-    this.rolesFiltrados = filtered;
-}
 }

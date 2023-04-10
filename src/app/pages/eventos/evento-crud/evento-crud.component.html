@@ -10,37 +10,38 @@
     <form>
 
         <div class="grid">
-            <div class="col">
+            <div class="col-3">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="username">Tipo</label>
-                    <p-autoComplete [dropdown]="true" [suggestions]="tipoEventoFiltrado" (completeMethod)="filtroTipoEvento($event)" [formControl]="tipo" [readonly]="modo==='M'"></p-autoComplete>
-                    <small id="username-help" [hidden]="tipo.valid" >Enter your username to reset your password.</small>
+                    <p-autoComplete [dropdown]="true" [suggestions]="tipoEventoFiltrado" field="label" (completeMethod)="filtroTipoEvento($event)" [formControl]="tipo" [readonly]="modo==='M'"></p-autoComplete>
+                    <!-- <p-dropdown [options]="tiposEvento"  [formControl]="tipo" placeholder="Select a City" optionLabel="name"></p-dropdown> -->
+                    <small id="username-help" [hidden]="tipo.valid" >Ingrese un tipo de evento valido.</small>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-3">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="numero">Numero</label>
-                    <input pInputText id="numero" [formControl]="numero" [readonly]="true"/>
+                    <input pInputText id="numero" pTooltip="El numero se asigna automaticamente" [formControl]="numero" [readonly]="true"/>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-2">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="username">Prioridad</label>
                     <p-dropdown [options]="prioridades" [formControl]="prioridad" ></p-dropdown>
-                    <small id="username-help" [hidden]="prioridad.valid">Enter your username to reset your password.</small>
+                    <small id="username-help" [hidden]="prioridad.valid">Ingrese una prioridad valida.</small>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-4">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="username">Titulo</label>
                     <input pInputText id="username" aria-describedby="username-help" [formControl]="titulo"  />
-                    <small id="username-help" [hidden]="titulo.valid">Enter your username to reset your password.</small>
+                    <small id="username-help" [hidden]="titulo.valid">Ingrese un titulo valido.</small>
                 </div>
             </div>
 
         </div>
         
-        <div class="grid">
+        <div class="grid select-att">
             <div class="col-10">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="cliente">Cliente</label>
@@ -52,6 +53,36 @@
             </div>
         </div>
         
+        <div class="grid select-att">
+            <div class="col-4">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="producto">Producto</label>
+                    <p class="falso-input">{{producto.nombre}}</p>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="modulo">Modulo</label>
+                    <p class="falso-input">{{producto.modulo.id}}</p>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="submodulo">SubModulo</label>
+                    <p class="falso-input">{{producto.submodulo.id}}</p>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="entorno">Entorno</label>
+                    <p class="falso-input">{{producto.entorno.id}}</p>
+                </div>
+            </div>
+            <div class="col-2 cell-boton">
+                <button pButton pRipple icon="pi pi-search" class="p-button-success" (click)="selectProducto()"></button>
+            </div>
+        </div>
+
         <div [hidden]="!(modo==='A')">
             <button pButton pRipple label="Crear" class="p-button-success" (click)="accion($event)"></button>
         </div>

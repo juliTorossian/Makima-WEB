@@ -10,7 +10,6 @@
             </ng-template>
 
             <ng-template pTemplate="right">
-                <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help botonChico"></button>
             </ng-template>
         </p-toolbar>
 
@@ -19,7 +18,7 @@
             [value]="eventos"
             [rows]="10"
             [paginator]="true"
-            [globalFilterFields]="['tipo', 'numero', 'evento', 'titulo', 'cliente', 'producto']"
+            [globalFilterFields]="['tipo', 'numero', 'evento', 'etapa', 'titulo', 'cliente', 'producto', 'usuarioAlta', 'usuarioActual']"
             [tableStyle]="{ 'min-width': '75rem' }"
             [(selection)]="eventoSeleccionado"
             [rowHover]="true"
@@ -42,31 +41,35 @@
             </ng-template>
             <ng-template pTemplate="header">
                 <tr>
-                    <th style="width: 4rem">
-                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                    </th>
+                    <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                    <th></th>
                     <th pSortableColumn="tipo" hidden>Tipo <p-sortIcon field="tipo"></p-sortIcon></th>
                     <th pSortableColumn="numero" hidden>Numero <p-sortIcon field="numero"></p-sortIcon></th>
                     <th pSortableColumn="evento">Evento <p-sortIcon field="evento"></p-sortIcon></th>
                     <th pSortableColumn="titulo">Titulo <p-sortIcon field="titulo"></p-sortIcon></th>
+                    <th pSortableColumn="etapa">Etapa <p-sortIcon field="etapa"></p-sortIcon></th>
                     <th pSortableColumn="cliente">Cliente <p-sortIcon field="cliente"></p-sortIcon></th>
                     <th pSortableColumn="producto">Producto <p-sortIcon field="producto"></p-sortIcon></th>
-                    <th pSortableColumn="usuarioAlta">Usuario Actual <p-sortIcon field="usuarioAlta"></p-sortIcon></th>
+                    <th pSortableColumn="usuarioActual">Usuario Actual <p-sortIcon field="usuarioActual"></p-sortIcon></th>
                     <th pSortableColumn="usuarioAlta">Usuario Alta <p-sortIcon field="usuarioAlta"></p-sortIcon></th>
                     <th></th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-evento>
+            <ng-template pTemplate="body" let-evento let-expanded="expanded">
                 <tr [ngClass]="{'eventoCerrado': evento.cerrado}">
                     <td>
                         <p-tableCheckbox [value]="evento" [disabled]="evento.cerrado"></p-tableCheckbox>
                     </td>
+                    <td>
+                        <button type="button" pButton pRipple [pRowToggler]="evento" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                    </td>
                     <td hidden>{{ evento.tipo }}</td>
                     <td hidden>{{ evento.numero }}</td>
-                    <td>{{ evento.tipo +'-'+ evento.numero }}</td>
+                    <td routerLink="/evento/{{evento.id}}">{{ evento.tipo +'-'+ evento.numero }}</td>
                     <td>{{ evento.titulo }}</td>
+                    <td>{{ evento.detalle?.eventoCircuito.act.tarea?.nombre }}</td>
                     <td>{{ evento.cliente.nombre }}</td>
-                    <td>{{ evento.producto }}</td>
+                    <td>{{ evento.producto.nombre }}</td>
                     <td>{{ evento.usuarioActual.usuario }}</td>
                     <td>{{ evento.usuarioAlta.usuario }}</td>
                     <td>
@@ -75,11 +78,20 @@
                     </td>
                 </tr>
             </ng-template>
+            <ng-template pTemplate="rowexpansion" let-eventoDetalle>
+                <tr>
+                    <td colspan="11">
+                        <div class="grid px-5">
+                            <p>Horas estimadas: {{eventoDetalle.detalle?.eventoHoras?.estimacion}}</p>
+                            <p>Horas reales: {{eventoDetalle.detalle?.eventoHoras?.total}}</p>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
             <ng-template pTemplate="summary">
                 <div class="flex align-items-center justify-content-between">En total hay {{ eventos ? eventos.length : 0 }} eventos.</div>
             </ng-template>
         </p-table>
     </div>
-
 
 </div>

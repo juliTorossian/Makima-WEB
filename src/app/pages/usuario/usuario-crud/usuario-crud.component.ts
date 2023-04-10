@@ -2,6 +2,9 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { tap } from 'rxjs';
+import { Rol } from 'src/app/interfaces/usuario';
+import { RolService } from 'src/app/servicios/rol.service';
 
 @Component({
   selector: 'app-usuario-crud',
@@ -9,6 +12,12 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
   styleUrls: ['./usuario-crud.component.css']
 })
 export class UsuarioCrudComponent {
+  private ref = inject(DynamicDialogRef);
+  private config = inject(DynamicDialogConfig);
+  private messageService = inject(MessageService);
+
+  private rolService = inject(RolService);
+
   modo!: any;
 
   usuario = new FormGroup({
@@ -23,12 +32,19 @@ export class UsuarioCrudComponent {
     rol: new FormControl("", [Validators.required])
   });
 
-  private ref = inject(DynamicDialogRef);
-  private config = inject(DynamicDialogConfig);
-  private messageService = inject(MessageService);
+  roles! : any;
 
   ngOnInit(){
     // console.log(this.config.data);
+
+    this.rolService.getRoles().pipe(
+      tap( (res) => console.log(res))
+    ).subscribe({
+      next: (res) => {
+        this.roles = res;
+      }
+    })
+
     this.modo = this.config.data.modo;
     let usuario = this.config.data.usuario;
     
@@ -41,17 +57,21 @@ export class UsuarioCrudComponent {
       this.usuario.get("password")?.setValue(usuario.password);
       this.usuario.get("color")?.setValue(usuario.color);
       this.usuario.get("rol")?.setValue(usuario.rol.codigo);
+
+      this.usuario.get("password")?.clearValidators();
+      this.usuario.get("confirmPass")?.clearValidators();
+
     }
   }
 
   accion($event:any){
     $event.preventDefault();
     
-    console.log(this.usuario.get('password'));
-    console.log(this.usuario.get('confirmPass'));
+    console.log(this.usuario.get('password')?.value);
+    console.log(this.usuario.get('confirmPass')?.value);
     
 
-    if ( this.usuario.get('password') != this.usuario.get('confirmPass') ){
+    if ( (this.usuario.get('password')?.value != this.usuario.get('confirmPass')?.value) && this.modo !== 'M' ){
 
       this.messageService.add({ severity: 'error', summary: 'Error', detail: `Las contraseñas deben ser iguales.` });
 

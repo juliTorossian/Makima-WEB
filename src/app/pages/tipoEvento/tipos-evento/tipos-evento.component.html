@@ -55,7 +55,7 @@
                     </td>
                     <td >{{ tipoEvento.id }}</td>
                     <td>{{ tipoEvento.descripcion }}</td>
-                    <td>{{ tipoEvento.activo }}</td>
+                    <td><p-tag [value]="tipoEvento.activo | activo" [severity]="getSeverity(tipoEvento.activo)"></p-tag></td>
                     <td>
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning botonRedondoChico mr-2" (click)="mostrarModalCrud(tipoEvento, 'M')"></button>
                         <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger botonRedondoChico mr-2" (click)="deleteSolo(tipoEvento)"></button>

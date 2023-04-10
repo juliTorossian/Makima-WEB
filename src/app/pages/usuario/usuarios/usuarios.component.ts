@@ -80,11 +80,19 @@ export class UsuariosComponent {
 
   deleteSeleccionado() {
     console.log(this.usuarioSeleccionado);
-    
-    this.usuarioSeleccionado.map( (usuario) => {
-      // console.log(usuario);
-      this.delete(usuario);
-    })
+    this.confirmationService.confirm({
+      message: 'Esta seguro que queres hacer una eliminacion masiva de Usuarios??',
+      header: 'Eliminar Usuario',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+        this.usuarioSeleccionado.map( (usuario) => {
+          this.delete(usuario);
+        })
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: '', detail: 'No se elimino el Usuario' });
+      }
+    });
   }
 
   deleteSolo(usuario : Usuario){

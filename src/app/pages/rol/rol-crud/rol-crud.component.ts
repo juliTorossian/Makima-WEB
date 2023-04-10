@@ -11,8 +11,9 @@ export class RolCrudComponent {
   modo!: any;
 
   rol = new FormGroup({
-    codigo: new FormControl("", [Validators.required]), 
-    descripcion: new FormControl("", [Validators.required])
+    id: new FormControl("", [Validators.required]), 
+    descripcion: new FormControl("", [Validators.required]),
+    nivel: new FormControl(0)
   });
 
   private ref = inject(DynamicDialogRef);
@@ -24,16 +25,19 @@ export class RolCrudComponent {
     let rol = this.config.data.rol;
     
     if (rol){
-      this.rol.get("codigo")?.setValue(rol.codigo);
+      this.rol.get("id")?.setValue(rol.id);
+      this.rol.get("id")?.disable();
       this.rol.get("descripcion")?.setValue(rol.descripcion);
+      this.rol.get("nivel")?.setValue(rol.nivel);
     }
   }
 
   accion($event:any){
     $event.preventDefault();
     const rol : any = {
-      codigo: this.rol.get('codigo')?.value,
-      descripcion: this.rol.get('descripcion')?.value
+      id: this.rol.get('id')?.value,
+      descripcion: this.rol.get('descripcion')?.value,
+      nivel: this.rol.get('nivel')?.value
     }
 
     this.ref.close(rol);

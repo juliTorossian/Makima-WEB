@@ -14,22 +14,32 @@ import { EntornosComponent } from './pages/entorno/entornos/entornos.component';
 import { ModulosComponent } from './pages/modulo/modulos/modulos.component';
 import { RolesComponent } from './pages/rol/roles/roles.component';
 import { UsuariosComponent } from './pages/usuario/usuarios/usuarios.component';
+import { ProductosComponent } from './pages/producto/productos/productos.component';
+import { EventoComponent } from './pages/eventos/evento/evento.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
   { path: 'dashboard', component: DashboardComponent, canActivate: [UsuarioLogeadoGuard]},
-  { path: 'eventos', canActivate: [UsuarioLogeadoGuard], children:[
-    { path: '', component: EventosComponent },
+  { path: 'evento', canActivate: [UsuarioLogeadoGuard], children:[
+    { path: 'eventos', component: EventosComponent },
     { path: 'usuario', component: EventosUsuarioComponent },
-    { path: 'nuevo', component: EventoCRUDComponent }
+    { path: 'nuevo', component: EventoCRUDComponent },
+    { path: ':evento', component: EventoComponent}
   ]},
   { path: 'clientes', component: ClientesComponent, canActivate: [UsuarioLogeadoGuard]},
-  { path: 'tiposEvento', component: TiposEventoComponent, canActivate: [UsuarioLogeadoGuard]},
-  { path: 'tareas', component: TareasComponent, canActivate: [UsuarioLogeadoGuard]},
-  { path: 'entornos', component: EntornosComponent, canActivate: [UsuarioLogeadoGuard]},
-  { path: 'modulos', component: ModulosComponent, canActivate: [UsuarioLogeadoGuard]},
-  { path: 'roles', component: RolesComponent, canActivate: [UsuarioLogeadoGuard]},
-  { path: 'usuarios', component: UsuariosComponent, canActivate: [UsuarioLogeadoGuard]},
+  { path: 'tipoevento', canActivate: [UsuarioLogeadoGuard], children: [
+    { path: 'tiposevento', component: TiposEventoComponent},
+    { path: 'tareas', component: TareasComponent},
+  ]},
+  { path: 'producto', canActivate: [UsuarioLogeadoGuard], children: [
+    { path: 'entornos', component: EntornosComponent},
+    { path: 'modulos', component: ModulosComponent},
+    { path: 'productos', component: ProductosComponent},
+  ]},
+  { path: 'usuario', canActivate: [UsuarioLogeadoGuard], children: [
+    { path: 'roles', component: RolesComponent},
+    { path: 'usuarios', component: UsuariosComponent},
+  ]},
   { path: 'login', component: LoginComponent}
 ];
 

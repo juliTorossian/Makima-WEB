@@ -7,6 +7,10 @@ import { Usuario } from 'src/app/interfaces/usuario';
 import { ClienteService } from 'src/app/servicios/cliente.service';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { ClienteSeleccionComponent } from '../../cliente/cliente-seleccion/cliente-seleccion.component';
+import { TipoEventoService } from 'src/app/servicios/tipo-evento.service';
+import { ProductoService } from 'src/app/servicios/producto.service';
+import { Producto } from 'src/app/interfaces/producto';
+import { ProductoSeleccionComponent } from '../../producto/producto-seleccion/producto-seleccion.component';
 
 @Component({
   selector: 'app-evento-crud',
@@ -14,37 +18,37 @@ import { ClienteSeleccionComponent } from '../../cliente/cliente-seleccion/clien
   styleUrls: ['./evento-crud.component.css']
 })
 export class EventoCRUDComponent implements OnInit {
-  usuario!: Usuario;
-  modo!: any;
-
-  tiposEvento : any[] = ["CUS", "CAS", "TEC", "ORG", "MEG"];
-  tipoEventoFiltrado! : any[];
-
-  prioridades :any[] = [1, 2, 3, 4, 5];
-
-  evento!: any;
-
   private ref = inject(DynamicDialogRef);
   private refCliente = inject(DynamicDialogRef);
+  private refProducto = inject(DynamicDialogRef);
   private dialogService = inject(DialogService);
   private config = inject(DynamicDialogConfig);
-  private clienteService = inject(ClienteService);
-  private usuarioService = inject(UsuarioService);
 
+  private clienteService = inject(ClienteService);
+  private productoService = inject(ProductoService);
+  private usuarioService = inject(UsuarioService);
+  private tipoEventoService = inject(TipoEventoService);
+
+  usuario!: Usuario;
+  modo!: any;
+  tiposEvento! : any[];
+  tipoEventoFiltrado! : any[];
+  prioridades :any[] = [1, 2, 3, 4, 5];
+  evento!: any;
   cliente: Cliente = {
     id: "",
     sigla: "",
     nombre: "",
     activo: 1
   };
-  // producto!: Producto;
-
-  // crudEvento = new FormGroup({
-  //   tipo: new FormControl("", [Validators.required]),
-  //   prioridad: new FormControl("", [Validators.required]),
-  //   titulo: new FormControl("", [Validators.required]),
-  //   clienteId: new FormControl('', [Validators.required]),
-  // });
+  producto: Producto = {
+    id:        "",
+    nombre:    "",
+    modulo:    {id: "", nombre: "", padre: ""},
+    submodulo: {id: "", nombre: "", padre: ""},
+    entorno:   {id: "", nombre: ""},
+    activo: true
+  };
 
   id = new FormControl("");
   tipo = new FormControl("", [Validators.required]);
@@ -55,9 +59,15 @@ export class EventoCRUDComponent implements OnInit {
 
 
   ngOnInit(){
+
+    this.tipoEventoService.getTiposEventoBusqueda().subscribe({
+      next: (res:any) => {
+        this.tiposEvento = res;
+      }
+    });
     
     
-    // console.log(this.config.data);
+    console.log(this.config.data);
     this.modo = this.config.data.modo;
     this.evento = this.config.data.evento;
 
@@ -74,7 +84,14 @@ export class EventoCRUDComponent implements OnInit {
           this.cliente = res;
         }
       });
+      this.productoService.getProducto(this.evento.producto.id).subscribe({
+        next: (res:any) => {
+          // console.log(res);
+          this.producto = res;
+        }
+      });
 
+      this.id.setValue(this.evento.id)
       this.tipo.setValue(this.evento.tipo);
       this.numero.setValue(this.evento.numero);
       this.prioridad.setValue(this.evento.prioridad);
@@ -83,34 +100,19 @@ export class EventoCRUDComponent implements OnInit {
     }
     
   }
-  /*
-    id:             string;
-    tipo:           string;
-    numero:         number;
-    titulo:         string;
-    cliente:        string;
-    producto:       string;
-    usuarioAlta:    UsuarioCorto;
-  */
-
-
 
   accion($event:any) {
-    $event.preventDefault();
+    $event.preventDefault();    
 
-    console.log(this.cliente);
-    
-
+    let value :any = this.tipo.value;
     const evento = {
       id:             this.id.value,
-      tipo:           this.tipo.value,
+      tipo:           value.value,
       titulo:         this.titulo.value,
       cliente:        this.cliente.id,
-      // producto:       this.productoId.value,
-      usuarioAlta:    this.usuario.id
+      producto:       this.producto.id,
+      usuAlta:        this.usuario.id
     }
-
-
     this.ref.close(evento);
   }
 
@@ -120,13 +122,10 @@ export class EventoCRUDComponent implements OnInit {
 
     for (let i = 0; i < this.tiposEvento.length; i++) {
       let tipoEvento = this.tiposEvento[i];
-      if (tipoEvento.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+      if (tipoEvento.label.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
         filtered.push(tipoEvento);
-      }
+      };
     }
-
-    console.log(filtered);
-
     this.tipoEventoFiltrado = filtered;
   }
 
@@ -135,15 +134,26 @@ export class EventoCRUDComponent implements OnInit {
       header: 'Seleccionar cliente',
       width: '70%',
       contentStyle: { overflow: 'auto' },
-      baseZIndex: 11000,
-      maximizable: true
+      baseZIndex: 11000
     });
 
     this.refCliente.onClose.subscribe((cliente: Cliente) => {
       // console.log(cliente);
       this.cliente = cliente;
     });
-
   }
 
+  selectProducto(){
+    this.refProducto = this.dialogService.open(ProductoSeleccionComponent, {
+      header: 'Seleccionar producto',
+      width: '70%',
+      contentStyle: { overflow: 'auto' },
+      baseZIndex: 11000
+    });
+
+    this.refProducto.onClose.subscribe((producto: Producto) => {
+      console.log(producto);
+      this.producto = producto;
+    });
+  }
 }

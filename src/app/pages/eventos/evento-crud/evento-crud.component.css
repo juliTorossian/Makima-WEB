@@ -11,3 +11,9 @@
     align-items: center;
     justify-content: center;
 }
+
+.select-att {
+    border: 1px lightgray solid;
+    border-radius: 6px;
+    margin: 5px 0;
+}

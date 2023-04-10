@@ -27,6 +27,6 @@ export class RolService {
   }
 
   deleteRol(rol: Rol){
-    return this.http.delete(`${this.URL_COMPLETA}/rol/${rol.codigo}`);
+    return this.http.delete(`${this.URL_COMPLETA}/rol/${rol.id}`);
   }
 }

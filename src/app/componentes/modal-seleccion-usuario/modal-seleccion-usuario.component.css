@@ -1,0 +1,9 @@
+
+.container-modal{
+    display: flex;
+    flex-direction: column;
+}
+
+.input-centrado{
+    margin: 20px auto;
+}

@@ -149,4 +149,12 @@ export class TiposEventoComponent {
       }
     });
   }
+  
+  getSeverity(status: boolean) {
+    if (status){
+      return 'success';
+    }else{
+      return 'danger';
+    } 
+  }
 }

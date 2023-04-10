@@ -23,13 +23,13 @@ export class HeaderMenuComponent implements OnInit{
             {
                 label: 'Eventos Usuario',
                 icon: 'pi pi-fw pi-server',
-                routerLink: ['/eventos/usuario'],
+                routerLink: ['/evento/usuario'],
                 routerLinkActiveOptions: 'active'
             },
             {
                 label: 'Eventos',
                 icon: 'pi pi-fw pi-server',
-                routerLink: ['/eventos'],
+                routerLink: ['/evento/eventos'],
                 routerLinkActiveOptions: 'active'
             },
             {
@@ -44,7 +44,7 @@ export class HeaderMenuComponent implements OnInit{
                 items: [
                     {
                         label: 'Productos',
-                        routerLink: ['/productos'],
+                        routerLink: ['/producto/productos'],
                         routerLinkActiveOptions: 'active'
                     },
                     {
@@ -52,12 +52,12 @@ export class HeaderMenuComponent implements OnInit{
                     },
                     {
                         label: 'Modulos',
-                        routerLink: ['/modulos'],
+                        routerLink: ['/producto/modulos'],
                         routerLinkActiveOptions: 'active'
                     },
                     {
                         label: 'Entornos',
-                        routerLink: ['/entornos'],
+                        routerLink: ['/producto/entornos'],
                         routerLinkActiveOptions: 'active'
                     },
                 ],
@@ -68,7 +68,7 @@ export class HeaderMenuComponent implements OnInit{
                 items: [
                     {
                         label: 'Tipos Evento',
-                        routerLink: ['/tiposEvento'],
+                        routerLink: ['/tipoevento/tiposevento'],
                         routerLinkActiveOptions: 'active'
                     },
                     {
@@ -76,7 +76,7 @@ export class HeaderMenuComponent implements OnInit{
                     },
                     {
                         label: 'Tareas',
-                        routerLink: ['/tareas'],
+                        routerLink: ['/tipoevento/tareas'],
                         routerLinkActiveOptions: 'active'
                     },
                 ],
@@ -87,7 +87,7 @@ export class HeaderMenuComponent implements OnInit{
                 items: [
                     {
                         label: 'Usuarios',
-                        routerLink: ['/usuarios'],
+                        routerLink: ['/usuario/usuarios'],
                         routerLinkActiveOptions: 'active'
                     },
                     {
@@ -95,7 +95,7 @@ export class HeaderMenuComponent implements OnInit{
                     },
                     {
                         label: 'Roles',
-                        routerLink: ['/roles'],
+                        routerLink: ['/usuario/roles'],
                         routerLinkActiveOptions: 'active'
                     },
                 ],

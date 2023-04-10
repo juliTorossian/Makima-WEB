@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { CookieService } from 'ngx-cookie-service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+
 import { ButtonModule } from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
 import { MegaMenuModule } from 'primeng/megamenu';
@@ -26,10 +27,16 @@ import { TagModule } from 'primeng/tag';
 import { DialogModule } from 'primeng/dialog';
 import { ColorPickerModule } from 'primeng/colorpicker';
 import { ToggleButtonModule } from 'primeng/togglebutton';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { TooltipModule } from 'primeng/tooltip';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { EditorModule } from 'primeng/editor';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 import { AppComponent } from './app.component';
 import { EventosComponent } from './pages/eventos/eventos/eventos.component';
 import { HeaderMenuComponent } from './componentes/header-menu/header-menu.component';
+import { BotonBackComponent } from './componentes/boton-back/boton-back.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LoginComponent } from './pages/login/login.component';
 import { UsuarioService } from './servicios/usuario.service';
@@ -53,11 +60,22 @@ import { RolCrudComponent } from './pages/rol/rol-crud/rol-crud.component';
 import { RolesComponent } from './pages/rol/roles/roles.component';
 import { UsuariosComponent } from './pages/usuario/usuarios/usuarios.component';
 import { UsuarioCrudComponent } from './pages/usuario/usuario-crud/usuario-crud.component';
+import { ProductosComponent } from './pages/producto/productos/productos.component';
+import { ProductoCrudComponent } from './pages/producto/producto-crud/producto-crud.component';
+import { ProductoSeleccionComponent } from './pages/producto/producto-seleccion/producto-seleccion.component';
+import { EventoComponent } from './pages/eventos/evento/evento.component';
+import { ModalSeleccionUsuarioComponent } from './componentes/modal-seleccion-usuario/modal-seleccion-usuario.component';
+import { ModalEstimacionComponent } from './pages/eventos/componentes/modal-estimacion/modal-estimacion.component';
+import { ComentarioComponent } from './componentes/comentario/comentario.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderMenuComponent,
+    BotonBackComponent,
     EventosComponent,
     DashboardComponent,
     LoginComponent,
@@ -78,9 +96,18 @@ import { UsuarioCrudComponent } from './pages/usuario/usuario-crud/usuario-crud.
     RolCrudComponent,
     RolesComponent,
     UsuariosComponent,
-    UsuarioCrudComponent
+    UsuarioCrudComponent,
+    ProductosComponent,
+    ProductoCrudComponent,
+    ProductoSeleccionComponent,
+    EventoComponent,
+    ModalSeleccionUsuarioComponent,
+    ModalEstimacionComponent,
+    BotonBackComponent,
+    ComentarioComponent
   ],
   imports: [
+    CKEditorModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -108,12 +135,21 @@ import { UsuarioCrudComponent } from './pages/usuario/usuario-crud/usuario-crud.
     DialogModule,
     ColorPickerModule,
     ToggleButtonModule,
+    BreadcrumbModule,
+    TooltipModule,
+    ProgressBarModule,
+    EditorModule,
+    InputNumberModule,
   ],
   providers: [
     CookieService,
     HttpClient,
     UsuarioService,
-    MessageService
+    MessageService,
+    // {
+    //   provide: 'ckeditor',
+    //   useValue: ClassicEditor
+    // }
   ],
   bootstrap: [AppComponent]
 })

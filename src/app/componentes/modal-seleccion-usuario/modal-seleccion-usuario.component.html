@@ -1,0 +1,10 @@
+
+<div class="container container-modal">
+
+    <div class="flex flex-column gap-2 input-centrado">
+        <!-- <label htmlFor="nombre">Seleccione Usuario</label> -->
+        <p-dropdown appendTo="body" [options]="usuarios" [(ngModel)]="usuario" optionLabel="usuario"></p-dropdown>
+    </div>
+
+    <button pButton pRipple label="Seleccionar" class="p-button-success" (click)="seleccionar($event)"></button>
+</div>

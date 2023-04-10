@@ -1,4 +1,6 @@
 import { Cliente } from "./cliente";
+import { Producto } from "./producto";
+import { Tarea } from "./tarea";
 import { UsuarioCorto } from "./usuario";
 
 export interface Evento {
@@ -8,7 +10,7 @@ export interface Evento {
     titulo:         string;
     tareaNombre:    string;
     cliente:        Cliente;
-    producto:       string;
+    producto:       Producto;
     usuarioAlta:    UsuarioCorto;
     usuarioActual:  UsuarioCorto;
     cerrado:        boolean;
@@ -19,7 +21,7 @@ export interface Evento {
 }
 
 export interface EventoDetalle {
-    EventoCircuito: EventoCircuito;
+    eventoCircuito: EventoCircuito;
     eventoHoras:    EventoHoras;
 }
 
@@ -33,7 +35,7 @@ export interface EventoCircuito {
 export interface CircuitoMomento {
     tiene: boolean | null;
     etapa: number  | null;
-    tarea: string  | null;
+    tarea: Tarea  | null;
 }
 
 export interface EventoHoras {
