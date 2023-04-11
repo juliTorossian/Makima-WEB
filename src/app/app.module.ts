@@ -1,10 +1,13 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { CookieService } from 'ngx-cookie-service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { registerLocaleData } from '@angular/common';
 
+import localeEsAr from '@angular/common/locales/es-AR';
+registerLocaleData(localeEsAr);
 
 import { ButtonModule } from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
@@ -76,6 +79,10 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { GraficoTiposComponent } from './pages/dashboard/componentes/grafico-tipos/grafico-tipos.component';
+import { HorasComponent } from './pages/hora/horas/horas.component';
+import { HorasUsuarioComponent } from './pages/hora/horas-usuario/horas-usuario.component';
+import { HoraCrudComponent } from './pages/hora/hora-crud/hora-crud.component';
+import { TotalComoNumeroPipe } from './pipes/total-como-numero.pipe';
 
 @NgModule({
   declarations: [
@@ -111,7 +118,11 @@ import { GraficoTiposComponent } from './pages/dashboard/componentes/grafico-tip
     ModalEstimacionComponent,
     BotonBackComponent,
     ComentarioComponent,
-    GraficoTiposComponent
+    GraficoTiposComponent,
+    HorasComponent,
+    HorasUsuarioComponent,
+    HoraCrudComponent,
+    TotalComoNumeroPipe
   ],
   imports: [
     CKEditorModule,
@@ -158,6 +169,7 @@ import { GraficoTiposComponent } from './pages/dashboard/componentes/grafico-tip
     HttpClient,
     UsuarioService,
     MessageService,
+    { provide: LOCALE_ID, useValue: 'es-Ar' },
     // {
     //   provide: 'ckeditor',
     //   useValue: ClassicEditor

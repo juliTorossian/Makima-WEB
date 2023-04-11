@@ -1,0 +1,105 @@
+
+<div class="container" style="margin: 20px;">
+    
+    <div class="card">
+        <p-toast></p-toast>
+        <p-toolbar styleClass="mb-4 gap-2">
+            <ng-template pTemplate="left">
+                <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2 botonChico" (click)="mostrarModalCrud(null, 'A')"></button>
+                <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger botonChico" (click)="deleteSeleccion()" [disabled]="!horasSeleccionadas || !horasSeleccionadas.length"></button>
+            </ng-template>
+
+            <ng-template pTemplate="right">
+            </ng-template>
+        </p-toolbar>
+
+        <p-table
+            #dt
+            [value]="horas"
+            [rows]="10"
+            [paginator]="true"
+            [globalFilterFields]="['tipo', 'numero', 'evento', 'etapa', 'titulo', 'cliente', 'producto', 'usuarioAlta', 'usuarioActual']"
+            [tableStyle]="{ 'min-width': '75rem' }"
+            [(selection)]="horasSeleccionadas"
+            [rowHover]="true"
+            dataKey="id"
+            currentPageReportTemplate="Mostrando desde {first} a {last} de {totalRecords} registros"
+            [showCurrentPageReport]="true"
+            styleClass="p-datatable-sm"
+        >
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between" style="display: flex;">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText style="padding-top: 0.4rem !important;padding-bottom: 0.4rem !important;" type="text" (input)="dt.filterGlobal(getEventValue($event), 'contains')" placeholder="Search..." />
+                    </span>
+                    <div class="flex align-items-center gap-1" style="margin:auto 10px">
+                        <!-- <p-checkbox id="filtroVerCerrados" [(ngModel)]="filtroVerCerrados" (click)="filtraEventosCerrado()" [binary]="true" inputId="binary"></p-checkbox> -->
+                        <label for="filtroVerCerrados"> Ver Eventos Cerrados</label>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                    <th></th>
+                    <th pSortableColumn="id" hidden>Id <p-sortIcon field="id"></p-sortIcon></th>
+                    <th pSortableColumn="fecha">Fecha <p-sortIcon field="fecha"></p-sortIcon></th>
+                    <th pSortableColumn="totalHoras">Total <p-sortIcon field="totalHoras"></p-sortIcon></th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-hora let-expanded="expanded">
+                <tr>
+                    <td style="width: 10px">
+                        <p-tableCheckbox [value]="hora"></p-tableCheckbox>
+                    </td>
+                    <td style="width: 10px">
+                        <button type="button" pButton pRipple [pRowToggler]="hora" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                    </td>
+                    <td hidden>{{ hora.id }}</td>
+                    <td>{{ hora.fecha | date:'fullDate'}}</td>
+                    <td>{{ hora.totalHoras }}</td>
+                    <td style="width: 200px">
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success botonRedondoChico mr-2" (click)="mostrarModalCrud(hora, 'M')"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning botonRedondoChico" (click)="deleteSolo(hora)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="rowexpansion" let-horaDetalle>
+                <tr>
+                    <td colspan="6">
+                        <div class="p-3">
+                            <p-table [value]="horaDetalle.horas" dataKey="id">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th pSortableColumn="id" hidden>Id <p-sortIcon field="id"></p-sortIcon></th>
+                                        <th pSortableColumn="evento">Evento <p-sortIcon field="evento"></p-sortIcon></th>
+                                        <th pSortableColumn="inicio">Inicio <p-sortIcon field="inicio"></p-sortIcon></th>
+                                        <th pSortableColumn="final">Final <p-sortIcon field="final"></p-sortIcon></th>
+                                        <th pSortableColumn="total">Total <p-sortIcon field="total"></p-sortIcon></th>
+                                        <th pSortableColumn="observaciones">Obs <p-sortIcon field="observaciones"></p-sortIcon></th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-hora>
+                                    <tr>
+                                        <td hidden>{{ hora.id }}</td>
+                                        <td>{{ hora.evento.tipo }}-{{hora.evento.numero}} | {{hora.evento.titulo}}</td>
+                                        <td>{{ hora.inicio }}</td>
+                                        <td>{{ hora.final }}</td>
+                                        <td>{{ hora.total }}</td>
+                                        <td>{{ hora.observaciones }}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="flex align-items-center justify-content-between">En total hay {{ horas ? horas.length : 0 }} horas.</div>
+            </ng-template>
+        </p-table>
+    </div>
+
+</div>

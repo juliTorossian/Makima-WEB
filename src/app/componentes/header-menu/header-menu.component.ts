@@ -47,12 +47,17 @@ export class HeaderMenuComponent implements OnInit{
                 icon: 'pi pi-fw pi-qrcode',
                 routerLink: ['/dashboard'],
                 routerLinkActiveOptions: 'active'
-                
             },
             {
                 label: 'Eventos Usuario',
                 icon: 'pi pi-fw pi-server',
                 routerLink: ['/evento/usuario'],
+                routerLinkActiveOptions: 'active'
+            },
+            {
+                label: 'Horas Usuario',
+                icon: 'pi pi-fw pi-clock',
+                routerLink: ['/hora/usuario'],
                 routerLinkActiveOptions: 'active'
             },
             {
@@ -65,6 +70,12 @@ export class HeaderMenuComponent implements OnInit{
                 label: 'Clientes',
                 icon: 'pi pi-fw pi-id-card',
                 routerLink: ['/clientes'],
+                routerLinkActiveOptions: 'active'
+            },
+            {
+                label: 'Horas',
+                icon: 'pi pi-fw pi-clock',
+                routerLink: ['/hora/horas'],
                 routerLinkActiveOptions: 'active'
             },
             {
