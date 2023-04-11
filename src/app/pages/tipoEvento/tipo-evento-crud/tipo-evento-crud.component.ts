@@ -16,15 +16,8 @@ export class TipoEventoCrudComponent {
 
   modo!: any;
 
-  opcionesTareas : any[] = [{ label: "Ingreso", value: "ing" },
-                            { label: "Desarrollo", value: "desa" },
-                            { label: "Testeo", value: "test" },];
-
-  countTareas:number = 1;
-
   tareas!: Tarea[];
   tareasFiltradas!: Tarea[];
-
 
   id!: string;
   descripcion!: string;
@@ -34,11 +27,16 @@ export class TipoEventoCrudComponent {
   tareasAsignadas: any[] = [
     { etapa: 1, tarea: '', rollback: null }
   ];
-  
+
+
 
   agregarTarea() {
+    let etapa = 0;
+    if (this.tareasAsignadas.length > 1){
+      etapa = (this.tareasAsignadas[this.tareasAsignadas.length-1].etapa + 1);
+    }
     this.tareasAsignadas.push({
-      etapa: (this.tareasAsignadas[this.tareasAsignadas.length-1].etapa + 1),
+      etapa: etapa,
       tarea: "",
       rollback: null
     })
@@ -50,8 +48,6 @@ export class TipoEventoCrudComponent {
       item.etapa = count;
       count++;
     });
-  }
-  getTareasForm(){
   }
 
   ngOnInit(){
@@ -72,12 +68,17 @@ export class TipoEventoCrudComponent {
       this.descripcion = tipoEvento.descripcion;
       this.color = tipoEvento.color;
       this.propio = tipoEvento.propio;
-      this.tareasAsignadas = tipoEvento.tareas;
+      if(tipoEvento.tareas){
+        this.tareasAsignadas = tipoEvento.tareas;
+      }
     }
   }
 
   accion($event:any){
     $event.preventDefault();
+    if(this.propio){
+      this.tareasAsignadas = [];
+    }
     const tipoEvento : any = {
       id: this.id,
       descripcion: this.descripcion,
@@ -90,4 +91,7 @@ export class TipoEventoCrudComponent {
     this.ref.close(tipoEvento);
   }
 
+  // bloquearPantalla(){
+  //   this.bloquearTareas = !this.bloquearTareas;
+  // }
 }

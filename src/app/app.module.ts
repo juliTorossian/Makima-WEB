@@ -34,6 +34,8 @@ import { EditorModule } from 'primeng/editor';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { MenuModule } from 'primeng/menu';
 import { FileUploadModule } from 'primeng/fileupload';
+import { BlockUIModule } from 'primeng/blockui';
+import { PanelModule } from 'primeng/panel';
 
 import { AppComponent } from './app.component';
 import { EventosComponent } from './pages/eventos/eventos/eventos.component';
@@ -148,6 +150,8 @@ import { GraficoTiposComponent } from './pages/dashboard/componentes/grafico-tip
     EditorModule,
     InputNumberModule,
     FileUploadModule,
+    BlockUIModule,
+    PanelModule,
   ],
   providers: [
     CookieService,

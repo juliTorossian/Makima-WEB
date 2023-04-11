@@ -23,6 +23,7 @@ export class TiposEventoComponent {
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
 
+  
   ngOnInit() {
     this.llenarTabla();
   }
@@ -123,7 +124,7 @@ export class TiposEventoComponent {
     let tipoEventoRes! : TipoEvento;
     let header = "";
     if (modo === 'A'){
-      header = "Nueva Tipo de Evento";
+      header = "Nuevo Tipo de Evento";
     }else if (modo === 'M'){
       header = "Modificar Tipo de Evento";
     }
@@ -135,7 +136,6 @@ export class TiposEventoComponent {
       width: '70%',
       contentStyle: { overflow: 'auto' },
       baseZIndex: 10000,
-      maximizable: true,
       data: data
     });
 
