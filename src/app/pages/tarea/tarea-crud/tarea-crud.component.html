@@ -15,7 +15,7 @@
                 <div class="flex flex-column gap-2">
                     <label htmlFor="rol">Rol</label>
                     <!-- <input pInputText id="rol" aria-describedby="rol-help" formControlName="rol" /> -->
-                    <p-dropdown formControlName="rol" [options]="roles" optionValue="id" optionLabel="descripcion" id="rol" aria-describedby="rol-help"></p-dropdown>
+                    <p-dropdown appendTo="body" formControlName="rol" [options]="roles" optionValue="id" optionLabel="descripcion" id="rol" aria-describedby="rol-help"></p-dropdown>
                     <small id="rol-help" [hidden]="tarea.get('rol')?.valid">Ingrese un rol.</small>
                 </div>
             </div>

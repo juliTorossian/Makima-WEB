@@ -19,5 +19,10 @@ export class DashboardService {
       // tap( (res:any) => console.log(res) )
     );
   }
+  getNovedades(cantidad:number){
+    return this.http.get(`${this.URL_COMPLETA}/dashboard/ultimosMovimientos?cantidad=${cantidad}`).pipe(
+      // tap( (res:any) => console.log(res) )
+    );
+  }
 
 }

@@ -1,0 +1,28 @@
+<div>
+    <p-timeline [value]="novedades">
+        <ng-template pTemplate="content" let-novedad>
+            <b>{{ novedad.accion }}</b>
+            <div *ngIf="novedad.accion === 'COMENTARIO'" class="descripcion">
+                <p>{{novedad.usuario.usuario}} agrego un comentario a {{novedad.evento.evento}}</p>
+            </div>
+            <div *ngIf="novedad.accion === 'CREO'" class="descripcion">
+                <p>{{novedad.usuario.usuario}} creo el evento {{novedad.evento.evento}}</p>
+            </div>
+            <div *ngIf="novedad.accion === 'CERRO'" class="descripcion">
+                <p>{{novedad.usuario.usuario}} cerro el evento {{novedad.evento.evento}}</p>
+            </div>
+            <div *ngIf="novedad.accion === 'AVANZO'" class="descripcion">
+                <p>El evento {{novedad.evento.evento}} se avanzo a la etapa <b>{{novedad.tarea}}</b> y se asigno a {{novedad.usuario.usuario}}</p>
+            </div>
+            <div *ngIf="novedad.accion === 'RETROCESO'" class="descripcion">
+                <p>El evento {{novedad.evento.evento}} se revirtio a la etapa <b>{{novedad.tarea}}</b> y se asigno a {{novedad.usuario.usuario}}</p>
+            </div>
+            <div *ngIf="novedad.accion === 'REASIGNO'" class="descripcion">
+                <p>El evento {{novedad.evento.evento}} se reasigno a {{novedad.usuario.usuario}}</p>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="opposite" let-novedad>
+            <small class="p-text-secondary">{{ novedad.fecha | date }}</small>
+        </ng-template>
+    </p-timeline>
+</div>

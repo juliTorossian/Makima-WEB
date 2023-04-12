@@ -18,7 +18,7 @@
             [value]="eventos"
             [rows]="10"
             [paginator]="true"
-            [globalFilterFields]="['tipo', 'numero', 'evento', 'etapa', 'titulo', 'cliente', 'producto', 'usuarioAlta', 'usuarioActual']"
+            [globalFilterFields]="['tipo', 'numero', 'evento', 'etapa', 'titulo', 'cliente', 'producto', 'usuarioAlta', 'usuarioActual', 'detalle?.eventoCircuito.act.tarea?.nombre']"
             [tableStyle]="{ 'min-width': '75rem' }"
             [(selection)]="eventoSeleccionado"
             [rowHover]="true"
@@ -50,8 +50,10 @@
                     <th pSortableColumn="etapa">Etapa <p-sortIcon field="etapa"></p-sortIcon></th>
                     <th pSortableColumn="cliente">Cliente <p-sortIcon field="cliente"></p-sortIcon></th>
                     <th pSortableColumn="producto">Producto <p-sortIcon field="producto"></p-sortIcon></th>
+                    <th pSortableColumn="modulo">Modulo <p-sortIcon field="modulo"></p-sortIcon></th>
                     <th pSortableColumn="usuarioActual">Usuario Actual <p-sortIcon field="usuarioActual"></p-sortIcon></th>
-                    <th pSortableColumn="usuarioAlta">Usuario Alta <p-sortIcon field="usuarioAlta"></p-sortIcon></th>
+                    <th pSortableColumn="alta">Alta <p-sortIcon field="alta"></p-sortIcon></th>
+                    <th pSortableColumn="usuarioAlta" hidden>Usuario Alta <p-sortIcon field="usuarioAlta"></p-sortIcon></th>
                     <th></th>
                 </tr>
             </ng-template>
@@ -70,8 +72,10 @@
                     <td>{{ evento.detalle?.eventoCircuito.act.tarea?.nombre }}</td>
                     <td>{{ evento.cliente.nombre }}</td>
                     <td>{{ evento.producto.nombre }}</td>
+                    <td>{{ evento.producto.modulo }}</td>
                     <td>{{ evento.usuarioActual.usuario }}</td>
-                    <td>{{ evento.usuarioAlta.usuario }}</td>
+                    <td>{{ evento.fechaAlta }}</td>
+                    <td hidden>{{ evento.usuarioAlta.usuario }}</td>
                     <td>
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success botonRedondoChico mr-2" (click)="mostrarModalCrud(evento, 'M')" [disabled]="evento.cerrado"></button>
                         <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning botonRedondoChico" (click)="deleteSolo(evento)" [disabled]="evento.cerrado"></button>

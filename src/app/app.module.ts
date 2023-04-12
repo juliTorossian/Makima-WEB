@@ -41,6 +41,8 @@ import { BlockUIModule } from 'primeng/blockui';
 import { PanelModule } from 'primeng/panel';
 import { CalendarModule } from 'primeng/calendar';
 import { InputMaskModule } from 'primeng/inputmask';
+import { TimelineModule } from 'primeng/timeline';
+
 
 import { AppComponent } from './app.component';
 import { EventosComponent } from './pages/eventos/eventos/eventos.component';
@@ -85,6 +87,8 @@ import { HorasComponent } from './pages/hora/horas/horas.component';
 import { HorasUsuarioComponent } from './pages/hora/horas-usuario/horas-usuario.component';
 import { HoraCrudComponent } from './pages/hora/hora-crud/hora-crud.component';
 import { TotalComoNumeroPipe } from './pipes/total-como-numero.pipe';
+import { VidaEventoComponent } from './pages/eventos/componentes/vida-evento/vida-evento.component';
+import { NovedadesComponent } from './pages/dashboard/componentes/novedades/novedades.component';
 
 @NgModule({
   declarations: [
@@ -124,7 +128,9 @@ import { TotalComoNumeroPipe } from './pipes/total-como-numero.pipe';
     HorasComponent,
     HorasUsuarioComponent,
     HoraCrudComponent,
-    TotalComoNumeroPipe
+    TotalComoNumeroPipe,
+    VidaEventoComponent,
+    NovedadesComponent,
   ],
   imports: [
     CKEditorModule,
@@ -167,6 +173,7 @@ import { TotalComoNumeroPipe } from './pipes/total-como-numero.pipe';
     PanelModule,
     CalendarModule,
     InputMaskModule,
+    TimelineModule,
   ],
   providers: [
     CookieService,
@@ -174,10 +181,6 @@ import { TotalComoNumeroPipe } from './pipes/total-como-numero.pipe';
     UsuarioService,
     MessageService,
     { provide: LOCALE_ID, useValue: 'es-Ar' },
-    // {
-    //   provide: 'ckeditor',
-    //   useValue: ClassicEditor
-    // }
   ],
   bootstrap: [AppComponent]
 })

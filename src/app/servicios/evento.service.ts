@@ -52,4 +52,9 @@ export class EventoService {
     headers.set('Content-Type', ['multipart/form-data']);
     return this.http.post(`${this.URL_COMPLETA}/evento/${eventoId}/comentar`, comentario, { headers });
   }
+  getVidaEvento(eventoId : string){
+    return this.http.get(`${this.URL_COMPLETA}/evento/${eventoId}/vida`).pipe(
+      // tap( (res) => console.log(res))
+    );
+  }
 }

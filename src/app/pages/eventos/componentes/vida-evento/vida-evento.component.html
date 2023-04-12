@@ -1,0 +1,29 @@
+<div class="">
+    <p-timeline [value]="vidaEvento" class="w-full md:w-20rem">
+        <ng-template pTemplate="content" let-vida>
+            <p-card [header]="vida.accion" >
+                <div *ngIf="vida.accion === 'COMENTARIO'">
+                    <p>{{vida.usuario.usuario}} agrego un comentario</p>
+                </div>
+                <div *ngIf="vida.accion === 'AVANZO'">
+                    <p>Avanzo a la etapa <b>{{vida.tarea}}</b> y se asigno a {{vida.usuario.usuario}}</p>
+                </div>
+                <div *ngIf="vida.accion === 'RETROCESO'">
+                    <p>Revirtio a la etapa <b>{{vida.tarea}}</b> y se asigno a {{vida.usuario.usuario}}</p>
+                </div>
+                <div *ngIf="vida.accion === 'REASIGNO'">
+                    <p>Se reasigno el evento a {{vida.usuario.usuario}}</p>
+                </div>
+                <div *ngIf="vida.accion === 'CREO'">
+                    <p>{{vida.usuario.usuario}} creo el evento</p>
+                </div>
+                <div *ngIf="vida.accion === 'CERRO'">
+                    <p>{{vida.usuario.usuario}} cerro el evento</p>
+                </div>
+            </p-card>
+        </ng-template>
+        <ng-template pTemplate="opposite" let-vida>
+            {{ vida.fecha | date}}
+        </ng-template>
+    </p-timeline>
+</div>

@@ -109,6 +109,8 @@ export class EventosUsuarioComponent {
   
   retroceder(evento:Evento){
 
+    console.log(evento);
+
     const rol = evento.detalle?.eventoCircuito.ant.tarea?.rol
 
     this.ref = this.dialogService.open(ModalSeleccionUsuarioComponent, {

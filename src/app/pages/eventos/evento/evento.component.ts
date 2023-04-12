@@ -4,28 +4,35 @@ import { Comentario } from 'src/app/interfaces/comentario';
 import { Evento } from 'src/app/interfaces/evento';
 import { EventoService } from 'src/app/servicios/evento.service';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Location } from '@angular/common';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { Usuario } from 'src/app/interfaces/usuario';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { VidaEventoComponent } from '../componentes/vida-evento/vida-evento.component';
 
 @Component({
   selector: 'app-evento',
   templateUrl: './evento.component.html',
-  styleUrls: ['./evento.component.css']
+  styleUrls: ['./evento.component.css'],
+  providers: [DialogService, MessageService, ConfirmationService]
 })
 export class EventoComponent implements OnInit{
   @ViewChild("adjunto", {
     read: ElementRef
   }) adjunto!: ElementRef;
 
+  private dialogService = inject(DialogService);
+  private messageService = inject(MessageService);
+  private confirmationService = inject(ConfirmationService);
+
   private rutActiva = inject(ActivatedRoute);
   private location = inject(Location);
-  private formBuilder = inject(FormBuilder);
 
   private usuarioService = inject(UsuarioService);
   private eventoService = inject(EventoService);
 
+  refVidaEvento!: DynamicDialogRef;
   
   currentUrl = this.location.path();
   evento!: Evento;
@@ -35,11 +42,6 @@ export class EventoComponent implements OnInit{
   comentarios!: Comentario[];
 
   public Editor:any = ClassicEditor;
-
-  // comentarioForm = new FormGroup({
-  //   comentario: new FormControl(""),
-  //   adjunto: new FormControl("")
-  // });
 
   comentario: string = "";
 
@@ -102,5 +104,18 @@ export class EventoComponent implements OnInit{
     })
   }
 
+  verVidaEvento(evento:Evento){
+
+    this.refVidaEvento = this.dialogService.open(VidaEventoComponent, {
+      header: 'Vida del evento',
+      width: '60%',
+      contentStyle: { overflow: 'auto' },
+      baseZIndex: 10000,
+      data: evento
+    });
+
+    // this.refVidaEvento.onClose.subscribe((eventoCrud: Evento) => {
+    // });
+  }
 
 }

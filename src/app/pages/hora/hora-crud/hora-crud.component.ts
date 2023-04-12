@@ -22,7 +22,7 @@ export class HoraCrudComponent {
   evento!: Evento[];
 
   id!: string;
-  fecha!: string;
+  fecha!: Date;
   usuario!: Usuario;
   totalHoras: number = 0;
   horas: any[] = [];
@@ -37,10 +37,10 @@ export class HoraCrudComponent {
   ngOnInit(){
     console.log(this.config.data);
     this.modo = this.config.data.modo;
-    let registroHoras = this.config.data.registroHoras;
+    let registroHoras = this.config.data.hora;
     if (registroHoras){
       this.id = registroHoras.id;
-      this.fecha = registroHoras.fecha;
+      this.fecha = new Date(registroHoras.fecha);
       this.usuario = registroHoras.usuario;
       this.totalHoras = registroHoras.totalHoras;
       this.horas = registroHoras.horas;
@@ -55,12 +55,19 @@ export class HoraCrudComponent {
   accion($event:any){
     $event.preventDefault();
 
-    let date = new Date(this.fecha);
+    let sumaHoras = 0;
+
+    console.log(this.fecha)
+    this.horas.map( (hora) => {
+      sumaHoras += hora.total
+    })
+
+    // let date = new Date(this.fecha);
     const registroHoras : RegistroHora = {
       id: this.id,
-      fecha: date.toJSON().substring(0,10),
+      fecha: this.fecha.toJSON().substring(0,10),
       usuario: this.usuario.id,
-      totalHoras: this.totalHoras,
+      totalHoras: sumaHoras,
       horas: this.horas
     }
 
@@ -73,24 +80,28 @@ export class HoraCrudComponent {
 
     if (this.comprobarHora(hora.inicio)){
       if (this.comprobarHora(hora.final)){
-        if (this.comprobarFormatoHora(hora.inicio) && this.comprobarFormatoHora(hora.final)){
-          // Convertir horas a objetos Date
-          const date1 = new Date(`2000-01-01T${hora.inicio}:00`);
-          const date2 = new Date(`2000-01-01T${hora.final}:00`);
-      
-          // Calcular la diferencia en horas
-          const diferenciaEnMillisegundos = date2.getTime() - date1.getTime();
-          diferenciaEnHoras = diferenciaEnMillisegundos / (1000 * 60 * 60);
-          
-        }
+        diferenciaEnHoras = this.getDiferenciaHoras(hora.inicio, hora.final)
       }else{
         hora.final = "";
       }
     }else{
       hora.inicio = "";
     }
-    hora.totalHoras = diferenciaEnHoras;
+    hora.total = diferenciaEnHoras;
 
+  }
+  getDiferenciaHoras(inicio:string, final:string){
+    let diferenciaEnHoras = 0;
+    if (this.comprobarFormatoHora(inicio) && this.comprobarFormatoHora(final)){
+      // Convertir horas a objetos Date
+      const date1 = new Date(`2000-01-01T${inicio}:00`);
+      const date2 = new Date(`2000-01-01T${final}:00`);
+  
+      // Calcular la diferencia en horas
+      const diferenciaEnMillisegundos = date2.getTime() - date1.getTime();
+      diferenciaEnHoras = diferenciaEnMillisegundos / (1000 * 60 * 60);
+    }
+    return diferenciaEnHoras;
   }
   comprobarFormatoHora(hora: string): boolean {
     const regex = /^\d{2}:\d{2}$/; // Expresión regular para hh:mm

@@ -29,6 +29,13 @@
             ],
             "scripts": [
               "node_modules/apexcharts/dist/apexcharts.min.js"
+            ],
+            "budgets": [
+              {
+                "type": "initial",
+                "maximumWarning": "2mb",
+                "maximumError": "5mb"
+              }
             ]
           },
           "configurations": {

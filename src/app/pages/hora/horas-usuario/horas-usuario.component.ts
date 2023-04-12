@@ -126,7 +126,7 @@ export class HorasUsuarioComponent {
   delete(hora : RegistroHora){
     this.horaService.deleteHora(hora).subscribe({
       next: () => {
-        // this.messageService.add({ severity: 'info', summary: '', detail: 'Registro de horas eliminado' });
+        this.messageService.add({ severity: 'info', summary: '', detail: 'Registro de horas eliminado' });
       },
       error: (err) => {
         console.log(err);

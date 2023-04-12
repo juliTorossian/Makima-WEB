@@ -59,7 +59,9 @@ export class HeaderMenuComponent implements OnInit{
                 icon: 'pi pi-fw pi-clock',
                 routerLink: ['/hora/usuario'],
                 routerLinkActiveOptions: 'active'
-            },
+            }
+        ];
+        let itemsAdmin = [
             {
                 label: 'Eventos',
                 icon: 'pi pi-fw pi-server',
@@ -141,6 +143,10 @@ export class HeaderMenuComponent implements OnInit{
                 ],
             },
         ];
+
+        if(this.usuario.rol.id==='ADMIN'){
+            this.items = this.items.concat(itemsAdmin);
+        }
 
         this.itemsUsuario = [
             {

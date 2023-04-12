@@ -4,7 +4,7 @@
         <div class="col-4">
             <div class="flex flex-column gap-2">
                 <label htmlFor="fecha">Fecha</label>
-                <p-calendar appendTo="body" [(ngModel)]="fecha" [showIcon]="true"></p-calendar>
+                <p-calendar appendTo="body" [(ngModel)]="fecha"  dateFormat="dd/mm/yy" [showIcon]="true"></p-calendar>
             </div>
         </div> 
     </div>
@@ -29,7 +29,7 @@
                         <td><p-inputMask #inputInicio mask="99:99" [(ngModel)]="hora.inicio" placeholder="99:99" (onComplete)="actualizarTotal(hora)"></p-inputMask></td>
                         <td><p-inputMask #inputFinal mask="99:99" [(ngModel)]="hora.final" placeholder="99:99" (onComplete)="actualizarTotal(hora)"></p-inputMask></td>
                         <td><input type="text" pInputText [(ngModel)]="hora.observaciones" /></td>
-                        <td><div class="falso-input">{{hora.totalHoras | totalComoNumero}} hs</div></td>
+                        <td><div class="falso-input">{{hora.total | totalComoNumero}} hs</div></td>
                         <td><button type="button" (click)="eliminarFila(hora)" class="p-button p-button-danger">-</button></td>
                     </tr>
                 </tbody>
