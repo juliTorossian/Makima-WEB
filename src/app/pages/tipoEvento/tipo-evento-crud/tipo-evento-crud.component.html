@@ -44,7 +44,7 @@
             <tbody>
               <tr *ngFor="let tarea of tareasAsignadas; index as i;">
                 <td><p-inputNumber inputId="integeronly" [(ngModel)]="tarea.etapa" [disabled]="true"> </p-inputNumber></td>
-                <p-dropdown [options]="tareas" [(ngModel)]="tarea.tarea" optionLabel="nombre" optionValue="id"  appendTo="body"></p-dropdown>
+                <td><p-dropdown [options]="tareas" [(ngModel)]="tarea.tarea" optionLabel="nombre" optionValue="id"  appendTo="body"></p-dropdown></td>
                 <td><p-inputNumber inputId="integeronly" [(ngModel)]="tarea.rollback" [max]="tarea.etapa-1"> </p-inputNumber></td>
                 <td><button type="button" (click)="eliminarTarea(tarea)" class="p-button p-button-danger">-</button></td>
               </tr>

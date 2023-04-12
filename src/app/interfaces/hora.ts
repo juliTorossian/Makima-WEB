@@ -1,6 +1,6 @@
 export interface RegistroHora {
     id:         string;
-    fecha:      Date;
+    fecha:      string;
     usuario:    string;
     totalHoras: number;
     horas:      Hora[];

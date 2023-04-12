@@ -39,6 +39,8 @@ import { MenuModule } from 'primeng/menu';
 import { FileUploadModule } from 'primeng/fileupload';
 import { BlockUIModule } from 'primeng/blockui';
 import { PanelModule } from 'primeng/panel';
+import { CalendarModule } from 'primeng/calendar';
+import { InputMaskModule } from 'primeng/inputmask';
 
 import { AppComponent } from './app.component';
 import { EventosComponent } from './pages/eventos/eventos/eventos.component';
@@ -163,6 +165,8 @@ import { TotalComoNumeroPipe } from './pipes/total-como-numero.pipe';
     FileUploadModule,
     BlockUIModule,
     PanelModule,
+    CalendarModule,
+    InputMaskModule,
   ],
   providers: [
     CookieService,

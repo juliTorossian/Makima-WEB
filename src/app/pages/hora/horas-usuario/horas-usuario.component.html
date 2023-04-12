@@ -59,7 +59,7 @@
                     </td>
                     <td hidden>{{ hora.id }}</td>
                     <td>{{ hora.fecha | date:'fullDate'}}</td>
-                    <td>{{ hora.totalHoras }}</td>
+                    <td>{{ hora.totalHoras | totalComoNumero }}</td>
                     <td style="width: 200px">
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success botonRedondoChico mr-2" (click)="mostrarModalCrud(hora, 'M')"></button>
                         <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning botonRedondoChico" (click)="deleteSolo(hora)"></button>

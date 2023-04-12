@@ -164,6 +164,7 @@ export class HorasUsuarioComponent {
     });
 
     this.ref.onClose.subscribe((horaCrud: RegistroHora) => {
+      console.log(horaCrud);
       if (horaCrud) {
         if (modo === 'M'){
           this.editar(horaCrud)

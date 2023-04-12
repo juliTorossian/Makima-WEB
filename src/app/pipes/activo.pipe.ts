@@ -16,11 +16,4 @@ export class ActivoPipe implements PipeTransform {
 
     return res;
   }
-
-  function mostrarDiferenciaFormateada(diferenciaEnHoras){ 
-    const horas = Math.floor(diferenciaEnHoras);
-    const minutos = Math.floor((diferenciaEnHoras - horas) * 60);
-    const diferenciaFormateada = `${horas.toString().padStart(2, "0")}:${minutos.toString().padStart(2, "0")}`; 
-    return diferenciaFormateada; 
-  }
 }

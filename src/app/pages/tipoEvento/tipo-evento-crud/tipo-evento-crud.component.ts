@@ -28,8 +28,6 @@ export class TipoEventoCrudComponent {
     { etapa: 1, tarea: '', rollback: null }
   ];
 
-
-
   agregarTarea() {
     let etapa = 0;
     if (this.tareasAsignadas.length > 1){
