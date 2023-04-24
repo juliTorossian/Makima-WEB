@@ -23,9 +23,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let hora of horas; index as i;">
-                        <td><input type="text" pInputText [(ngModel)]="hora.evento" /></td>
-                        <!-- <td><p-calendar appendTo="body" [(ngModel)]="hora.inicio" [showTime]="true" hourFormat="24" [timeOnly]="true" (onClose)="actualizarTotal(hora)"></p-calendar></td>
-                        <td><p-calendar appendTo="body" [(ngModel)]="hora.final" [showTime]="true" hourFormat="24" [timeOnly]="true" (onClose)="actualizarTotal(hora)"></p-calendar></td> -->
+                        <td><input type="text" pInputText [(ngModel)]="hora.evento.evento" [disabled]="true" /> <button type="button" pButton icon="pi pi-check-circle" (click)="seleccionarEvento(hora)"></button></td>
                         <td><p-inputMask #inputInicio mask="99:99" [(ngModel)]="hora.inicio" placeholder="99:99" (onComplete)="actualizarTotal(hora)"></p-inputMask></td>
                         <td><p-inputMask #inputFinal mask="99:99" [(ngModel)]="hora.final" placeholder="99:99" (onComplete)="actualizarTotal(hora)"></p-inputMask></td>
                         <td><input type="text" pInputText [(ngModel)]="hora.observaciones" /></td>

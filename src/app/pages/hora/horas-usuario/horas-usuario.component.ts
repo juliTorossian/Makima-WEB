@@ -30,7 +30,10 @@ export class HorasUsuarioComponent {
   hora!: RegistroHora;
   horasSeleccionadas!: RegistroHora[];
 
-  filtroVerCerrados: boolean = false; // false no muestra los cerrados
+  filtroMes!: string;
+  filtroAno!: string;
+
+  dateFilter = new Date();
 
   ngOnInit() {
     this.usuarioService.getUsuarioToken(this.usuarioService.getToken()).subscribe({
@@ -44,22 +47,23 @@ export class HorasUsuarioComponent {
   llenarTabla(){
     this.horaService.getHorasUsuario(this.usuario.id).pipe(
       tap( (res:any) => {
-        console.log(res);
+        // console.log(res);
       })
     ).subscribe((res:any) => {
       // console.log(res);
       this.horasSave = res;
       this.horas = this.horasSave;
+      this.aplicarFiltroFecha(this.dateFilter);
     });
   }
 
   alta(hora : RegistroHora) {
-    console.log("alta: ");
-    console.log(hora);
+    // console.log("alta: ");
+    // console.log(hora);
     if (hora) {
       this.horaService.setHora(hora).subscribe({
         next: (res) => {
-          console.log(res);
+          // console.log(res);
           this.messageService.add({ severity: 'success', summary: 'Horas registradas', detail: `Se registraron las horas` });
         },
         error: (err) => {
@@ -164,7 +168,7 @@ export class HorasUsuarioComponent {
     });
 
     this.ref.onClose.subscribe((horaCrud: RegistroHora) => {
-      console.log(horaCrud);
+      // console.log(horaCrud);
       if (horaCrud) {
         if (modo === 'M'){
           this.editar(horaCrud)
@@ -174,4 +178,19 @@ export class HorasUsuarioComponent {
       }
     });
   }
+
+  mostrar(any:any){
+    // console.log(any);
+    let aux = new Date(any);
+    // console.log(aux);
+    // console.log(aux.getMonth());
+  }
+  aplicarFiltroFecha(fechaSel:any){
+    const aux = new Date(fechaSel);
+    this.horas = this.horasSave.filter( (h) => {
+      const a = new Date(h.fecha)
+      return (a.getMonth() === aux.getMonth()) && (a.getFullYear() === aux.getFullYear())
+    })
+  }
+
 }

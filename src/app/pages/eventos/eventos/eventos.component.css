@@ -2,3 +2,14 @@
 .eventoCerrado{
     background-color: #d8d8d8 !important;
 }
+
+.eventoDetalle p{
+    margin: 6px 0;
+}
+
+.eventoDetalle .diferenciaPositiva{
+    color: green;
+}
+.eventoDetalle .diferenciaNegativa{
+    color: red;
+}

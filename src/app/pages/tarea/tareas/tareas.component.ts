@@ -30,7 +30,7 @@ export class TareasComponent {
   llenarTabla(){
     this.tareaService.getTareas().subscribe({
       next: (res : any) => {
-        // console.log(res);
+        console.log(res);
         this.tareas = res;
       },
       error: (err) => {
@@ -152,6 +152,13 @@ export class TareasComponent {
 
 
 
+  getSeverity(status: boolean) {
+    if (status){
+      return 'success';
+    }else{
+      return 'danger';
+    } 
+  }
 
 
 

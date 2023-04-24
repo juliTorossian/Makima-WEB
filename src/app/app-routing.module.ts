@@ -18,6 +18,7 @@ import { ProductosComponent } from './pages/producto/productos/productos.compone
 import { EventoComponent } from './pages/eventos/evento/evento.component';
 import { HorasComponent } from './pages/hora/horas/horas.component';
 import { HorasUsuarioComponent } from './pages/hora/horas-usuario/horas-usuario.component';
+import { UsuarioComponent } from './pages/usuario/usuario/usuario.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
@@ -45,6 +46,7 @@ const routes: Routes = [
   { path: 'usuario', canActivate: [UsuarioLogeadoGuard], children: [
     { path: 'roles', component: RolesComponent},
     { path: 'usuarios', component: UsuariosComponent},
+    { path: ':usuario', component: UsuarioComponent}
   ]},
   { path: 'login', component: LoginComponent}
 ];

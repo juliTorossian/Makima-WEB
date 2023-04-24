@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Evento } from 'src/app/interfaces/evento';
 import { RegistroHora } from 'src/app/interfaces/hora';
 import { Usuario } from 'src/app/interfaces/usuario';
 import { HoraService } from 'src/app/servicios/hora.service';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
+import { SeleccionarEventoComponent } from '../componentes/seleccionar-evento/seleccionar-evento.component';
 
 @Component({
   selector: 'app-hora-crud',
@@ -13,7 +14,9 @@ import { UsuarioService } from 'src/app/servicios/usuario.service';
 })
 export class HoraCrudComponent {
   private ref = inject(DynamicDialogRef);
+  private refEvento = inject(DynamicDialogRef);
   private config = inject(DynamicDialogConfig);
+  private dialogService = inject(DialogService);
 
   private usuarioService = inject(UsuarioService);
 
@@ -25,17 +28,17 @@ export class HoraCrudComponent {
   fecha!: Date;
   usuario!: Usuario;
   totalHoras: number = 0;
-  horas: any[] = [];
+  horas: any[] = [{ id: "", evento: {id: "", evento: ""}, inicio: "", final: "", total: 0, observaciones: "" }];
 
   agregarFila() {
-    this.horas.push({ id: "", evento: "", inicio: "", final: "", total: 0, observaciones: "" })
+    this.horas.push({ id: "", evento: {id: "", evento: ""}, inicio: "", final: "", total: 0, observaciones: "" })
   }
   eliminarFila(horaEliminar:any) {
     this.horas = this.horas.filter((item) => item.inicio !== horaEliminar.inicio)
   }
 
   ngOnInit(){
-    console.log(this.config.data);
+    // console.log(this.config.data);
     this.modo = this.config.data.modo;
     let registroHoras = this.config.data.hora;
     if (registroHoras){
@@ -57,7 +60,7 @@ export class HoraCrudComponent {
 
     let sumaHoras = 0;
 
-    console.log(this.fecha)
+    // console.log(this.fecha)
     this.horas.map( (hora) => {
       sumaHoras += hora.total
     })
@@ -75,7 +78,7 @@ export class HoraCrudComponent {
   }
 
   actualizarTotal(hora:any){
-    console.log(hora);
+    // console.log(hora);
     let diferenciaEnHoras = 0;
 
     if (this.comprobarHora(hora.inicio)){
@@ -93,11 +96,10 @@ export class HoraCrudComponent {
   getDiferenciaHoras(inicio:string, final:string){
     let diferenciaEnHoras = 0;
     if (this.comprobarFormatoHora(inicio) && this.comprobarFormatoHora(final)){
-      // Convertir horas a objetos Date
+      
       const date1 = new Date(`2000-01-01T${inicio}:00`);
       const date2 = new Date(`2000-01-01T${final}:00`);
   
-      // Calcular la diferencia en horas
       const diferenciaEnMillisegundos = date2.getTime() - date1.getTime();
       diferenciaEnHoras = diferenciaEnMillisegundos / (1000 * 60 * 60);
     }
@@ -111,4 +113,28 @@ export class HoraCrudComponent {
     const timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
     return timeRegex.test(hora)
   }
+
+
+  seleccionarEvento(hora:any){
+
+    // const data = {hora, modo}
+
+    this.refEvento = this.dialogService.open(SeleccionarEventoComponent, {
+      header: 'Editar hora',
+      width: '70%',
+      contentStyle: { overflow: 'auto' },
+      baseZIndex: 10000,
+      maximizable: true,
+      // data: data
+    });
+
+    this.refEvento.onClose.subscribe((eventoSel: any) => {
+      // console.log(eventoSel);
+      if(eventoSel){
+        hora.evento = eventoSel;
+      }
+    });
+
+  }
+
 }

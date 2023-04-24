@@ -23,6 +23,9 @@ export class UsuarioService {
   getUsuarios(){
     return this.http.get(`${this.URL_COMPLETA}/usuario`);
   }
+  getUsuariosRol(rol:string){
+    return this.http.get(`${this.URL_COMPLETA}/usuario/rol/${rol}`);
+  }
 
   setUsuario(usuario: any){
     return this.http.post(`${this.URL_COMPLETA}/usuario`, usuario);

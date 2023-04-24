@@ -19,13 +19,13 @@ export class ModalSeleccionUsuarioComponent implements OnInit{
   usuario! :Usuario;
 
   ngOnInit(): void { 
-    console.log(this.config.data);
+    // console.log(this.config.data);
 
-    this.usuarioService.getUsuarios().pipe(
-      tap( (res:any) => console.log(res))
+    this.usuarioService.getUsuariosRol(this.config.data).pipe(
+      // tap( (res:any) => console.log(res))
     ).subscribe({
       next: ( (res:any) => {
-        this.usuarios = res.filter( (item:any) => item.rol.id === this.config.data);
+        this.usuarios = res;
       })
     })
   }

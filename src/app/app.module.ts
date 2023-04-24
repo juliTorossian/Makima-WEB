@@ -42,7 +42,10 @@ import { PanelModule } from 'primeng/panel';
 import { CalendarModule } from 'primeng/calendar';
 import { InputMaskModule } from 'primeng/inputmask';
 import { TimelineModule } from 'primeng/timeline';
-
+import { MultiSelectModule } from 'primeng/multiselect';
+import { ChipModule } from 'primeng/chip';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TabViewModule } from 'primeng/tabview';
 
 import { AppComponent } from './app.component';
 import { EventosComponent } from './pages/eventos/eventos/eventos.component';
@@ -89,6 +92,9 @@ import { HoraCrudComponent } from './pages/hora/hora-crud/hora-crud.component';
 import { TotalComoNumeroPipe } from './pipes/total-como-numero.pipe';
 import { VidaEventoComponent } from './pages/eventos/componentes/vida-evento/vida-evento.component';
 import { NovedadesComponent } from './pages/dashboard/componentes/novedades/novedades.component';
+import { SeleccionarEventoComponent } from './pages/hora/componentes/seleccionar-evento/seleccionar-evento.component';
+import { ActivadoPipe } from './pipes/activado.pipe';
+import { UsuarioComponent } from './pages/usuario/usuario/usuario.component';
 
 @NgModule({
   declarations: [
@@ -131,6 +137,9 @@ import { NovedadesComponent } from './pages/dashboard/componentes/novedades/nove
     TotalComoNumeroPipe,
     VidaEventoComponent,
     NovedadesComponent,
+    SeleccionarEventoComponent,
+    ActivadoPipe,
+    UsuarioComponent,
   ],
   imports: [
     CKEditorModule,
@@ -174,6 +183,10 @@ import { NovedadesComponent } from './pages/dashboard/componentes/novedades/nove
     CalendarModule,
     InputMaskModule,
     TimelineModule,
+    MultiSelectModule,
+    ChipModule,
+    InputTextareaModule,
+    TabViewModule,
   ],
   providers: [
     CookieService,

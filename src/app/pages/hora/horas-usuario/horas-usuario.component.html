@@ -36,7 +36,8 @@
                     </span>
                     <div class="flex align-items-center gap-1" style="margin:auto 10px">
                         <!-- <p-checkbox id="filtroVerCerrados" [(ngModel)]="filtroVerCerrados" (click)="filtraEventosCerrado()" [binary]="true" inputId="binary"></p-checkbox> -->
-                        <label for="filtroVerCerrados"> Ver Eventos Cerrados</label>
+                        <label for="filtroFechas">Fecha: </label>
+                        <p-calendar id="filtroFechas" [(ngModel)]="dateFilter" view="month" dateFormat="mm/yy" [readonlyInput]="true" (onClose)="aplicarFiltroFecha(dateFilter)"></p-calendar>
                     </div>
                 </div>
             </ng-template>

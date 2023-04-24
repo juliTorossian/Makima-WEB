@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class AppComponent implements OnInit{
   private router = inject(Router)
-  title = 'Makima-WEB-Angular';
+  title = 'Makima-WEB';
   
   ngOnInit(){
     

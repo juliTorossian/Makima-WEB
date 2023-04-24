@@ -8,7 +8,7 @@
             [value]="eventos"
             [rows]="10"
             [paginator]="true"
-            [globalFilterFields]="['tipo', 'numero', 'evento', 'titulo', 'cliente', 'producto']"
+            [globalFilterFields]="['tipo', 'numero', 'detalle.eventoCircuito.act.tarea.nombre', 'titulo', 'cliente.nombre', 'producto.nombre', 'usuarioActual.usuario']"
             [tableStyle]="{ 'min-width': '75rem' }"
             [(selection)]="eventoSeleccionado"
             [rowHover]="true"
@@ -57,7 +57,7 @@
                     <td>{{ evento.producto.nombre }}</td>
                     <td>{{ evento.usuarioActual.usuario }}</td>
                     <td>
-                        <button pButton pRipple (click)="avanzar(evento)" icon="pi pi-forward" pTooltip="Avanzar" [showDelay]="1000" class="p-button-rounded p-button-success botonRedondoChico mr-2" *ngIf="!evento.cerrado" ></button>
+                        <button pButton pRipple (click)="avanzar(evento)" icon="pi pi-forward" pTooltip="Avanzar" [showDelay]="1000" class="p-button-rounded p-button-success botonRedondoChico mr-2" *ngIf="muestraAvanzar(evento)" ></button>
                         <button pButton pRipple (click)="retroceder(evento)"  icon="pi pi-history" pTooltip="Retroceder" [showDelay]="1000" class="p-button-rounded p-button-warning botonRedondoChico mr-2" *ngIf="muestraRetroceder(evento)"></button>
                         <button pButton pRipple (click)="reasignar(evento)"  icon="pi pi-user-edit" pTooltip="Reasignar" [showDelay]="1000" class="p-button-rounded p-button-warn botonRedondoChico mr-2" *ngIf="!evento.cerrado"></button>
                         <button pButton pRipple (click)="estimar(evento)"  icon="pi pi-stopwatch" pTooltip="Estimar" [showDelay]="1000" class="p-button-rounded p-button-info botonRedondoChico mr-2" *ngIf="muestraEstimar(evento)"></button>

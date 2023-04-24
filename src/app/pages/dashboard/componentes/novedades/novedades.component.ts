@@ -15,7 +15,7 @@ export class NovedadesComponent implements OnInit {
 
     this.dashboardService.getNovedades(7).subscribe({
       next: (res:any) => {
-        console.log(res)
+        // console.log(res)
         this.novedades = res;
       },
       error: (err) => {

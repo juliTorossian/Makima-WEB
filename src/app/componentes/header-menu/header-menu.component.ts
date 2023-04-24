@@ -1,7 +1,8 @@
+import { ExpressionType } from '@angular/compiler';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MegaMenuItem, MenuItem } from 'primeng/api';
-import { Usuario } from 'src/app/interfaces/usuario';
+import { Rol, Usuario } from 'src/app/interfaces/usuario';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 
 
@@ -31,8 +32,6 @@ export class HeaderMenuComponent implements OnInit{
                 console.log(err);
             }
         });
-
-        
     }
 
     cerrarSesion(){
@@ -144,18 +143,13 @@ export class HeaderMenuComponent implements OnInit{
             },
         ];
 
-        if(this.usuario.rol.id==='ADMIN'){
+        if(this.usuarioTieneRol(this.usuario, "ADMIN")){
             this.items = this.items.concat(itemsAdmin);
         }
 
         this.itemsUsuario = [
             {
                 label: `${this.usuario.nombre} ${this.usuario.apellido}`,
-                disabled: true,
-                styleClass: "itemDscUsuario"
-            },
-            {
-                label: `${this.usuario.rol.descipcion}`,
                 disabled: true,
                 styleClass: "itemDscUsuario"
             },
@@ -186,5 +180,15 @@ export class HeaderMenuComponent implements OnInit{
                 command: () => this.cerrarSesion()
             }
         ]
+    }
+
+    usuarioTieneRol(usuario:Usuario, rol:any) : boolean {
+        let tiene = false;
+        usuario.rol.map( (r) => {
+            if (r.id === rol){
+                tiene = true;
+            }
+        })
+        return tiene;
     }
 }

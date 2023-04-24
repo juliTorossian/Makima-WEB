@@ -20,6 +20,27 @@
                 </div>
             </div>
         </div>
+        <div class="grid">
+            <div class="col-4">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="controla">Controla</label>
+                    <p-toggleButton formControlName="controla" onLabel="Si" offLabel="No" id="controla"></p-toggleButton>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="clave">Clave de control</label>
+                    <!-- <input pInputText id="clave" formControlName="clave" maxlength="10"/> -->
+                    <p-dropdown appendTo="body" id="clave" formControlName="clave" [options]="claves"></p-dropdown>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="comentario">Req. Comentario</label>
+                    <p-toggleButton formControlName="comentario" onLabel="Si" offLabel="No" id="comentario"></p-toggleButton>
+                </div>
+            </div>
+        </div>
 
         <div [hidden]="!(modo==='A')">
             <button pButton pRipple label="Crear" class="p-button-success" (click)="accion($event)"></button>

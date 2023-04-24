@@ -23,6 +23,9 @@ export class HoraService {
   getHorasUsuario(usuarioId: string){
     return this.http.get(`${this.URL_COMPLETA}/hora/usuario/${usuarioId}`);
   }
+  getHorasGenerales(){
+    return this.http.get(`${this.URL_COMPLETA}/hora/generales`);
+  }
   
   setHora(hora: any){
     return this.http.post(`${this.URL_COMPLETA}/hora`, hora);

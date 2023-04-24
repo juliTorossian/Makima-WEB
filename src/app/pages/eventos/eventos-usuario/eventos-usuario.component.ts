@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { tap } from 'rxjs';
+import { lastValueFrom, tap } from 'rxjs';
 import { ModalSeleccionUsuarioComponent } from 'src/app/componentes/modal-seleccion-usuario/modal-seleccion-usuario.component';
 import { Evento } from 'src/app/interfaces/evento';
 import { Usuario } from 'src/app/interfaces/usuario';
@@ -69,13 +69,39 @@ export class EventosUsuarioComponent {
       this.eventos = this.eventosSave.filter((r:any) => r.cerrado === 0);
     }
   }
+  muestraAvanzar(evento:Evento){
+    // console.log(evento);
+    let muestra = true;
+
+    if (evento.cerrado) { muestra = false }
+
+    if (evento.detalle?.eventoCircuito.act.tarea?.controla){
+      if (!evento.detalle.eventoCircuito.act.tarea.completada){
+        muestra = false;
+      }
+    }
+
+    return muestra;
+  }
   muestraRetroceder(evento:Evento){
     return ( (!evento.cerrado) &&
              (evento.detalle?.eventoCircuito.ant.tiene ));
   }
   muestraEstimar(evento:Evento){
-    return ((!evento.cerrado) &&
-            (evento.detalle?.eventoCircuito.act.tarea?.id === "56e8801a608c8975fe1e122c" ));
+  // en el caso de estimacion, la logica es cuando SI muestra
+    let muestra = false;
+
+    // if (evento.cerrado) { muestra = false }
+    
+    if (evento.detalle?.eventoCircuito.act.tarea?.controla){
+      if (evento.detalle?.eventoCircuito.act.tarea.clave === "ESTIMAR"){
+        muestra = true;
+      }
+    }
+    return muestra;
+
+    // return ((!evento.cerrado) &&
+    //         (evento.detalle?.eventoCircuito.act.tarea?.controla === "56e8801a608c8975fe1e122c" ));
   }
 
   avanzar(evento:Evento){
@@ -167,20 +193,25 @@ export class EventosUsuarioComponent {
   
   estimar(evento:Evento){
 
-    const estimacion = evento.detalle?.eventoHoras.estimacion;
+    console.log(evento)
+
+    const data = {
+      estimacion: evento.detalle?.eventoHoras.estimacion,
+      comentario: evento.detalle?.eventoCircuito.act.tarea?.comentario,
+    };
 
     this.ref = this.dialogService.open(ModalEstimacionComponent, {
       header: "Estimar evento",
       width: '70%',
       contentStyle: { overflow: 'auto' },
       baseZIndex: 10,
-      data: estimacion
+      data: data
     });
 
-    this.ref.onClose.subscribe((estimacion: number) => {
+    this.ref.onClose.subscribe((estimacion:any) => {
       if (estimacion){
         console.log(estimacion);
-        this.eventoAccion.estimarEvento(evento, estimacion).subscribe({
+        this.eventoAccion.estimarEvento(evento, estimacion.estimacion, estimacion.comentario).subscribe({
           next: (res) => {
             // console.log(res);
           },
@@ -192,5 +223,6 @@ export class EventosUsuarioComponent {
       }
     });
   }
+
 
 }

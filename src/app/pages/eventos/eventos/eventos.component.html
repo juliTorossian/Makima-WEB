@@ -18,7 +18,7 @@
             [value]="eventos"
             [rows]="10"
             [paginator]="true"
-            [globalFilterFields]="['tipo', 'numero', 'evento', 'etapa', 'titulo', 'cliente', 'producto', 'usuarioAlta', 'usuarioActual', 'detalle?.eventoCircuito.act.tarea?.nombre']"
+            [globalFilterFields]="['tipo', 'numero', 'detalle.eventoCircuito.act.tarea.nombre', 'titulo', 'cliente.nombre', 'producto.nombre', 'producto.modulo', 'usuarioActual.usuario']"
             [tableStyle]="{ 'min-width': '75rem' }"
             [(selection)]="eventoSeleccionado"
             [rowHover]="true"
@@ -47,11 +47,11 @@
                     <th pSortableColumn="numero" hidden>Numero <p-sortIcon field="numero"></p-sortIcon></th>
                     <th pSortableColumn="evento">Evento <p-sortIcon field="evento"></p-sortIcon></th>
                     <th pSortableColumn="titulo">Titulo <p-sortIcon field="titulo"></p-sortIcon></th>
-                    <th pSortableColumn="etapa">Etapa <p-sortIcon field="etapa"></p-sortIcon></th>
-                    <th pSortableColumn="cliente">Cliente <p-sortIcon field="cliente"></p-sortIcon></th>
-                    <th pSortableColumn="producto">Producto <p-sortIcon field="producto"></p-sortIcon></th>
-                    <th pSortableColumn="modulo">Modulo <p-sortIcon field="modulo"></p-sortIcon></th>
-                    <th pSortableColumn="usuarioActual">Usuario Actual <p-sortIcon field="usuarioActual"></p-sortIcon></th>
+                    <th pSortableColumn="etapa" filterField="etapa">Etapa <p-sortIcon field="etapa"></p-sortIcon></th>
+                    <th pSortableColumn="cliente" filterField="cliente">Cliente <p-sortIcon field="cliente"></p-sortIcon></th>
+                    <th pSortableColumn="producto" filterField="producto">Producto <p-sortIcon field="producto"></p-sortIcon></th>
+                    <th pSortableColumn="modulo" filterField="modulo">Modulo <p-sortIcon field="modulo"></p-sortIcon></th>
+                    <th pSortableColumn="usuarioActual" filterField="usuarioActual">Usuario Actual <p-sortIcon field="usuarioActual"></p-sortIcon></th>
                     <th pSortableColumn="alta">Alta <p-sortIcon field="alta"></p-sortIcon></th>
                     <th pSortableColumn="usuarioAlta" hidden>Usuario Alta <p-sortIcon field="usuarioAlta"></p-sortIcon></th>
                     <th></th>
@@ -74,7 +74,7 @@
                     <td>{{ evento.producto.nombre }}</td>
                     <td>{{ evento.producto.modulo }}</td>
                     <td>{{ evento.usuarioActual.usuario }}</td>
-                    <td>{{ evento.fechaAlta }}</td>
+                    <td>{{ evento.fechaAlta | date:'short'}}</td>
                     <td hidden>{{ evento.usuarioAlta.usuario }}</td>
                     <td>
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success botonRedondoChico mr-2" (click)="mostrarModalCrud(evento, 'M')" [disabled]="evento.cerrado"></button>
@@ -85,9 +85,45 @@
             <ng-template pTemplate="rowexpansion" let-eventoDetalle>
                 <tr>
                     <td colspan="11">
-                        <div class="grid px-5">
-                            <p>Horas estimadas: {{eventoDetalle.detalle?.eventoHoras?.estimacion}}</p>
-                            <p>Horas reales: {{eventoDetalle.detalle?.eventoHoras?.total}}</p>
+                        <div class="grid px-5 text-center align-items-center eventoDetalle">
+                            <div class="col-5">
+                                <div class="grid">
+                                    <div class="col">
+                                        <p>Horas estimadas:</p>
+                                        <p>{{eventoDetalle.detalle?.eventoHoras?.estimacion | totalComoNumero}}</p>
+                                    </div>
+                                    <div class="col">
+                                        <p>Horas reales:</p>
+                                        <p>{{eventoDetalle.detalle?.eventoHoras?.total | totalComoNumero}}</p>
+                                    </div>
+                                    <div class="col">
+                                        <p>Diferencia:</p>
+                                        <p [ngClass]="{'diferenciaPositiva': (eventoDetalle.detalle?.eventoHoras?.estimacion - eventoDetalle.detalle?.eventoHoras?.total) > 0, 'diferenciaNegativa': (eventoDetalle.detalle?.eventoHoras?.estimacion - eventoDetalle.detalle?.eventoHoras?.total) < 0}">
+                                            {{(eventoDetalle.detalle?.eventoHoras?.estimacion - eventoDetalle.detalle?.eventoHoras?.total) | totalComoNumero}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <div class="grid">
+                                    <div class="col-12">
+                                        <p>{{ eventoDetalle.producto.nombre }}</p>
+                                    </div>
+                                    <div class="col-4">
+                                        <p>Modulo: {{ eventoDetalle.producto.modulo }}</p>
+                                    </div>
+                                    <div class="col-4">
+                                        <p>SubModulo: {{ eventoDetalle.producto.submodulo }}</p>
+                                    </div>
+                                    <div class="col-4">
+                                        <p>Entorno: {{ eventoDetalle.producto.entorno }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <p>Usuario Alta</p>
+                                <p>{{ eventoDetalle.usuarioAlta.usuario }}</p>
+                            </div>
                         </div>
                     </td>
                 </tr>

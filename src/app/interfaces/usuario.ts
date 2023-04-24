@@ -5,7 +5,7 @@ export interface Usuario {
     apellido: string;
     mail:     string;
     usuario:  string;
-    rol:      Rol;
+    rol:      Rol[];
     color:    string;
     activo:   boolean;
 }
@@ -13,12 +13,12 @@ export interface Usuario {
 export interface UsuarioCorto {
     id:      string;
     usuario: string;
-    rol:     string;
+    rol:     Rol[];
     color:   string;
 }
 
 export interface Rol {
     id:         string;
     descipcion: string;
-    nivel:      number;
+    nivel:      number | null;
 }
