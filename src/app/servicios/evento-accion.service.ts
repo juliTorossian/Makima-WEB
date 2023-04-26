@@ -21,8 +21,8 @@ export class EventoAccionService {
     return this.http.post(`${this.URL_COMPLETA}/evento/${evento.id}/comentar`, comentario);
   }
 
-  avanzarEvento(evento:Evento, usuario:Usuario, comentario:string){
-    return this.http.get(`${this.URL_COMPLETA}/evento/${evento.id}/circular/a?usuario=${usuario.id}&comentario=${comentario}`);
+  avanzarEvento(evento:Evento, usuario:Usuario){
+    return this.http.get(`${this.URL_COMPLETA}/evento/${evento.id}/circular/a?usuario=${usuario.id}`);
   }
   retrocederEvento(evento:Evento, usuario:Usuario){
     return this.http.get(`${this.URL_COMPLETA}/evento/${evento.id}/circular/r?usuario=${usuario.id}`);
