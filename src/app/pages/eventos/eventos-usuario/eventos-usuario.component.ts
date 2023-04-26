@@ -107,20 +107,24 @@ export class EventosUsuarioComponent {
   avanzar(evento:Evento){
     // console.log(evento);
 
-    const rol = evento.detalle?.eventoCircuito.sig.tarea?.rol
+    const data = {
+      rol: evento.detalle?.eventoCircuito.sig.tarea?.rol,
+      reqComentario: evento.detalle?.eventoCircuito.act.tarea?.reqComentario,
+      comentario: evento.detalle?.eventoCircuito.act.tarea?.comentario
+    }
 
     this.ref = this.dialogService.open(ModalSeleccionUsuarioComponent, {
       header: "Seleccionar usuario",
       width: '70%',
       contentStyle: { overflow: 'auto' },
       baseZIndex: 10,
-      data: rol
+      data: data
     });
 
-    this.ref.onClose.subscribe((usuarioSeleccionado: Usuario) => {
-      if (usuarioSeleccionado){
+    this.ref.onClose.subscribe((res:any) => {
+      if (res){
         // console.log(usuarioSeleccionado);
-        this.eventoAccion.avanzarEvento(evento, usuarioSeleccionado).subscribe({
+        this.eventoAccion.avanzarEvento(evento, res.usuarioSeleccionado, res.comentario).subscribe({
           next: (res) => {
             // console.log(res);
           },
@@ -147,10 +151,10 @@ export class EventosUsuarioComponent {
       data: rol
     });
 
-    this.ref.onClose.subscribe((usuarioSeleccionado: Usuario) => {
-      if (usuarioSeleccionado){
-        console.log(usuarioSeleccionado);
-        this.eventoAccion.retrocederEvento(evento, usuarioSeleccionado).subscribe({
+    this.ref.onClose.subscribe((res:any) => {
+      if (res.usuarioSeleccionado){
+        console.log(res);
+        this.eventoAccion.retrocederEvento(evento, res.usuarioSeleccionado, res.comentario).subscribe({
           next: (res) => {
             // console.log(res);
           },

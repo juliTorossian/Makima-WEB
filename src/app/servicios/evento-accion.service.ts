@@ -22,10 +22,14 @@ export class EventoAccionService {
   }
 
   avanzarEvento(evento:Evento, usuario:Usuario, comentario:string){
-    return this.http.get(`${this.URL_COMPLETA}/evento/${evento.id}/circular/a?usuario=${usuario.id}&comentario=${comentario}`);
+    return this.http.get(`${this.URL_COMPLETA}/evento/${evento.id}/circular/a?usuario=${usuario.id}&comentario=${comentario}`).pipe(
+      tap( (res:any) => {console.log(usuario.id, comentario)})
+    );
   }
-  retrocederEvento(evento:Evento, usuario:Usuario){
-    return this.http.get(`${this.URL_COMPLETA}/evento/${evento.id}/circular/r?usuario=${usuario.id}`);
+  retrocederEvento(evento:Evento, usuario:Usuario, comentario:string){
+    return this.http.get(`${this.URL_COMPLETA}/evento/${evento.id}/circular/r?usuario=${usuario.id}`).pipe(
+      tap( (res:any) => {console.log(usuario.id, comentario)})
+    );
   }
   reasignarEvento(evento:Evento, usuario:Usuario){
     return this.http.get(`${this.URL_COMPLETA}/evento/${evento.id}/reasignar?usuario=${usuario.id}`);

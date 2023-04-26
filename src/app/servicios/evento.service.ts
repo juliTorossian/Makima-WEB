@@ -44,7 +44,7 @@ export class EventoService {
 
   getComentarios(eventoId : string){
     return this.http.get(`${this.URL_COMPLETA}/evento/${eventoId}/comentarios`).pipe(
-      tap( (res) => console.log(res))
+      // tap( (res) => console.log(res))
     );
   }
   setComentario(eventoId : string, comentario:any){

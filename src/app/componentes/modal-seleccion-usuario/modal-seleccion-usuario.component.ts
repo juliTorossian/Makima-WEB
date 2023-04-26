@@ -18,10 +18,14 @@ export class ModalSeleccionUsuarioComponent implements OnInit{
   usuarios! :Usuario[];
   usuario! :Usuario;
 
-  ngOnInit(): void { 
-    // console.log(this.config.data);
+  reqComentario: boolean = false;
+  comentario!: string;
 
-    this.usuarioService.getUsuariosRol(this.config.data).pipe(
+  ngOnInit(): void { 
+    console.log(this.config.data);
+    this.reqComentario = this.config.data.reqComentario;
+    this.comentario = this.config.data.comentario;
+    this.usuarioService.getUsuariosRol(this.config.data.rol).pipe(
       // tap( (res:any) => console.log(res))
     ).subscribe({
       next: ( (res:any) => {
@@ -32,7 +36,13 @@ export class ModalSeleccionUsuarioComponent implements OnInit{
 
   seleccionar($event:any){
     if (this.usuario){
-      this.ref.close(this.usuario);
+
+      let res = {
+        usuarioSeleccionado: this.usuario,
+        comentario: (this.reqComentario) ? this.comentario : ""
+      }
+
+      this.ref.close(res);
     }
   }
 
