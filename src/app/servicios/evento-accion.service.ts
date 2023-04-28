@@ -20,7 +20,6 @@ export class EventoAccionService {
   comentarEvento(evento:Evento, comentario:any){
     return this.http.post(`${this.URL_COMPLETA}/evento/${evento.id}/comentar`, comentario);
   }
-
   avanzarEvento(evento:Evento, usuario:Usuario, comentario:string){
     return this.http.get(`${this.URL_COMPLETA}/evento/${evento.id}/circular/a?usuario=${usuario.id}&comentario=${comentario}`).pipe(
       tap( (res:any) => {console.log(usuario.id, comentario)})
