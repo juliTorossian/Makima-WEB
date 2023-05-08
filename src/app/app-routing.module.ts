@@ -5,7 +5,7 @@ import { UsuarioLogeadoGuard } from './guards/usuario-logeado.guard';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { EventoCRUDComponent } from './pages/eventos/evento-crud/evento-crud.component';
 import { EventosUsuarioComponent } from './pages/eventos/eventos-usuario/eventos-usuario.component';
-import { EventosComponent } from './pages/eventos/eventos/eventos.component';
+// import { EventosComponent } from './pages/eventos/eventos/eventos.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ClientesComponent } from './pages/cliente/clientes/clientes.component';
 import { TareasComponent } from './pages/tarea/tareas/tareas.component';
@@ -24,10 +24,14 @@ const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
   { path: 'dashboard', component: DashboardComponent, canActivate: [UsuarioLogeadoGuard]},
   { path: 'evento', canActivate: [UsuarioLogeadoGuard], children:[
-    { path: 'eventos', component: EventosComponent },
+    // { path: 'eventos', component: EventosComponent },
+    { path: 'eventos', loadComponent:  () => import('./pages/eventos/eventos/eventos.component').then(m => m.EventosComponent)},
     { path: 'usuario', component: EventosUsuarioComponent },
     { path: 'nuevo', component: EventoCRUDComponent },
     { path: ':evento', component: EventoComponent}
+  ]},
+  { path: 'test', canActivate: [UsuarioLogeadoGuard], children:[
+    { path: 'testeoStanalone', loadComponent:  () => import('./componentes/testeo/test-standalone/test-standalone.component').then(m => m.TestStandaloneComponent) },
   ]},
   { path: 'hora', canActivate: [UsuarioLogeadoGuard], children:[
     { path: 'horas', component: HorasComponent },

@@ -1,13 +1,33 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { CheckboxModule } from 'primeng/checkbox';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { TableModule } from 'primeng/table';
+import { ToastModule } from 'primeng/toast';
+import { ToolbarModule } from 'primeng/toolbar';
 import { map } from 'rxjs';
 import { Evento } from 'src/app/interfaces/evento';
+import { TotalComoNumeroPipe } from 'src/app/pipes/total-como-numero.pipe';
 import { EventoService } from 'src/app/servicios/evento.service';
 import { EventoCRUDComponent } from '../evento-crud/evento-crud.component';
 
 @Component({
   selector: 'app-eventos',
+  standalone: true,
+  imports: [
+    RouterModule,
+    CommonModule,
+    ToastModule,
+    ToolbarModule,
+    TableModule,
+    CheckboxModule,
+    ButtonModule,
+    FormsModule,
+  ],
   templateUrl: './eventos.component.html',
   styleUrls: ['./eventos.component.css'],
   providers: [DialogService, MessageService, ConfirmationService]

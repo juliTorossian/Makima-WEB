@@ -101,7 +101,7 @@ import { UsuarioComponent } from './pages/usuario/usuario/usuario.component';
     AppComponent,
     HeaderMenuComponent,
     BotonBackComponent,
-    EventosComponent,
+    // EventosComponent,
     DashboardComponent,
     LoginComponent,
     EventosUsuarioComponent,
