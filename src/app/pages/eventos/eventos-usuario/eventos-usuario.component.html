@@ -23,15 +23,11 @@
                         <i class="pi pi-search"></i>
                         <input pInputText style="padding-top: 0.4rem !important;padding-bottom: 0.4rem !important;" type="text" (input)="dt.filterGlobal(getEventValue($event), 'contains')" placeholder="Search..." />
                     </span>
-                    <div class="flex align-items-center gap-1" style="margin:auto 10px">
-                        <p-checkbox id="filtroVerCerrados" [(ngModel)]="filtroVerCerrados" (click)="filtraEventosCerrado()" [binary]="true" inputId="binary"></p-checkbox>
-                        <label for="filtroVerCerrados"> Ver Eventos Cerrados</label>
-                    </div>
                 </div>
             </ng-template>
             <ng-template pTemplate="header">
                 <tr>
-                    <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                    <th></th>
                     <th pSortableColumn="tipo" hidden>Tipo <p-sortIcon field="tipo"></p-sortIcon></th>
                     <th pSortableColumn="numero" hidden>Numero <p-sortIcon field="numero"></p-sortIcon></th>
                     <th pSortableColumn="evento">Evento <p-sortIcon field="evento"></p-sortIcon></th>
@@ -45,8 +41,8 @@
             </ng-template>
             <ng-template pTemplate="body" let-evento>
                 <tr [ngClass]="{'eventoCerrado': evento.cerrado}">
-                    <td>
-                        <p-tableCheckbox [value]="evento" [disabled]="evento.cerrado"></p-tableCheckbox>
+                    <td [width]="'50px'">
+                        <!-- <p-tableCheckbox [value]="evento" [disabled]="evento.cerrado"></p-tableCheckbox> -->
                     </td>
                     <td hidden>{{ evento.tipo }}</td>
                     <td hidden>{{ evento.numero }}</td>

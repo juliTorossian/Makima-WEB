@@ -18,7 +18,9 @@ export class EventoAccionService {
   URL_COMPLETA = `${this.API_BASEURL}:${this.API_PORT}/${this.API_VERSION}`;
 
   comentarEvento(evento:Evento, comentario:any){
-    return this.http.post(`${this.URL_COMPLETA}/evento/${evento.id}/comentar`, comentario);
+    return this.http.post(`${this.URL_COMPLETA}/evento/${evento.id}/comentar`, comentario).pipe(
+      tap( (res:any) => { console.log(comentario) })
+    );
   }
   avanzarEvento(evento:Evento, usuario:Usuario, comentario:string){
     return this.http.get(`${this.URL_COMPLETA}/evento/${evento.id}/circular/a?usuario=${usuario.id}&comentario=${comentario}`).pipe(

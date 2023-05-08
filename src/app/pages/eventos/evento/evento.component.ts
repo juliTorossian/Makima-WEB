@@ -35,25 +35,30 @@ export class EventoComponent implements OnInit{
   refVidaEvento!: DynamicDialogRef;
   
   currentUrl = this.location.path();
+
+  eventoId!: string;
   evento!: Evento;
+
   usuario!: Usuario;
   porcentajeAvance! : any;
 
   comentarios!: Comentario[];
 
+
   public Editor:any = ClassicEditor;
 
   comentario: string = "";
+  archivoSeleccionado!: File;
 
   ngOnInit(): void {    
-    const eventoId = this.rutActiva.snapshot.params['evento'];
+    this.eventoId = this.rutActiva.snapshot.params['evento'];
     this.usuarioService.getUsuarioToken(this.usuarioService.getToken()).subscribe({
       next: (res:any) => {
         this.usuario = res;
       }
     })
 
-    this.eventoService.getEvento(eventoId).subscribe({
+    this.eventoService.getEvento(this.eventoId).subscribe({
       next: (res:any) => {
         // console.log(res);
         this.evento = res;
@@ -62,7 +67,12 @@ export class EventoComponent implements OnInit{
       }
     });
 
-    this.eventoService.getComentarios(eventoId).subscribe({
+    this.cargarComentarios();
+
+  }
+
+  cargarComentarios(){
+    this.eventoService.getComentarios(this.eventoId).subscribe({
       next: (res:any) =>{
         this.comentarios = res;
       },
@@ -70,7 +80,6 @@ export class EventoComponent implements OnInit{
         console.log(err);
       }
     });
-
   }
 
   onUpload($event:any){
@@ -83,25 +92,42 @@ export class EventoComponent implements OnInit{
     // console.log(this.comentarioForm.get("adjunto")?.value);
     console.log(this.adjunto.nativeElement.files);
     console.log(this.adjunto.nativeElement.files[0]);
-    let comentarioAux = {
+
+    const formData = new FormData();
+
+    let comentario = {
       "eventoId": evento.id,
       "comentario": this.comentario,
       "usuario": this.usuario.id
     } 
-    const comentario = {
-      "comentario": comentarioAux,
-      "file": this.adjunto.nativeElement.files[0]
-    }
+    // const comentario = {
+    //   "comentario": comentarioAux,
+    //   "file": this.archivoSeleccionado
+    // }
 
-    console.log(comentario);
-    this.eventoService.setComentario(evento.id, comentario).subscribe({
+    formData.append('comentario', JSON.stringify(comentario));
+    formData.append('file', this.archivoSeleccionado);
+
+
+    // console.log(comentario);
+    this.eventoService.setComentario(evento.id, formData).subscribe({
       next: (res) => {
         console.log(res)
       },
       error: (err) => {
         console.log(err)
-      }
+      },
+      complete: () => this.cargarComentarios()
     })
+  }
+
+  seleccionarArchivo(evento: Event) {
+    const input = evento.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.archivoSeleccionado = input.files[0];
+    }
+    console.log(this.archivoSeleccionado);
+    // this.archivoSeleccionado = input.files[0];
   }
 
   verVidaEvento(evento:Evento){

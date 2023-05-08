@@ -1,19 +1,27 @@
 <div class="comentario">
     <div class="comentario_Head">
         <span>{{comentario.usuario.usuario}}</span>
-        <span class="momento">{{comentario.fecha | date}}</span> 
+        <span class="momento">{{comentario.fecha | date:'medium'}}</span> 
     </div>
     <div class="comentario_Body ck-content" [innerHTML]="commentHtml">
     </div>
-    <div class="comentario_footer" *ngIf="comentario.adjunto.tiene">
-        <a [href]="attachmentData" target="_blank" rel="noopener noreferrer" download="attachment.bin">{{comentario.adjunto.nombre}}</a>
+    <div #file class="comentario_footer" *ngIf="comentario.adjunto.tiene">
+        <a href="" target="_blank">{{comentario.adjunto.nombre}}</a>
+        <!-- <a [href]="getAdjuntoUrl(comentario.adjunto)" target="_blank">{{comentario.adjunto.nombre}}</a> -->
+        <!-- <a [href]="getAdjuntoUrl(comentario.adjunto)" target="_blank">{{comentario.adjunto.nombre}}</a> -->
+        <!-- <a (click)="openModal()">{{comentario.adjunto.nombre}}</a> -->
     </div>
 </div>
 
-<!-- <p-card header="{{comentario.usuario.usuario}}">
-    <div  [innerHTML]="commentHtml">
+<!-- <div #outsideElement>
+    <div class="modal-view-container">
+      <div #modalView class="modal view">
+        <div class="modal-view-details">
+          <p style="text-align: center;margin-top: 0; margin-bottom: 0">
+            <object #file data="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" type="application/pdf" width="100%" height="592px"></object>
+          </p>
+          <button (click)="closeModal()">Close</button>
+        </div>
+      </div>
     </div>
-    <ng-template *ngIf="comentario.adjunto.tiene" pTemplate="footer">
-        <a  [href]="attachmentData" target="_blank" rel="noopener noreferrer" download="attachment.bin">{{comentario.adjunto.nombre}}</a>
-    </ng-template>
-</p-card> -->
+</div> -->

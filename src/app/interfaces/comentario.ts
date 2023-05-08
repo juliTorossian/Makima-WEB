@@ -10,6 +10,7 @@ export interface Comentario {
 
 export interface Adjunto {
     tiene: boolean,
+    tipo: string,
     base: string,
     nombre: string
 }
