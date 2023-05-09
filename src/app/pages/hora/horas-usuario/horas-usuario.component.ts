@@ -179,12 +179,6 @@ export class HorasUsuarioComponent {
     });
   }
 
-  mostrar(any:any){
-    // console.log(any);
-    let aux = new Date(any);
-    // console.log(aux);
-    // console.log(aux.getMonth());
-  }
   aplicarFiltroFecha(fechaSel:any){
     const aux = new Date(fechaSel);
     this.horas = this.horasSave.filter( (h) => {

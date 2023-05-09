@@ -1,11 +1,31 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { CalendarModule } from 'primeng/calendar';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogService } from 'primeng/dynamicdialog';
+import { TableModule } from 'primeng/table';
+import { ToastModule } from 'primeng/toast';
+import { ToolbarModule } from 'primeng/toolbar';
 import { tap } from 'rxjs';
 import { HoraService } from 'src/app/servicios/hora.service';
 
 @Component({
   selector: 'app-horas',
+  standalone: true,
+  imports: [
+    RouterModule,
+    CommonModule,
+    FormsModule,
+    TableModule,
+    ToolbarModule,
+    ConfirmDialogModule,
+    ToastModule,
+    CalendarModule,
+
+  ],
   templateUrl: './horas.component.html',
   styleUrls: ['./horas.component.css'],
   providers: [DialogService, MessageService, ConfirmationService]
@@ -15,51 +35,62 @@ export class HorasComponent implements OnInit{
   private horaService = inject(HoraService);
 
   horas:any[] = [];
-  horasSave!:any[];
+  seguridad!:any[];
   
   dateFilter = new Date();
 
   ngOnInit(){
 
     this.horaService.getHorasGenerales().pipe(
-      tap( (res:any) => { console.log(res) })
+      // tap( (res:any) => { console.log(typeof(res)) })
     ).subscribe({
       next:(res:any) => {
-        this.horasSave = res;
-        this.horas = this.horasSave;
+
+        let save:any[] = [];
+        let aux = Object.assign({}, res);
+
+
+        for (let i = 0; i < aux.length; i++) {
+          const element = aux[i];
+          console.log(element)
+        }
+
+        this.seguridad = save;
+        this.horas = save;
         // this.aplicarFiltroFecha(this.dateFilter);
       }
     })
 
   }
   aplicarFiltroFecha(fechaSel:any){
-    const save = this.horasSave;
-    console.log(save);
-    console.log(this.horasSave);
-    this.horas = this.horasSave;
-    const aux = new Date(fechaSel);
+    console.log(this.seguridad);
+    const save = this.seguridad;
+    const fecha = new Date(fechaSel);
 
-    this.horas.map( (reg) => {
-      console.log(reg);
-      let regAux = reg;
-      regAux.registros = reg.registros.filter( (r:any) => { 
-        const d = new Date(r.fecha);
-        return (d.getMonth() === aux.getMonth()) && (d.getFullYear() === aux.getFullYear())
-      });
-      this.horas.push(regAux);
-    })
-    console.log(this.horas);  
-    this.horasSave = save;
+    let variableAuxiliar_1 = []
+    for (let i = 0; i < save.length; i++) {
+      const element = save[i];
+      
+      console.log(element)
+      let registrosAux = []
+      for (let j = 0; j < element.registros.length; j++) {
+        const reg = element.registros[j];
+        
+        const fechaReg = new Date(reg.fecha);
+        if ((fechaReg.getMonth() === fecha.getMonth()) && (fechaReg.getFullYear() === fecha.getFullYear())){
+          // console.log(reg);
+          registrosAux.push(reg);
+        }
+      }
 
-    // this.horas = this.horasSave.filter( (r) => {
-    //   console.log(r);
-    //   let si = false;
-    //   r.registros.map( (h:any) => {
-    //     console.log(h)
-    //     const a = new Date(h.fecha)
-    //     si = (a.getMonth() === aux.getMonth()) && (a.getFullYear() === aux.getFullYear())
-    //   })
-    // })
+      if (registrosAux.length > 0){
+        element.registros = registrosAux;
+        variableAuxiliar_1.push(element)
+      }
+
+    }
+    console.log(variableAuxiliar_1);
+
   }
 
   getEventValue($event:any) :string {

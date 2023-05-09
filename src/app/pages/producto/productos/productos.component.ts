@@ -1,12 +1,35 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { ToastModule } from 'primeng/toast';
+import { ToolbarModule } from 'primeng/toolbar';
 import { Producto } from 'src/app/interfaces/producto';
 import { ProductoService } from 'src/app/servicios/producto.service';
 import { ProductoCrudComponent } from '../producto-crud/producto-crud.component';
 
 @Component({
   selector: 'app-productos',
+  standalone: true,
+  imports: [
+    RouterModule,
+    CommonModule,
+    ToastModule,
+    ToolbarModule,
+    TableModule,
+    CheckboxModule,
+    ButtonModule,
+    FormsModule,
+    ConfirmDialogModule,
+    TagModule,
+  ],
   templateUrl: './productos.component.html',
   styleUrls: ['./productos.component.css'],
   providers: [DialogService, MessageService, ConfirmationService]

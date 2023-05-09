@@ -15,7 +15,11 @@ import { VidaEventoComponent } from '../componentes/vida-evento/vida-evento.comp
   selector: 'app-evento',
   templateUrl: './evento.component.html',
   styleUrls: ['./evento.component.css'],
-  providers: [DialogService, MessageService, ConfirmationService]
+  providers: [
+    DialogService,
+    MessageService,
+    ConfirmationService
+  ]
 })
 export class EventoComponent implements OnInit{
   @ViewChild("adjunto", {
@@ -23,8 +27,6 @@ export class EventoComponent implements OnInit{
   }) adjunto!: ElementRef;
 
   private dialogService = inject(DialogService);
-  private messageService = inject(MessageService);
-  private confirmationService = inject(ConfirmationService);
 
   private rutActiva = inject(ActivatedRoute);
   private location = inject(Location);

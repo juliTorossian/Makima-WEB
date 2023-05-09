@@ -48,7 +48,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { TabViewModule } from 'primeng/tabview';
 
 import { AppComponent } from './app.component';
-import { EventosComponent } from './pages/eventos/eventos/eventos.component';
+// import { EventosComponent } from './pages/eventos/eventos/eventos.component';
 import { HeaderMenuComponent } from './componentes/header-menu/header-menu.component';
 import { BotonBackComponent } from './componentes/boton-back/boton-back.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
@@ -58,7 +58,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { EventosUsuarioComponent } from './pages/eventos/eventos-usuario/eventos-usuario.component';
 import { EventoCRUDComponent } from './pages/eventos/evento-crud/evento-crud.component';
-import { ClientesComponent } from './pages/cliente/clientes/clientes.component';
+// import { ClientesComponent } from './pages/cliente/clientes/clientes.component';
 import { ClienteCrudComponent } from './pages/cliente/cliente-crud/cliente-crud.component';
 import { TareasComponent } from './pages/tarea/tareas/tareas.component';
 import { TareaCrudComponent } from './pages/tarea/tarea-crud/tarea-crud.component';
@@ -72,9 +72,9 @@ import { ModulosComponent } from './pages/modulo/modulos/modulos.component';
 import { ModuloCrudComponent } from './pages/modulo/modulo-crud/modulo-crud.component';
 import { RolCrudComponent } from './pages/rol/rol-crud/rol-crud.component';
 import { RolesComponent } from './pages/rol/roles/roles.component';
-import { UsuariosComponent } from './pages/usuario/usuarios/usuarios.component';
+// import { UsuariosComponent } from './pages/usuario/usuarios/usuarios.component';
 import { UsuarioCrudComponent } from './pages/usuario/usuario-crud/usuario-crud.component';
-import { ProductosComponent } from './pages/producto/productos/productos.component';
+// import { ProductosComponent } from './pages/producto/productos/productos.component';
 import { ProductoCrudComponent } from './pages/producto/producto-crud/producto-crud.component';
 import { ProductoSeleccionComponent } from './pages/producto/producto-seleccion/producto-seleccion.component';
 import { EventoComponent } from './pages/eventos/evento/evento.component';
@@ -83,10 +83,10 @@ import { ModalEstimacionComponent } from './pages/eventos/componentes/modal-esti
 import { ComentarioComponent } from './componentes/comentario/comentario.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { GraficoTiposComponent } from './pages/dashboard/componentes/grafico-tipos/grafico-tipos.component';
-import { HorasComponent } from './pages/hora/horas/horas.component';
+// import { HorasComponent } from './pages/hora/horas/horas.component';
 import { HorasUsuarioComponent } from './pages/hora/horas-usuario/horas-usuario.component';
 import { HoraCrudComponent } from './pages/hora/hora-crud/hora-crud.component';
 import { TotalComoNumeroPipe } from './pipes/total-como-numero.pipe';
@@ -106,7 +106,7 @@ import { UsuarioComponent } from './pages/usuario/usuario/usuario.component';
     LoginComponent,
     EventosUsuarioComponent,
     EventoCRUDComponent,
-    ClientesComponent,
+    // ClientesComponent,
     ClienteCrudComponent,
     TareasComponent,
     TareaCrudComponent,
@@ -120,9 +120,9 @@ import { UsuarioComponent } from './pages/usuario/usuario/usuario.component';
     ModuloCrudComponent,
     RolCrudComponent,
     RolesComponent,
-    UsuariosComponent,
+    // UsuariosComponent,
     UsuarioCrudComponent,
-    ProductosComponent,
+    // ProductosComponent,
     ProductoCrudComponent,
     ProductoSeleccionComponent,
     EventoComponent,
@@ -131,7 +131,7 @@ import { UsuarioComponent } from './pages/usuario/usuario/usuario.component';
     BotonBackComponent,
     ComentarioComponent,
     GraficoTiposComponent,
-    HorasComponent,
+    // HorasComponent,
     HorasUsuarioComponent,
     HoraCrudComponent,
     TotalComoNumeroPipe,

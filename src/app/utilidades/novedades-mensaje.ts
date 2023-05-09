@@ -7,27 +7,13 @@ export enum NovedadesMensaje {
     REASIGNO    = '<p>El evento &evento se reasigno a &usuario</p>',
     ESTIMAR     = '<p>El usuario &usuario estimo el evento &evento</p>'
 }
-
-
-/*
-
-<p-chip label="&evento" routerLink="/evento/&eventoId" style="background-color: &eventoColor; color: black;"></p-chip>
-
-    COMENTARIO = "{{novedad.usuario.usuario}} agrego un comentario a {{novedad.evento.evento}}"
-
-    COMENTARIO = "&usuario agrego un comentario a &evento"
-
-    COMENTARIO = "%1 agrego un comentario a %2"
-
-
-    <div *ngIf="novedad.accion === 'AVANZO'" class="descripcion">
-        <p>El evento {{novedad.evento.evento}} se avanzo a la etapa <b>{{novedad.tarea}}</b> y se asigno a {{novedad.usuario.usuario}}</p>
-    </div>
-    <div *ngIf="novedad.accion === 'RETROCESO'" class="descripcion">
-        <p>El evento {{novedad.evento.evento}} se revirtio a la etapa <b>{{novedad.tarea}}</b> y se asigno a {{novedad.usuario.usuario}}</p>
-    </div>
-    <div *ngIf="novedad.accion === 'REASIGNO'" class="descripcion">
-        <p>El evento {{novedad.evento.evento}} se reasigno a {{novedad.usuario.usuario}}</p>
-    </div>
-
-*/
+export enum NovedadesColor {
+    COMENTARIO  = '#fd7e14',
+    CREO        = '#17a2b8',
+    CERRO       = '#dc3545',
+    AVANZO      = '#20c997',
+    RETROCESO   = '#ffc107',
+    REASIGNO    = '#6c757d',
+    ESTIMAR     = '#6610f2',
+    OTRO        = '#6610f2'
+}

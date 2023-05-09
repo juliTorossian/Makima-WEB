@@ -33,7 +33,7 @@
                 <div class="flex align-items-center justify-content-between" style="display: flex;">
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
-                        <input pInputText style="padding-top: 0.4rem !important;padding-bottom: 0.4rem !important;" type="text" (input)="dt.filterGlobal(getEventValue($event), 'contains')" placeholder="Buscar..." />
+                        <input pInputText style="padding-top: 0.4rem !important;padding-bottom: 0.4rem !important;" class="p-component p-element p-inputtext"  type="text" (input)="dt.filterGlobal(getEventValue($event), 'contains')" placeholder="Buscar..." />
                     </span>
                 </div>
             </ng-template>
@@ -61,7 +61,7 @@
                     <td>{{ producto.modulo.id }}</td>
                     <td>{{ producto.submodulo.id }}</td>
                     <td>{{ producto.entorno.id }}</td>
-                    <td><p-tag [value]="producto.activo | activo" [severity]="getSeverity(producto.activo)"></p-tag></td>
+                    <td><p-tag [value]="producto.activo" [severity]="getSeverity(producto.activo)"></p-tag></td>
                     <td>
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning botonRedondoChico mr-2" (click)="mostrarModalCrud(producto, 'M')"></button>
                         <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger botonRedondoChico mr-2" (click)="deleteSolo(producto)"></button>

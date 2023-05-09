@@ -208,6 +208,12 @@ p {
   box-shadow: 0 10px 20px rgba(0,0,0,0.6);
 }
 
+.modal-view-details.footer {
+  display: flex;
+  justify-content: space-between;
+
+}
+
 .modal-view-details h1 {
   margin: 0.2em 0 0.4em 0;
   padding: 0;
@@ -216,11 +222,22 @@ p {
   color: #111;
 }
 .modal-view-details button {
-  position: absolute;
+  /* position: absolute;
   bottom: 10px;
-  right: 10px;
+  right: 10px; */
   background: none;
   color: #3C78D8;;
+  border-radius: 2px;
+  border: none;
+  font-size: 16px;
+  padding: 6px 10px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.modal-view-details a {
+  text-decoration: none;
+  background: none;
+  color: #3C78D8;
   border-radius: 2px;
   border: none;
   font-size: 16px;

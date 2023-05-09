@@ -1,7 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { tap } from 'rxjs';
 import { Evento } from 'src/app/interfaces/evento';
 import { EventoService } from 'src/app/servicios/evento.service';
+import { NovedadesColor, NovedadesMensaje } from 'src/app/utilidades/novedades-mensaje';
 
 @Component({
   selector: 'app-vida-evento',
@@ -18,26 +20,50 @@ export class VidaEventoComponent implements OnInit{
   evento!: Evento;
 
   ngOnInit(){
-    console.log(this.config.data);
+    // console.log(this.config.data);
     this.evento = this.config.data;
 
-    this.eventoService.getVidaEvento(this.evento.id).subscribe({
+    this.eventoService.getVidaEvento(this.evento.id).pipe(
+      tap((res:any) => {console.log(res)})
+    )
+    .subscribe({
       next: (res:any) => {
         this.vidaEvento = res;
       }
     });
   }
   obtenerColor(accion:string) :string{
-    let color = "";
-    if (accion === 'CREO'){
-      color = "#1e8c93";
-    }
-    if (accion === 'AVANZO'){
-      color = "#dbd8a2";
-    }
-    if (accion === 'COMENTO'){
-      color = "#4b3e4d";
-    }
-    return color;
+    // console.log(novedad);
+    const keys = Object.keys(NovedadesColor);
+    const values = Object.values(NovedadesColor);
+    let texto = "";
+    keys.forEach((key, index) => {
+      if (key === accion){
+        texto = values[index];
+      }
+    });
+    return texto;
+  }
+
+  getTexto(accion:string, vida:any){
+    // console.log(novedad);
+    const keys = Object.keys(NovedadesMensaje);
+    const values = Object.values(NovedadesMensaje);
+    let texto = "";
+    keys.forEach((key, index) => {
+      if (key === accion){
+        texto = values[index];
+      }
+    });
+
+    let evento = `<div [routerLink]="['/evento/${vida.evento.id}']"><p-badge value="${vida.evento.evento}" class="my-badge" severity="success"></p-badge></div>`;
+
+    texto = texto.replaceAll('&usuario', vida.usuario.usuario);
+    texto = texto.replaceAll('&evento', evento);
+    texto = texto.replaceAll('&tarea', vida.tarea);
+
+    // console.log(texto); 
+
+    return texto;
   }
 }

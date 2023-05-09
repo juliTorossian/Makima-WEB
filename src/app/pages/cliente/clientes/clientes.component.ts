@@ -5,9 +5,32 @@ import { Cliente } from 'src/app/interfaces/cliente';
 import { ClienteService } from 'src/app/servicios/cliente.service';
 import { ClienteCrudComponent } from '../cliente-crud/cliente-crud.component';
 import { tap } from 'rxjs';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { ToastModule } from 'primeng/toast';
+import { ToolbarModule } from 'primeng/toolbar';
+import { TableModule } from 'primeng/table';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ButtonModule } from 'primeng/button';
+import { FormsModule } from '@angular/forms';
+import { TagModule } from 'primeng/tag';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-clientes',
+  standalone: true,
+  imports: [
+    RouterModule,
+    CommonModule,
+    ToastModule,
+    ToolbarModule,
+    TableModule,
+    CheckboxModule,
+    ButtonModule,
+    FormsModule,
+    TagModule,
+    ConfirmDialogModule
+  ],
   templateUrl: './clientes.component.html',
   styleUrls: ['./clientes.component.css'],
   providers: [DialogService, MessageService, ConfirmationService]

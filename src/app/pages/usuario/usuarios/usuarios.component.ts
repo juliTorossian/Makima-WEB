@@ -1,12 +1,37 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ChipModule } from 'primeng/chip';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { ToastModule } from 'primeng/toast';
+import { ToolbarModule } from 'primeng/toolbar';
 import { Usuario } from 'src/app/interfaces/usuario';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { UsuarioCrudComponent } from '../usuario-crud/usuario-crud.component';
 
 @Component({
   selector: 'app-usuarios',
+  standalone: true,
+  imports: [
+    RouterModule,
+    CommonModule,
+    ToastModule,
+    ToolbarModule,
+    TableModule,
+    CheckboxModule,
+    ButtonModule,
+    FormsModule,
+    TagModule,
+    ConfirmDialogModule,
+    ChipModule,
+  ],
   templateUrl: './usuarios.component.html',
   styleUrls: ['./usuarios.component.css'],
   providers: [DialogService, MessageService, ConfirmationService]

@@ -6,22 +6,25 @@
     <div class="comentario_Body ck-content" [innerHTML]="commentHtml">
     </div>
     <div #file class="comentario_footer" *ngIf="comentario.adjunto.tiene">
-        <a href="" target="_blank">{{comentario.adjunto.nombre}}</a>
+        <!-- <a href="" target="_blank">{{comentario.adjunto.nombre}}</a> -->
         <!-- <a [href]="getAdjuntoUrl(comentario.adjunto)" target="_blank">{{comentario.adjunto.nombre}}</a> -->
         <!-- <a [href]="getAdjuntoUrl(comentario.adjunto)" target="_blank">{{comentario.adjunto.nombre}}</a> -->
-        <!-- <a (click)="openModal()">{{comentario.adjunto.nombre}}</a> -->
+        <a (click)="openModal()">{{comentario.adjunto.nombre}}</a>
     </div>
 </div>
 
-<!-- <div #outsideElement>
+<div #outsideElement>
     <div class="modal-view-container">
       <div #modalView class="modal view">
         <div class="modal-view-details">
           <p style="text-align: center;margin-top: 0; margin-bottom: 0">
-            <object #file data="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" type="application/pdf" width="100%" height="592px"></object>
+            <object #file data="" type="" width="100%" height="450px"></object> <!-- width="100%" height="592px"-->
           </p>
-          <button (click)="closeModal()">Close</button>
+          <div class="footer">
+            <a [href]="getAdjuntoUrl(comentario.adjunto)" rel="noopener noreferrer" [download]="comentario.adjunto.nombre">Descargar</a>
+            <button (click)="closeModal()">Close</button>
+          </div>
         </div>
       </div>
     </div>
-</div> -->
+</div>
