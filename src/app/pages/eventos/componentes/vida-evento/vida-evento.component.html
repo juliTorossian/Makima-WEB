@@ -1,12 +1,13 @@
 <div class="timeline">
     <div *ngFor="let vida of vidaEvento; let last = last" class="status">
-      <div class="date">{{ vida.fecha | date }}</div>
-      <div class="separator" [style.background-color]="obtenerColor(vida.accion)"></div>
-      <div class="info">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">{{ vida.accion }}</h5>
-            <div *ngIf="vida.accion === 'COMENTARIO'">
+        <div class="date">{{ vida.fecha | date }}</div>
+        <div class="separator" [style.background-color]="obtenerColor(vida.accion)"></div>
+        <div class="info">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ vida.accion }}</h5>
+                    <div class="card-text" [innerHTML]="getTexto(vida.accion, vida)"></div>
+                    <!-- <div *ngIf="vida.accion === 'COMENTARIO'">
                 <p class="card-text">{{vida.usuario.usuario}} agrego un comentario</p>
             </div>
             <div *ngIf="vida.accion === 'AVANZO'">
@@ -23,12 +24,12 @@
             </div>
             <div *ngIf="vida.accion === 'CERRO'">
                 <p class="card-text">{{vida.usuario.usuario}} cerro el evento</p>
+            </div> -->
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
 
 
 <!-- <div class="">

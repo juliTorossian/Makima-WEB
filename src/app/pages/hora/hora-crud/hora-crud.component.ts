@@ -121,7 +121,7 @@ export class HoraCrudComponent {
 
     this.refEvento = this.dialogService.open(SeleccionarEventoComponent, {
       header: 'Editar hora',
-      width: '70%',
+      width: '85%',
       contentStyle: { overflow: 'auto' },
       baseZIndex: 10000,
       maximizable: true,

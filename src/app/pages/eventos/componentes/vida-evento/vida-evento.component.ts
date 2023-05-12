@@ -1,9 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { tap } from 'rxjs';
 import { Evento } from 'src/app/interfaces/evento';
 import { EventoService } from 'src/app/servicios/evento.service';
-import { NovedadesColor, NovedadesMensaje } from 'src/app/utilidades/novedades-mensaje';
+import { NovedadesColor, NovedadesMensaje, VidaMensaje } from 'src/app/utilidades/novedades-mensaje';
 
 @Component({
   selector: 'app-vida-evento',
@@ -15,6 +16,7 @@ export class VidaEventoComponent implements OnInit{
   private config = inject(DynamicDialogConfig);
 
   private eventoService = inject(EventoService);
+  private sanitizer = inject(DomSanitizer);
 
   vidaEvento! :any[];
   evento!: Evento;
@@ -47,8 +49,8 @@ export class VidaEventoComponent implements OnInit{
 
   getTexto(accion:string, vida:any){
     // console.log(novedad);
-    const keys = Object.keys(NovedadesMensaje);
-    const values = Object.values(NovedadesMensaje);
+    const keys = Object.keys(VidaMensaje);
+    const values = Object.values(VidaMensaje);
     let texto = "";
     keys.forEach((key, index) => {
       if (key === accion){
@@ -56,14 +58,26 @@ export class VidaEventoComponent implements OnInit{
       }
     });
 
-    let evento = `<div [routerLink]="['/evento/${vida.evento.id}']"><p-badge value="${vida.evento.evento}" class="my-badge" severity="success"></p-badge></div>`;
-
+    // <app-badge color="#002d00" text="Ejemplo" url="/ruta-de-destino"></app-badge>
+    let usuario = `<app-badge color="#002d00" text="${vida.usuario.usuario}" url="/usuario/${vida.usuario.id}"></app-badge>`
+    
     texto = texto.replaceAll('&usuario', vida.usuario.usuario);
-    texto = texto.replaceAll('&evento', evento);
     texto = texto.replaceAll('&tarea', vida.tarea);
-
+    
     // console.log(texto); 
+    // this.trustedUrl = sanitizer.bypassSecurityTrustUrl(this.dangerousUrl);
+    let safeTexto = this.sanitizer.bypassSecurityTrustHtml(texto);
+    // console.log(safeTexto);
 
-    return texto;
+    return safeTexto;
+  }
+
+  getBadgeHTML(): string {
+    const text = 'hola';
+    const color = '#000';
+  
+    return `<p><app-badge text="${text}" color="${color}"></app-badge> como va</p>`;
   }
 }
+
+

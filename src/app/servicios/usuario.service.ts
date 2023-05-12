@@ -19,7 +19,7 @@ export class UsuarioService {
   API_VERSION = environment.API_VERSION;
   URL_COMPLETA = `${this.API_BASEURL}:${this.API_PORT}/${this.API_VERSION}`;
 
-
+  // {this.URL_COMPLETA}/usuario = localhost:4000/usario
   getUsuarios(){
     return this.http.get(`${this.URL_COMPLETA}/usuario`);
   }

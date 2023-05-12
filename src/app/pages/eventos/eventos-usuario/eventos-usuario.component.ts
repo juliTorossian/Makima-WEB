@@ -105,12 +105,12 @@ export class EventosUsuarioComponent {
   }
 
   avanzar(evento:Evento){
-    // console.log(evento);
+    console.log(evento.detalle?.eventoCircuito);
 
     const data = {
       rol: evento.detalle?.eventoCircuito.sig.tarea?.rol,
       reqComentario: evento.detalle?.eventoCircuito.act.tarea?.reqComentario,
-      comentario: evento.detalle?.eventoCircuito.act.tarea?.comentario
+      comentario: ""//evento.detalle?.eventoCircuito.act.tarea?.comentario
     }
 
     this.ref = this.dialogService.open(ModalSeleccionUsuarioComponent, {

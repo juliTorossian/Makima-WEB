@@ -1,11 +1,29 @@
-<div>
+
+<div class="timeline">
+    <div *ngFor="let novedad of novedades; let last = last" class="status">
+        <div class="date">{{ novedad.fecha | date:'dd/MM/YYYY HH:mm' }}</div>
+        <div class="separator" [style.background-color]="obtenerColor(novedad.accion)"></div>
+        <div class="info">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ novedad.accion }}</h5>
+                    <div class="card-text" [innerHTML]="getTexto(novedad.accion, novedad)"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- <div>
     <p-timeline [value]="novedades">
         <ng-template pTemplate="content" let-novedad>
             <b>{{ novedad.accion }}</b>
             <div class="descripcion" [innerHTML]="getTexto(novedad.accion, novedad)">
-                <!-- <p>{{getTexto(novedad.accion, novedad)}}</p> -->
+                <p>{{getTexto(novedad.accion, novedad)}}</p>
             </div>
-            <!-- <div *ngIf="novedad.accion === 'COMENTARIO'" class="descripcion">
+            <div *ngIf="novedad.accion === 'COMENTARIO'" class="descripcion">
                 <p>{{novedad.usuario.usuario}} agrego un comentario a {{novedad.evento.evento}}</p>
             </div>
             <div *ngIf="novedad.accion === 'CREO'" class="descripcion">
@@ -22,13 +40,13 @@
             </div>
             <div *ngIf="novedad.accion === 'REASIGNO'" class="descripcion">
                 <p>El evento {{novedad.evento.evento}} se reasigno a {{novedad.usuario.usuario}}</p>
-            </div> -->
+            </div>
         </ng-template>
         <ng-template pTemplate="opposite" let-novedad class="custom-opposite">
             <ng-container class="custom-opposite">
-              <!-- <div>{{timelineItem.date | date}}</div> -->
+              <div>{{timelineItem.date | date}}</div>
               <small class="p-text-secondary">{{ novedad.fecha | date }}</small>
             </ng-container>
         </ng-template>
     </p-timeline>
-</div>
+</div> -->

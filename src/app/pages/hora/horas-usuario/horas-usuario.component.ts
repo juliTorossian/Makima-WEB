@@ -30,9 +30,6 @@ export class HorasUsuarioComponent {
   hora!: RegistroHora;
   horasSeleccionadas!: RegistroHora[];
 
-  filtroMes!: string;
-  filtroAno!: string;
-
   dateFilter = new Date();
 
   ngOnInit() {
@@ -157,10 +154,19 @@ export class HorasUsuarioComponent {
   mostrarModalCrud(hora: RegistroHora | null, modo:any){
 
     const data = {hora, modo}
+    let header = "";
+    switch (modo) {
+      case 'M':
+        header = "Editar Hora"
+        break;
+      case 'A':
+        header = "Cargar Hora"
+        break;
+    }
 
     this.ref = this.dialogService.open(HoraCrudComponent, {
-      header: 'Editar hora',
-      width: '70%',
+      header: header,
+      width: '90%',
       contentStyle: { overflow: 'auto' },
       baseZIndex: 10000,
       maximizable: true,

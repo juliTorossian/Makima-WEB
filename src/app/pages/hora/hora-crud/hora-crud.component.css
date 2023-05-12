@@ -4,3 +4,13 @@
     border: 1px solid #ced4da;
     border-radius: 6px;
 }
+
+.nuevoRegistro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.botonNuevo {
+    max-width: 50px;
+    margin-top: 10px;
+}

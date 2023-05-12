@@ -6,28 +6,28 @@
         <div class="col-6">
             <div class="flex flex-column gap-2">
                 <label htmlFor="nombre">Nombre</label>
-                <input pInputText id="nombre" aria-describedby="nombre-help" [(ngModel)]="nombre" />
+                <input pInputText id="nombre" aria-describedby="nombre-help" [(ngModel)]="nombre" tabindex="0"/>
                 <!-- <small id="nombre-help" [hidden]="usuario.get('nombre')?.valid">Ingrese un nombre valido.</small> -->
             </div>
         </div>
         <div class="col-6">
             <div class="flex flex-column gap-2">
                 <label htmlFor="apellido">Apellido</label>
-                <input pInputText id="apellido" aria-describedby="apellido-help" [(ngModel)]="apellido" />
+                <input pInputText id="apellido" aria-describedby="apellido-help" [(ngModel)]="apellido" tabindex="1"/>
                 <!-- <small id="apellido-help" [hidden]="usuario.get('apellido')?.valid">Ingrese un apellido valido.</small> -->
             </div>
         </div>
         <div class="col-6">
             <div class="flex flex-column gap-2">
                 <label htmlFor="mail">Mail</label>
-                <input type="email" pInputText id="mail" aria-describedby="mail-help" [(ngModel)]="mail" />
+                <input type="email" pInputText id="mail" aria-describedby="mail-help" [(ngModel)]="mail" tabindex="3"/>
                 <!-- <small id="mail-help" [hidden]="usuario.get('mail')?.valid">Ingrese un mail valido.</small> -->
             </div>
         </div>
         <div class="col-6">
             <div class="flex flex-column gap-2">
                 <label htmlFor="usuario">Usuario</label>
-                <input pInputText id="usuario" aria-describedby="usuario-help" [(ngModel)]="usuario" />
+                <input pInputText id="usuario" aria-describedby="usuario-help" [(ngModel)]="usuario" tabindex="4"/>
                 <!-- <small id="usuario-help" [hidden]="usuario.get('usuario')?.valid">Ingrese un usuario valido.</small> -->
             </div>
         </div>
@@ -36,14 +36,14 @@
                 <label htmlFor="rol">Rol</label>
                 <!-- <input pInputText id="rol" aria-describedby="rol-help" formControlName="rol" /> -->
                 <!-- <p-dropdown formControlName="rol" [options]="roles" optionValue="id" optionLabel="descripcion" id="rol" aria-describedby="rol-help"></p-dropdown> -->
-                <p-multiSelect [options]="roles" [(ngModel)]="rol" defaultLabel="Seleccionar Roles" optionLabel="descripcion" optionValue="id" display="chip" style="display: contents;"></p-multiSelect>
+                <p-multiSelect [options]="roles" [(ngModel)]="rol" defaultLabel="Seleccionar Roles" optionLabel="descripcion" optionValue="id" display="chip" style="display: contents;" ></p-multiSelect>
                 <!-- <small id="rol-help" [hidden]="usuario.get('rol')?.valid">Ingrese un rol valido.</small> -->
             </div>
         </div>
         <div class="col-2" style="display:flex;justify-content: center;">
             <div class="flex flex-column gap-2">
                 <label htmlFor="color">Color</label>
-                <p-colorPicker id="color" [(ngModel)]="color"></p-colorPicker>
+                <p-colorPicker id="color" [(ngModel)]="color" tabindex="6"></p-colorPicker>
             </div>
         </div>
         <div class="col-6" [hidden]="modo==='M'">
@@ -51,14 +51,14 @@
                 <div class="col-6">
                     <div class="flex flex-column gap-2">
                         <label htmlFor="password">Contraseña</label>
-                        <p-password [toggleMask]="true" [feedback]="true" [(ngModel)]="password" id="password" aria-describedby="password-help"></p-password>
+                        <p-password [toggleMask]="true" [feedback]="true" [(ngModel)]="password" id="password" aria-describedby="password-help" tabindex="7"></p-password>
                         <!-- <small id="password-help" [hidden]="usuario.get('password')?.valid">Ingrese una contraseña valida.</small> -->
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="flex flex-column gap-2">
                         <label htmlFor="confirmPass">Repetir Contraseña</label>
-                        <p-password [toggleMask]="true" [feedback]="true" [(ngModel)]="confirmPass" id="confirmPass" aria-describedby="confirmPass-help"></p-password>
+                        <p-password [toggleMask]="true" [feedback]="true" [(ngModel)]="confirmPass" id="confirmPass" aria-describedby="confirmPass-help" tabindex="8"></p-password>
                         <!-- <small id="confirmPass-help" [hidden]="usuario.get('confirmPass')?.valid">Ingrese un usuario valido.</small> -->
                     </div>
                 </div>
@@ -68,10 +68,10 @@
     </div>
 
     <div [hidden]="!(modo==='A')">
-        <button pButton pRipple label="Crear" class="p-button-success" (click)="accion($event)"></button>
+        <button pButton pRipple label="Crear" class="p-button-success" (click)="accion($event)" tabindex="9"></button>
     </div>
     <div [hidden]="!(modo==='M')">
-        <button pButton pRipple label="Modificar" class="p-button-warning" (click)="accion($event)"></button>
+        <button pButton pRipple label="Modificar" class="p-button-warning" (click)="accion($event)" tabindex="9"></button>
     </div>
 
 

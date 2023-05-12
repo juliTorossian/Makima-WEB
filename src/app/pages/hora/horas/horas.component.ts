@@ -10,6 +10,7 @@ import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { tap } from 'rxjs';
+import { RegistroHoraGeneral } from 'src/app/interfaces/hora';
 import { HoraService } from 'src/app/servicios/hora.service';
 
 @Component({
@@ -34,44 +35,37 @@ export class HorasComponent implements OnInit{
 
   private horaService = inject(HoraService);
 
-  horas:any[] = [];
-  seguridad!:any[];
+  horas!:RegistroHoraGeneral[];
+  seguridad!:RegistroHoraGeneral[];
   
   dateFilter = new Date();
 
   ngOnInit(){
 
-    this.horaService.getHorasGenerales().pipe(
-      // tap( (res:any) => { console.log(typeof(res)) })
-    ).subscribe({
-      next:(res:any) => {
-
-        let save:any[] = [];
-        let aux = Object.assign({}, res);
-
-
-        for (let i = 0; i < aux.length; i++) {
-          const element = aux[i];
-          console.log(element)
-        }
-
-        this.seguridad = save;
-        this.horas = save;
-        // this.aplicarFiltroFecha(this.dateFilter);
-      }
-    })
+    this.consultarRegistros(this.dateFilter)
 
   }
+
+  consultarRegistros(fechaFiltro:any){
+    this.horaService.getHorasGenerales().pipe(
+      ).subscribe({
+        next:(res:any) => {
+          // console.log(res);
+          this.seguridad = res;
+          this.horas = res;
+          this.aplicarFiltroFecha(fechaFiltro);
+        }
+      })
+  }
+
   aplicarFiltroFecha(fechaSel:any){
-    console.log(this.seguridad);
-    const save = this.seguridad;
+    const save = Object.values(this.seguridad);
     const fecha = new Date(fechaSel);
 
     let variableAuxiliar_1 = []
     for (let i = 0; i < save.length; i++) {
       const element = save[i];
       
-      console.log(element)
       let registrosAux = []
       for (let j = 0; j < element.registros.length; j++) {
         const reg = element.registros[j];
@@ -87,10 +81,8 @@ export class HorasComponent implements OnInit{
         element.registros = registrosAux;
         variableAuxiliar_1.push(element)
       }
-
     }
-    console.log(variableAuxiliar_1);
-
+    this.horas = variableAuxiliar_1;
   }
 
   getEventValue($event:any) :string {

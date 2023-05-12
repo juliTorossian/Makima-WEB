@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { DashboardService } from 'src/app/servicios/dashboard.service';
-import { NovedadesMensaje } from 'src/app/utilidades/novedades-mensaje';
+import { NovedadesColor, NovedadesMensaje } from 'src/app/utilidades/novedades-mensaje';
 
 @Component({
   selector: 'app-novedades',
@@ -36,14 +36,26 @@ export class NovedadesComponent implements OnInit {
       }
     });
 
-    let evento = `<div [routerLink]="['/evento/${novedad.evento.id}']"><p-badge value="${novedad.evento.evento}" class="my-badge" severity="success"></p-badge></div>`;
+    // let evento = `<div [routerLink]="['/evento/${novedad.evento.id}']"><p-badge value="${novedad.evento.evento}" class="my-badge" severity="success"></p-badge></div>`;
 
     texto = texto.replaceAll('&usuario', novedad.usuario.usuario);
-    texto = texto.replaceAll('&evento', evento);
+    texto = texto.replaceAll('&evento', novedad.evento.evento);
     texto = texto.replaceAll('&tarea', novedad.tarea);
 
     // console.log(texto); 
 
+    return texto;
+  }
+  obtenerColor(accion:string) :string{
+    // console.log(novedad);
+    const keys = Object.keys(NovedadesColor);
+    const values = Object.values(NovedadesColor);
+    let texto = "";
+    keys.forEach((key, index) => {
+      if (key === accion){
+        texto = values[index];
+      }
+    });
     return texto;
   }
 }

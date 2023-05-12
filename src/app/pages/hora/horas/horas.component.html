@@ -19,7 +19,7 @@
             [value]="horas"
             [rows]="10"
             [paginator]="true"
-            [globalFilterFields]="['tipo', 'numero', 'evento', 'etapa', 'titulo', 'cliente', 'producto', 'usuarioAlta', 'usuarioActual']"
+            [globalFilterFields]="['id', 'nombre', 'apellido', 'usuario']"
             [tableStyle]="{ 'min-width': '75rem' }"
             [rowHover]="true"
             dataKey="id"
@@ -36,7 +36,7 @@
                     <div class="flex align-items-center gap-1" style="margin:auto 10px">
                         <!-- <p-checkbox id="filtroVerCerrados" [(ngModel)]="filtroVerCerrados" (click)="filtraEventosCerrado()" [binary]="true" inputId="binary"></p-checkbox> -->
                         <label for="filtroFechas">Fecha: </label>
-                        <p-calendar id="filtroFechas" [(ngModel)]="dateFilter" view="month" dateFormat="mm/yy" [readonlyInput]="true" (onClose)="aplicarFiltroFecha(dateFilter)"></p-calendar>
+                        <p-calendar id="filtroFechas" [(ngModel)]="dateFilter" view="month" dateFormat="mm/yy" [readonlyInput]="true" (onClose)="consultarRegistros(dateFilter)"></p-calendar>
                     </div>
                 </div>
             </ng-template>
@@ -47,6 +47,7 @@
                     <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
                     <th pSortableColumn="apellido">Apellido <p-sortIcon field="apellido"></p-sortIcon></th>
                     <th pSortableColumn="usuario">Usuario <p-sortIcon field="usuario"></p-sortIcon></th>
+                    <!-- <th pSortableColumn="promedio">Promedio <p-sortIcon field="promedio"></p-sortIcon></th> -->
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-registro let-expanded="expanded">
@@ -58,6 +59,7 @@
                     <td>{{ registro.nombre}}</td>
                     <td>{{ registro.apellido }}</td>
                     <td>{{ registro.usuario }}</td>
+                    <!-- <td>{{ registro.promedioMes }} Hs</td> -->
                 </tr>
             </ng-template>
             <ng-template pTemplate="rowexpansion" let-registrosDetalle>

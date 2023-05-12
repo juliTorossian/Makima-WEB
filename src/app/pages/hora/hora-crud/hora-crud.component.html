@@ -9,7 +9,7 @@
         </div> 
     </div>
     <div class="grid">
-        <div class="col-12">
+        <div class="col-12 nuevoRegistro">
             <table>
                 <thead>
                 <tr>
@@ -23,7 +23,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let hora of horas; index as i;">
-                        <td><input type="text" pInputText [(ngModel)]="hora.evento.evento" [disabled]="true" /> <button type="button" pButton icon="pi pi-check-circle" (click)="seleccionarEvento(hora)"></button></td>
+                        <td><div style="display: flex;align-items:center;"><input type="text" pInputText [(ngModel)]="hora.evento.evento" [disabled]="true" /> <button type="button" pButton icon="pi pi-check-circle" (click)="seleccionarEvento(hora)" class="p-button-rounded p-button-success botonRedondoChico"></button></div></td>
                         <td><p-inputMask #inputInicio mask="99:99" [(ngModel)]="hora.inicio" placeholder="99:99" (onComplete)="actualizarTotal(hora)"></p-inputMask></td>
                         <td><p-inputMask #inputFinal mask="99:99" [(ngModel)]="hora.final" placeholder="99:99" (onComplete)="actualizarTotal(hora)"></p-inputMask></td>
                         <td><input type="text" pInputText [(ngModel)]="hora.observaciones" /></td>
@@ -32,7 +32,7 @@
                     </tr>
                 </tbody>
             </table>
-            <button type="button" (click)="agregarFila()" class="p-button p-button-success">+</button>
+            <button type="button" (click)="agregarFila()" class="p-button p-button-success botonNuevo">+</button>
         </div>
     </div>
   
