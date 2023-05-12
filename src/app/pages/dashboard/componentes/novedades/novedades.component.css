@@ -1,0 +1,65 @@
+.timeline {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+}
+
+.status {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+}
+
+.date {
+    width: 20%;
+    /* max-width: 200px; */
+    text-align: center;
+    /* font-weight: bold; */
+    word-wrap: break-word;
+    font-size: small;
+}
+
+.separator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin: 0 15px;
+}
+
+.separator.pending {
+    background-color: orange;
+}
+
+.separator.completed {
+    background-color: green;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 10px 0; 
+}
+
+.card {
+    max-width: 260px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.card-body {
+    padding: 10px;
+}
+
+.card-title {
+    margin: 0;
+}
+
+.card-text {
+    margin: 10px 0;
+}
+
+.status:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+}

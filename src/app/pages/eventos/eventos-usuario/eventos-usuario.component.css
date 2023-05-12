@@ -1,0 +1,9 @@
+
+.eventoCerrado{
+    background-color: lightgrey !important;
+}
+
+.p-button-warn {
+    background-color: gray !important;
+    border-color: gray !important;
+}

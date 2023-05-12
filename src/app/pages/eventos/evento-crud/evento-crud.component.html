@@ -1,0 +1,95 @@
+
+<!-- <div class="surface-card p-4 shadow-2 border-round">
+    <div class="text-3xl font-medium text-900 mb-3">Card Title</div>
+    <div class="font-medium text-500 mb-3">Vivamus id nisl interdum, blandit augue sit amet, eleifend mi.</div>
+    <div style="height: 150px" class="border-2 border-dashed surface-border"></div>
+</div> -->
+
+<div class="container">
+
+    <form>
+
+        <div class="grid">
+            <div class="col-3">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="username">Tipo</label>
+                    <p-autoComplete [dropdown]="true" [suggestions]="tipoEventoFiltrado" field="label" (completeMethod)="filtroTipoEvento($event)" [formControl]="tipo" [readonly]="modo==='M'"></p-autoComplete>
+                    <!-- <p-dropdown [options]="tiposEvento"  [formControl]="tipo" placeholder="Select a City" optionLabel="name"></p-dropdown> -->
+                    <small id="username-help" [hidden]="tipo.valid" >Ingrese un tipo de evento valido.</small>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="numero">Numero</label>
+                    <input pInputText id="numero" pTooltip="El numero se asigna automaticamente" [formControl]="numero" [readonly]="true"/>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="username">Prioridad</label>
+                    <p-dropdown [options]="prioridades" [formControl]="prioridad" ></p-dropdown>
+                    <small id="username-help" [hidden]="prioridad.valid">Ingrese una prioridad valida.</small>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="username">Titulo</label>
+                    <input pInputText id="username" aria-describedby="username-help" [formControl]="titulo"  />
+                    <small id="username-help" [hidden]="titulo.valid">Ingrese un titulo valido.</small>
+                </div>
+            </div>
+
+        </div>
+        
+        <div class="grid select-att">
+            <div class="col-10">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="cliente">Cliente</label>
+                    <p class="falso-input">{{cliente.sigla}} - {{cliente.nombre}}</p>
+                </div>
+            </div>
+            <div class="col-2 cell-boton">
+                <button pButton pRipple icon="pi pi-search" class="p-button-success" (click)="selectCliente()"></button>
+            </div>
+        </div>
+        
+        <div class="grid select-att">
+            <div class="col-4">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="producto">Producto</label>
+                    <p class="falso-input">{{producto.nombre}}</p>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="modulo">Modulo</label>
+                    <p class="falso-input">{{producto.modulo.id}}</p>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="submodulo">SubModulo</label>
+                    <p class="falso-input">{{producto.submodulo.id}}</p>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="entorno">Entorno</label>
+                    <p class="falso-input">{{producto.entorno.id}}</p>
+                </div>
+            </div>
+            <div class="col-2 cell-boton">
+                <button pButton pRipple icon="pi pi-search" class="p-button-success" (click)="selectProducto()"></button>
+            </div>
+        </div>
+
+        <div [hidden]="!(modo==='A')">
+            <button pButton pRipple label="Crear" class="p-button-success" (click)="accion($event)"></button>
+        </div>
+        <div [hidden]="!(modo==='M')">
+            <button pButton pRipple label="Modificar" class="p-button-warning" (click)="accion($event)"></button>
+        </div>
+
+    </form>
+
+</div>

@@ -1,0 +1,140 @@
+
+<div class="container" style="margin: 20px;">
+    
+    <div class="card">
+        <p-toast></p-toast>
+        <p-toolbar styleClass="mb-4 gap-2">
+            <ng-template pTemplate="left">
+                <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2 botonChico" (click)="mostrarModalCrud(null, 'A')"></button>
+                <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger botonChico" (click)="deleteSeleccion()" [disabled]="!eventoSeleccionado || !eventoSeleccionado.length"></button>
+            </ng-template>
+
+            <ng-template pTemplate="right">
+            </ng-template>
+        </p-toolbar>
+
+        <p-table
+            #dt
+            [value]="eventos"
+            [rows]="10"
+            [paginator]="true"
+            [globalFilterFields]="['tipo', 'numero', 'detalle.eventoCircuito.act.tarea.nombre', 'titulo', 'cliente.nombre', 'producto.nombre', 'producto.modulo', 'usuarioActual.usuario']"
+            [tableStyle]="{ 'min-width': '75rem' }"
+            [(selection)]="eventoSeleccionado"
+            [rowHover]="true"
+            dataKey="id"
+            currentPageReportTemplate="Mostrando desde {first} a {last} de {totalRecords} registros"
+            [showCurrentPageReport]="true"
+            styleClass="p-datatable-sm"
+        >
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between" style="display: flex;">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText style="padding-top: 0.4rem !important;padding-bottom: 0.4rem !important;" class="p-component p-element p-inputtext" type="text" (input)="dt.filterGlobal(getEventValue($event), 'contains')" placeholder="Search..." />
+                    </span>
+                    <div class="flex align-items-center gap-1" style="margin:auto 10px">
+                        <p-checkbox id="filtroVerCerrados" [(ngModel)]="filtroVerCerrados" (click)="filtraEventosCerrado()" [binary]="true" inputId="binary"></p-checkbox>
+                        <label for="filtroVerCerrados"> Ver Eventos Cerrados</label>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                    <th></th>
+                    <th pSortableColumn="tipo" hidden>Tipo <p-sortIcon field="tipo"></p-sortIcon></th>
+                    <th pSortableColumn="numero" hidden>Numero <p-sortIcon field="numero"></p-sortIcon></th>
+                    <th pSortableColumn="evento">Evento <p-sortIcon field="evento"></p-sortIcon></th>
+                    <th pSortableColumn="titulo">Titulo <p-sortIcon field="titulo"></p-sortIcon></th>
+                    <th pSortableColumn="etapa" filterField="etapa">Etapa <p-sortIcon field="etapa"></p-sortIcon></th>
+                    <th pSortableColumn="cliente" filterField="cliente">Cliente <p-sortIcon field="cliente"></p-sortIcon></th>
+                    <th pSortableColumn="producto" filterField="producto">Producto <p-sortIcon field="producto"></p-sortIcon></th>
+                    <th pSortableColumn="modulo" filterField="modulo">Modulo <p-sortIcon field="modulo"></p-sortIcon></th>
+                    <th pSortableColumn="usuarioActual" filterField="usuarioActual">Usuario Actual <p-sortIcon field="usuarioActual"></p-sortIcon></th>
+                    <th pSortableColumn="alta">Alta <p-sortIcon field="alta"></p-sortIcon></th>
+                    <th pSortableColumn="usuarioAlta" hidden>Usuario Alta <p-sortIcon field="usuarioAlta"></p-sortIcon></th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-evento let-expanded="expanded">
+                <tr [ngClass]="{'eventoCerrado': evento.cerrado}">
+                    <td>
+                        <p-tableCheckbox [value]="evento" [disabled]="evento.cerrado"></p-tableCheckbox>
+                    </td>
+                    <td>
+                        <button type="button" pButton pRipple [pRowToggler]="evento" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                    </td>
+                    <td hidden>{{ evento.tipo }}</td>
+                    <td hidden>{{ evento.numero }}</td>
+                    <td routerLink="/evento/{{evento.id}}">{{ evento.tipo +'-'+ evento.numero }}</td>
+                    <td>{{ evento.titulo }}</td>
+                    <td>{{ evento.detalle?.eventoCircuito.act.tarea?.nombre }}</td>
+                    <td>{{ evento.cliente.nombre }}</td>
+                    <td>{{ evento.producto.nombre }}</td>
+                    <td>{{ evento.producto.modulo }}</td>
+                    <td>{{ evento.usuarioActual.usuario }}</td>
+                    <td>{{ evento.fechaAlta | date:'short'}}</td>
+                    <td hidden>{{ evento.usuarioAlta.usuario }}</td>
+                    <td>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success botonRedondoChico mr-2" (click)="mostrarModalCrud(evento, 'M')" [disabled]="evento.cerrado"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning botonRedondoChico" (click)="deleteSolo(evento)" [disabled]="evento.cerrado"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="rowexpansion" let-eventoDetalle>
+                <tr>
+                    <td colspan="11">
+                        <div class="grid px-5 text-center align-items-center eventoDetalle">
+                            <div class="col-5">
+                                <div class="grid">
+                                    <div class="col">
+                                        <p>Horas estimadas:</p>
+                                        <p>{{eventoDetalle.detalle?.eventoHoras?.estimacion}}</p> //  | totalComoNumero
+                                    </div>
+                                    <div class="col">
+                                        <p>Horas reales:</p>
+                                        <p>{{eventoDetalle.detalle?.eventoHoras?.total}}</p>
+                                    </div>
+                                    <div class="col">
+                                        <p>Diferencia:</p>
+                                        <p [ngClass]="{'diferenciaPositiva': (eventoDetalle.detalle?.eventoHoras?.estimacion - eventoDetalle.detalle?.eventoHoras?.total) > 0, 'diferenciaNegativa': (eventoDetalle.detalle?.eventoHoras?.estimacion - eventoDetalle.detalle?.eventoHoras?.total) < 0}">
+                                            {{(eventoDetalle.detalle?.eventoHoras?.estimacion - eventoDetalle.detalle?.eventoHoras?.total)}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <div class="grid">
+                                    <div class="col-12">
+                                        <p>{{ eventoDetalle.producto.nombre }}</p>
+                                    </div>
+                                    <div class="col-4">
+                                        <p>Modulo: {{ eventoDetalle.producto.modulo }}</p>
+                                    </div>
+                                    <div class="col-4">
+                                        <p>SubModulo: {{ eventoDetalle.producto.submodulo }}</p>
+                                    </div>
+                                    <div class="col-4">
+                                        <p>Entorno: {{ eventoDetalle.producto.entorno }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <p>Usuario Alta</p>
+                                <p>{{ eventoDetalle.usuarioAlta.usuario }}</p>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="flex align-items-center justify-content-between">En total hay {{ eventos ? eventos.length : 0 }} eventos.</div>
+            </ng-template>
+            <!-- <p-column field="nombre"></p-column>
+            <p-column field="edad"></p-column>
+            <p-column field="pais"></p-column> -->
+        </p-table>
+    </div>
+
+</div>

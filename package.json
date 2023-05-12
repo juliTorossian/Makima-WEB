@@ -1,6 +1,6 @@
 {
-  "name": "makima-web-angular",
-  "version": "0.0.0",
+  "name": "makima-web",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -18,8 +18,15 @@
     "@angular/platform-browser": "^15.2.0",
     "@angular/platform-browser-dynamic": "^15.2.0",
     "@angular/router": "^15.2.0",
+    "@ckeditor/ckeditor5-angular": "^6.0.0",
+    "@ckeditor/ckeditor5-build-classic": "^37.0.1",
+    "apexcharts": "^3.37.3",
+    "ng-apexcharts": "^1.7.4",
+    "ngx-cookie-service": "^15.0.0",
+    "primeflex": "^3.3.0",
     "primeicons": "^6.0.1",
     "primeng": "^15.2.1",
+    "quill": "^1.3.7",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"

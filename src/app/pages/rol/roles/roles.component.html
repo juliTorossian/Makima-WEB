@@ -1,0 +1,70 @@
+
+<div class="container" style="margin: 20px;">
+    
+    <div class="card">
+        <p-toast></p-toast>
+        <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+        <p-toolbar styleClass="mb-4 gap-2">
+            <ng-template pTemplate="left">
+                <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2 botonChico" (click)="mostrarModalCrud(rol, 'A')"></button>
+                <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger botonChico" (click)="deleteSeleccionado()" [disabled]="!rolSeleccionado || !rolSeleccionado.length"></button>
+            </ng-template>
+
+            <ng-template pTemplate="right">
+                
+            </ng-template>
+        </p-toolbar>
+
+        <p-table
+            #dt
+            [value]="roles"
+            [rows]="10"
+            [paginator]="true"
+            [globalFilterFields]="['id', 'descripcion']"
+            [tableStyle]="{ 'min-width': '75rem' }"
+            [(selection)]="rolSeleccionado"
+            [rowHover]="true"
+            dataKey="id"
+            currentPageReportTemplate="Mostrando desde {first} a {last} de {totalRecords} registros"
+            [showCurrentPageReport]="true"
+            styleClass="p-datatable-sm"
+        >
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between" style="display: flex;">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText style="padding-top: 0.4rem !important;padding-bottom: 0.4rem !important;" type="text" (input)="dt.filterGlobal(getEventValue($event), 'contains')" placeholder="Buscar..." />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 4rem">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th pSortableColumn="id">Codigo <p-sortIcon field="id" ></p-sortIcon></th>
+                    <th pSortableColumn="descripcion">Descripcion <p-sortIcon field="descripcion"></p-sortIcon></th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rol>
+                <tr>
+                    <td>
+                        <p-tableCheckbox [value]="rol"></p-tableCheckbox>
+                    </td>
+                    <td>{{ rol.id }}</td>
+                    <td>{{ rol.descripcion }}</td>
+                    <td>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning botonRedondoChico mr-2" (click)="mostrarModalCrud(rol, 'M')"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger botonRedondoChico mr-2" (click)="deleteSolo(rol)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="flex align-items-center justify-content-between">En total hay {{ roles ? roles.length : 0 }} Roles.</div>
+            </ng-template>
+        </p-table>
+    </div>
+
+
+</div>

@@ -1,0 +1,67 @@
+<div class="container">
+
+  <div class="grid">
+    <div class="col-4">
+      <div class="grid">
+        <div class="col-4">
+          <div class="flex flex-column gap-2">
+            <label htmlFor="id">Codigo</label>
+            <input pInputText id="id" aria-describedby="id-help" [(ngModel)]="id" maxlength="3"/>
+          </div>
+        </div>
+        <div class="col-8">
+          <div class="flex flex-column gap-2">
+            <label htmlFor="descripcion">Descripcion</label>
+            <input pInputText id="descripcion" aria-describedby="descripcion-help" [(ngModel)]="descripcion" />
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="flex flex-column gap-2">
+            <label htmlFor="propio">Propio</label>
+            <p-toggleButton  [(ngModel)]="propio" onLabel="Propio" offLabel="Externo" [style]="{ width: '10em' }">
+            </p-toggleButton>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="flex-1 flex flex-column align-items-center gap-3">
+            <label htmlFor="cp-hex" class="font-bold block mb-2"> Color </label>
+            <p-colorPicker [(ngModel)]="color"></p-colorPicker>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-8">
+        <div class="col-12">
+          <table>
+            <thead>
+              <tr>
+                <th>Etapa</th>
+                <th>Tarea</th>
+                <th>Rollback</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let tarea of tareasAsignadas; index as i;">
+                <td><p-inputNumber inputId="integeronly" [(ngModel)]="tarea.etapa" [disabled]="true"> </p-inputNumber></td>
+                <td><p-dropdown [options]="tareas" [(ngModel)]="tarea.tarea" optionLabel="nombre" optionValue="id"  appendTo="body"></p-dropdown></td>
+                <td><p-inputNumber inputId="integeronly" [(ngModel)]="tarea.rollback" [max]="tarea.etapa-1"> </p-inputNumber></td>
+                <td><button type="button" (click)="eliminarTarea(tarea)" class="p-button p-button-danger">-</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <button type="button" *ngIf="!propio" (click)="agregarTarea()" class="p-button p-button-success">Agregar fila</button>
+        </div>
+        
+
+    </div>
+  </div>
+
+  <div [hidden]="!(modo==='A')">
+    <button pButton pRipple label="Crear" class="p-button-success" (click)="accion($event)"></button>
+  </div>
+  <div [hidden]="!(modo==='M')">
+    <button pButton pRipple label="Modificar" class="p-button-warning" (click)="accion($event)"></button>
+  </div>
+
+</div>

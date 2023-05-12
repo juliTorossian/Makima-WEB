@@ -1,0 +1,32 @@
+
+<div class="container">
+
+    <form [formGroup]="rol">
+
+        <div class="grid">
+            <div class="col-6">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="id">Codigo</label>
+                    <input pInputText id="id" aria-describedby="id-help" formControlName="id"/>
+                    <small id="id-help" [hidden]="rol.get('id')?.valid || modo==='M'">Ingrese un codigo valido.</small>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="descripcion">Descripcion</label>
+                    <input pInputText id="descripcion" aria-describedby="descripcion-help" formControlName="descripcion" />
+                    <small id="descripcion-help" [hidden]="rol.get('descripcion')?.valid">Ingrese un descripcion valido.</small>
+                </div>
+            </div>
+        </div>
+
+        <div [hidden]="!(modo==='A')">
+            <button pButton pRipple label="Crear" class="p-button-success" (click)="accion($event)"></button>
+        </div>
+        <div [hidden]="!(modo==='M')">
+            <button pButton pRipple label="Modificar" class="p-button-warning" (click)="accion($event)"></button>
+        </div>
+
+    </form>
+
+</div>
