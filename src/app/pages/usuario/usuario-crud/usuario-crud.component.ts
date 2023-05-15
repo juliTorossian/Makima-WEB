@@ -4,6 +4,7 @@ import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { tap } from 'rxjs';
 import { Rol } from 'src/app/interfaces/usuario';
+import { EncryptDecryptService } from 'src/app/servicios/encrypt-decrypt.service';
 import { RolService } from 'src/app/servicios/rol.service';
 
 @Component({
@@ -15,6 +16,7 @@ export class UsuarioCrudComponent {
   private ref = inject(DynamicDialogRef);
   private config = inject(DynamicDialogConfig);
   private messageService = inject(MessageService);
+  private encryptService = inject(EncryptDecryptService);
 
   private rolService = inject(RolService);
 
@@ -106,8 +108,6 @@ export class UsuarioCrudComponent {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: `Las contraseñas deben ser iguales.` });
 
     }else{
-
-
       
       const usuario : any = {
         id: this.id,
@@ -115,7 +115,7 @@ export class UsuarioCrudComponent {
         apellido: this.apellido,
         mail: this.mail,
         usuario: this.usuario,
-        password: this.password,
+        password: this.encryptService.encryptUsingAES256(this.password),
         color: this.color,
         rol: this.rol
       }

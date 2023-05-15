@@ -89,6 +89,8 @@ export class UsuarioService {
   // PERMISOS
 
   getPermisos(usuario:Usuario) : Rol{
+    // console.log(usuario)
+
     let permisos : Rol = {
       id : "permisos",
       descipcion: "permisos",
