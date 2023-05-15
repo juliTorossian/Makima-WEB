@@ -61,7 +61,7 @@
                     <td hidden>{{ cliente.id }}</td>
                     <td>{{ cliente.sigla }}</td>
                     <td>{{ cliente.nombre }}</td>
-                    <td><p-tag [value]="cliente.activo" [severity]="getSeverity(cliente.activo)"></p-tag></td>
+                    <td><p-tag [value]="cliente.activo | activo" [severity]="getSeverity(cliente.activo)"></p-tag></td>
                     <td>
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning botonRedondoChico mr-2" (click)="mostrarModalCrud(cliente, 'M')"></button>
                         <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger botonRedondoChico mr-2" (click)="deleteClienteSolo(cliente)"></button>

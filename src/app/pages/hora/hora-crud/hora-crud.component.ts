@@ -5,7 +5,7 @@ import { RegistroHora } from 'src/app/interfaces/hora';
 import { Usuario } from 'src/app/interfaces/usuario';
 import { HoraService } from 'src/app/servicios/hora.service';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
-import { SeleccionarEventoComponent } from '../componentes/seleccionar-evento/seleccionar-evento.component';
+import { SeleccionarEventoComponent } from '../../../componentes/seleccionar-evento/seleccionar-evento.component';
 
 @Component({
   selector: 'app-hora-crud',
@@ -131,7 +131,8 @@ export class HoraCrudComponent {
     this.refEvento.onClose.subscribe((eventoSel: any) => {
       // console.log(eventoSel);
       if(eventoSel){
-        hora.evento = eventoSel;
+        let aux = {id: eventoSel.id, "evento": `${eventoSel.tipo}-${eventoSel.numero}`}
+        hora.evento = aux;
       }
     });
 

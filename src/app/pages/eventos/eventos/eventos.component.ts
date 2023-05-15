@@ -14,6 +14,8 @@ import { Evento } from 'src/app/interfaces/evento';
 import { TotalComoNumeroPipe } from 'src/app/pipes/total-como-numero.pipe';
 import { EventoService } from 'src/app/servicios/evento.service';
 import { EventoCRUDComponent } from '../evento-crud/evento-crud.component';
+import { UsuarioService } from 'src/app/servicios/usuario.service';
+import { Rol, Usuario } from 'src/app/interfaces/usuario';
 
 @Component({
   selector: 'app-eventos',
@@ -36,6 +38,7 @@ import { EventoCRUDComponent } from '../evento-crud/evento-crud.component';
 export class EventosComponent implements OnInit {
   private dialogService = inject(DialogService);
   private eventoService = inject(EventoService);
+  private usuarioService = inject(UsuarioService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
   
@@ -49,10 +52,31 @@ export class EventosComponent implements OnInit {
   evento!: Evento;
   eventoSeleccionado!: Evento[];
 
+  usuario!: Usuario;
+  permisos!: Rol;
+
   filtroVerCerrados: boolean = false; // false no muestra los cerrados
 
   ngOnInit() {
+    this.identificarUsuario();
     this.llenarTabla()
+  }
+
+  identificarUsuario(){
+    this.usuarioService.getUsuarioToken(this.usuarioService.getToken()).subscribe({
+      next: (res:any) => {
+        console.log(res);
+        this.usuario = res;
+        this.permisos = this.usuarioService.getPermisos(this.usuario);
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+  tieneControl():boolean{
+    return (this.permisos) && (this.permisos.controlTotal || this.permisos.controlEvento)
   }
 
   llenarTabla(){
@@ -182,5 +206,11 @@ export class EventosComponent implements OnInit {
         }
       }
     });
+  }
+
+
+
+  esPositivo(detalle:any){
+    return (detalle.detalle?.eventoHoras?.estimacion - detalle.detalle?.eventoHoras?.total) > 0;
   }
 }

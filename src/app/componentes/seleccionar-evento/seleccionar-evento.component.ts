@@ -27,7 +27,7 @@ export class SeleccionarEventoComponent  implements OnInit {
   }
 
   select(eventoSel: Evento) {
-    let evento = {id: eventoSel.id, "evento": `${eventoSel.tipo}-${eventoSel.numero}`}
-    this.ref.close(evento);
+    // let evento = {id: eventoSel.id, "evento": `${eventoSel.tipo}-${eventoSel.numero}`}
+    this.ref.close(eventoSel);
   }
 }

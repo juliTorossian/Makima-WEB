@@ -61,7 +61,7 @@
                     <td>{{ producto.modulo.id }}</td>
                     <td>{{ producto.submodulo.id }}</td>
                     <td>{{ producto.entorno.id }}</td>
-                    <td><p-tag [value]="producto.activo" [severity]="getSeverity(producto.activo)"></p-tag></td>
+                    <td><p-tag [value]="producto.activo | activo" [severity]="getSeverity(producto.activo)"></p-tag></td>
                     <td>
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning botonRedondoChico mr-2" (click)="mostrarModalCrud(producto, 'M')"></button>
                         <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger botonRedondoChico mr-2" (click)="deleteSolo(producto)"></button>

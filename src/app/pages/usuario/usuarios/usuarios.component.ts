@@ -15,6 +15,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { Usuario } from 'src/app/interfaces/usuario';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { UsuarioCrudComponent } from '../usuario-crud/usuario-crud.component';
+import { ActivoPipe } from 'src/app/pipes/activo.pipe';
 
 @Component({
   selector: 'app-usuarios',
@@ -31,6 +32,7 @@ import { UsuarioCrudComponent } from '../usuario-crud/usuario-crud.component';
     TagModule,
     ConfirmDialogModule,
     ChipModule,
+    ActivoPipe
   ],
   templateUrl: './usuarios.component.html',
   styleUrls: ['./usuarios.component.css'],

@@ -83,6 +83,24 @@
             </div>
         </div>
 
+        <!-- <div class="grid select-att">
+            <div class="col-2" style="min-height: 92px;">
+                <div class="flex flex-column gap-2" style="align-items: center;">
+                    <label htmlFor="hijo">Evento Hijo?</label>
+                    <p-checkbox [formControl]="eventoHijo" [binary]="true" inputId="binary" id="hijo" class="mt-2"></p-checkbox>
+                </div>
+            </div>
+            <div class="col-8" >
+                <div class="flex flex-column gap-2" *ngIf="eventoHijo.value">
+                    <label htmlFor="madre">Evento Madre</label>
+                    <p class="falso-input">{{getDatosEvento()}}</p>
+                </div>
+            </div>
+            <div class="col-2 cell-boton">
+                <button pButton pRipple icon="pi pi-search" class="p-button-success" (click)="selectEventoMadre()" *ngIf="eventoHijo.value"></button>
+            </div>
+        </div> -->
+
         <div [hidden]="!(modo==='A')">
             <button pButton pRipple label="Crear" class="p-button-success" (click)="accion($event)"></button>
         </div>

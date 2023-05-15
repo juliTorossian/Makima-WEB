@@ -15,6 +15,7 @@ import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { TagModule } from 'primeng/tag';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ActivoPipe } from 'src/app/pipes/activo.pipe';
 
 @Component({
   selector: 'app-clientes',
@@ -29,7 +30,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     ButtonModule,
     FormsModule,
     TagModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    ActivoPipe,
   ],
   templateUrl: './clientes.component.html',
   styleUrls: ['./clientes.component.css'],

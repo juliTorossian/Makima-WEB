@@ -3,7 +3,7 @@
     
     <div class="card">
         <p-toast></p-toast>
-        <p-toolbar styleClass="mb-4 gap-2">
+        <p-toolbar styleClass="mb-4 gap-2" *ngIf="tieneControl()">
             <ng-template pTemplate="left">
                 <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2 botonChico" (click)="mostrarModalCrud(null, 'A')"></button>
                 <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger botonChico" (click)="deleteSeleccion()" [disabled]="!eventoSeleccionado || !eventoSeleccionado.length"></button>
@@ -18,7 +18,7 @@
             [value]="eventos"
             [rows]="10"
             [paginator]="true"
-            [globalFilterFields]="['tipo', 'numero', 'detalle.eventoCircuito.act.tarea.nombre', 'titulo', 'cliente.nombre', 'producto.nombre', 'producto.modulo', 'usuarioActual.usuario']"
+            [globalFilterFields]="['tipo', 'numero', 'detalle.eventoCircuito.act.tarea.nombre', 'titulo', 'cliente.nombre', 'producto.nombre', 'producto.modulo', 'usuarioActual.usuario', 'fechaAlta']"
             [tableStyle]="{ 'min-width': '75rem' }"
             [(selection)]="eventoSeleccionado"
             [rowHover]="true"
@@ -41,25 +41,25 @@
             </ng-template>
             <ng-template pTemplate="header">
                 <tr>
-                    <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                    <th *ngIf="tieneControl()"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
                     <th></th>
-                    <th pSortableColumn="tipo" hidden>Tipo <p-sortIcon field="tipo"></p-sortIcon></th>
-                    <th pSortableColumn="numero" hidden>Numero <p-sortIcon field="numero"></p-sortIcon></th>
-                    <th pSortableColumn="evento">Evento <p-sortIcon field="evento"></p-sortIcon></th>
+                    <th pSortableColumn="tipo" hidden>Tipo</th> <!-- <p-sortIcon field="tipo"></p-sortIcon></th>-->
+                    <th pSortableColumn="numero" hidden>Numero</th> <!-- <p-sortIcon field="numero"></p-sortIcon></th>-->
+                    <th pSortableColumn="evento">Evento</th> <!-- <p-sortIcon field="tipo"></p-sortIcon></th>-->
                     <th pSortableColumn="titulo">Titulo <p-sortIcon field="titulo"></p-sortIcon></th>
-                    <th pSortableColumn="etapa" filterField="etapa">Etapa <p-sortIcon field="etapa"></p-sortIcon></th>
-                    <th pSortableColumn="cliente" filterField="cliente">Cliente <p-sortIcon field="cliente"></p-sortIcon></th>
-                    <th pSortableColumn="producto" filterField="producto">Producto <p-sortIcon field="producto"></p-sortIcon></th>
-                    <th pSortableColumn="modulo" filterField="modulo">Modulo <p-sortIcon field="modulo"></p-sortIcon></th>
-                    <th pSortableColumn="usuarioActual" filterField="usuarioActual">Usuario Actual <p-sortIcon field="usuarioActual"></p-sortIcon></th>
-                    <th pSortableColumn="alta">Alta <p-sortIcon field="alta"></p-sortIcon></th>
-                    <th pSortableColumn="usuarioAlta" hidden>Usuario Alta <p-sortIcon field="usuarioAlta"></p-sortIcon></th>
-                    <th></th>
+                    <th pSortableColumn="etapa" filterField="etapa">Etapa</th> <!--<p-sortIcon [field]="'detalle.eventoCircuito.act.tarea.nombre'"></p-sortIcon></th>-->
+                    <th pSortableColumn="cliente" filterField="cliente">Cliente</th> <!-- <p-sortIcon field="cliente.nombre"></p-sortIcon></th>-->
+                    <th pSortableColumn="producto" filterField="producto">Producto</th> <!-- <p-sortIcon field="producto.nombre"></p-sortIcon></th>-->
+                    <th pSortableColumn="modulo" filterField="modulo">Modulo</th> <!-- <p-sortIcon field="producto.modulo"></p-sortIcon></th>-->
+                    <th pSortableColumn="usuarioActual" filterField="usuarioActual">Usuario Actual</th> <!-- <p-sortIcon field="usuarioActual.usuario"></p-sortIcon></th>-->
+                    <th pSortableColumn="alta">Alta</th> <!-- <p-sortIcon field="fechaAlta"></p-sortIcon></th>-->
+                    <th pSortableColumn="usuarioAlta" hidden>Usuario Alta</th> <!-- <p-sortIcon field="usuarioAlta.usuario"></p-sortIcon></th>-->
+                    <th *ngIf="tieneControl()"></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-evento let-expanded="expanded">
                 <tr [ngClass]="{'eventoCerrado': evento.cerrado}">
-                    <td>
+                    <td *ngIf="tieneControl()">
                         <p-tableCheckbox [value]="evento" [disabled]="evento.cerrado"></p-tableCheckbox>
                     </td>
                     <td>
@@ -76,7 +76,7 @@
                     <td>{{ evento.usuarioActual.usuario }}</td>
                     <td>{{ evento.fechaAlta | date:'short'}}</td>
                     <td hidden>{{ evento.usuarioAlta.usuario }}</td>
-                    <td>
+                    <td *ngIf="tieneControl()">
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success botonRedondoChico mr-2" (click)="mostrarModalCrud(evento, 'M')" [disabled]="evento.cerrado"></button>
                         <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning botonRedondoChico" (click)="deleteSolo(evento)" [disabled]="evento.cerrado"></button>
                     </td>
@@ -90,7 +90,7 @@
                                 <div class="grid">
                                     <div class="col">
                                         <p>Horas estimadas:</p>
-                                        <p>{{eventoDetalle.detalle?.eventoHoras?.estimacion}}</p> //  | totalComoNumero
+                                        <p>{{eventoDetalle.detalle?.eventoHoras?.estimacion}}</p>
                                     </div>
                                     <div class="col">
                                         <p>Horas reales:</p>
@@ -98,7 +98,7 @@
                                     </div>
                                     <div class="col">
                                         <p>Diferencia:</p>
-                                        <p [ngClass]="{'diferenciaPositiva': (eventoDetalle.detalle?.eventoHoras?.estimacion - eventoDetalle.detalle?.eventoHoras?.total) > 0, 'diferenciaNegativa': (eventoDetalle.detalle?.eventoHoras?.estimacion - eventoDetalle.detalle?.eventoHoras?.total) < 0}">
+                                        <p [ngClass]="{'diferenciaPositiva': esPositivo(eventoDetalle), 'diferenciaNegativa': !esPositivo(eventoDetalle)}">
                                             {{(eventoDetalle.detalle?.eventoHoras?.estimacion - eventoDetalle.detalle?.eventoHoras?.total)}}
                                         </p>
                                     </div>

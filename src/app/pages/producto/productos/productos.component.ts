@@ -14,6 +14,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { Producto } from 'src/app/interfaces/producto';
 import { ProductoService } from 'src/app/servicios/producto.service';
 import { ProductoCrudComponent } from '../producto-crud/producto-crud.component';
+import { ActivoPipe } from 'src/app/pipes/activo.pipe';
 
 @Component({
   selector: 'app-productos',
@@ -29,6 +30,7 @@ import { ProductoCrudComponent } from '../producto-crud/producto-crud.component'
     FormsModule,
     ConfirmDialogModule,
     TagModule,
+    ActivoPipe,
   ],
   templateUrl: './productos.component.html',
   styleUrls: ['./productos.component.css'],

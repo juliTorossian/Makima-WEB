@@ -11,6 +11,8 @@ import { TipoEventoService } from 'src/app/servicios/tipo-evento.service';
 import { ProductoService } from 'src/app/servicios/producto.service';
 import { Producto } from 'src/app/interfaces/producto';
 import { ProductoSeleccionComponent } from '../../producto/producto-seleccion/producto-seleccion.component';
+import { Evento } from 'src/app/interfaces/evento';
+import { SeleccionarEventoComponent } from 'src/app/componentes/seleccionar-evento/seleccionar-evento.component';
 
 @Component({
   selector: 'app-evento-crud',
@@ -49,13 +51,16 @@ export class EventoCRUDComponent implements OnInit {
     entorno:   {id: "", nombre: ""},
     activo: true
   };
-
+  
   id = new FormControl("");
   tipo = new FormControl("", [Validators.required]);
   numero = new FormControl(0);
   prioridad = new FormControl("", [Validators.required]);
   titulo = new FormControl("", [Validators.required]);
   clienteId = new FormControl("", [Validators.required]);
+  // eventoHijo = new FormControl(false);
+  // eventoHijo!: boolean;
+  // eventoMadre!: Evento;
 
 
   ngOnInit(){
@@ -97,6 +102,8 @@ export class EventoCRUDComponent implements OnInit {
       this.prioridad.setValue(this.evento.prioridad);
       this.titulo.setValue(this.evento.titulo);
       this.clienteId.setValue(this.evento.cliente);
+      // this.eventoHijo.setValue((this.evento.madre)!==undefined);
+      // this.eventoMadre = this.evento.madre;
     }
     
   }
@@ -111,7 +118,9 @@ export class EventoCRUDComponent implements OnInit {
       titulo:         this.titulo.value,
       cliente:        this.cliente.id,
       producto:       this.producto.id,
-      usuAlta:        this.usuario.id
+      usuAlta:        this.usuario.id,
+      prioridad:      this.prioridad.value,
+      // madre:          this.eventoMadre.id
     }
     this.ref.close(evento);
   }
@@ -128,6 +137,15 @@ export class EventoCRUDComponent implements OnInit {
     }
     this.tipoEventoFiltrado = filtered;
   }
+
+  // getDatosEvento(){
+  //   // {{eventoMadre.tipo}} - {{eventoMadre.numero}} | {{eventoMadre.titulo}}
+  //   if (this.eventoMadre){
+  //     return `${this.eventoMadre.tipo} - ${this.eventoMadre.numero} | ${this.eventoMadre.titulo}`
+  //   }else{
+  //     return "";
+  //   }
+  // }
 
   selectCliente(){
     this.refCliente = this.dialogService.open(ClienteSeleccionComponent, {
@@ -156,4 +174,18 @@ export class EventoCRUDComponent implements OnInit {
       this.producto = producto;
     });
   }
+
+  // selectEventoMadre(){
+  //   this.refCliente = this.dialogService.open(SeleccionarEventoComponent, {
+  //     header: 'Seleccionar Evento',
+  //     width: '70%',
+  //     contentStyle: { overflow: 'auto' },
+  //     baseZIndex: 11000
+  //   });
+
+  //   this.refCliente.onClose.subscribe((evento: Evento) => {
+  //     console.log(evento);
+  //     this.eventoMadre = evento;
+  //   });
+  // }
 }

@@ -63,7 +63,7 @@
                     <td>{{ usuario.mail }}</td>
                     <td>{{ usuario.usuario }}</td>
                     <td><div *ngFor="let rol of usuario.rol"><p-chip label="{{rol.id}}" styleClass="custom-chip"></p-chip></div></td>
-                    <td><p-tag [value]="usuario.activo" [severity]="getSeverity(usuario.activo)"></p-tag></td>
+                    <td><p-tag [value]="usuario.activo | activo" [severity]="getSeverity(usuario.activo)"></p-tag></td>
                     <td>
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning botonRedondoChico mr-2" (click)="mostrarModalCrud(usuario, 'M')"></button>
                         <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger botonRedondoChico mr-2" (click)="deleteSolo(usuario)"></button>

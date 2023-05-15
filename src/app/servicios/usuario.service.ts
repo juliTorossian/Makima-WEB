@@ -1,9 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable, tap } from 'rxjs';
-import { Usuario } from '../interfaces/usuario';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
+import { Rol, Usuario } from '../interfaces/usuario';
 import { environment } from 'src/environments/environment.development';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class UsuarioService {
 
   private http = inject(HttpClient);
   private cookies = inject(CookieService);
+  private router = inject(Router);
 
   API_BASEURL = environment.API_BASEURL;
   API_PORT = environment.API_PORT;
@@ -52,6 +54,11 @@ export class UsuarioService {
       token = this.getToken();
     }
     return this.http.get(`${this.URL_COMPLETA}/usuario/${token}?token=true`).pipe(
+      catchError(err => {
+        this.errorUsuario();
+        throw 'error: '+err;
+      }),
+      tap( (res:any) => res),
       map( (res:any) => res.tokenUsuario )
     );
   }
@@ -71,6 +78,40 @@ export class UsuarioService {
   }
   delToken(key:string){
     return this.cookies.delete(key);
+  }
+
+  // ERRORES
+
+  errorUsuario(){
+    this.router.navigate(['login']);
+  }
+
+  // PERMISOS
+
+  getPermisos(usuario:Usuario) : Rol{
+    let permisos : Rol = {
+      id : "permisos",
+      descipcion: "permisos",
+      controlTotal: false,
+      controlEvento: false,
+      controlCliente: false,
+      controlProducto: false,
+      controlTipo: false,
+      controlHora: false,
+      controlUsuario: false
+    }
+
+    usuario.rol.map( (r:Rol) => {
+      permisos.controlTotal = (!permisos.controlTotal && !r.controlTotal) ? false : true;
+      permisos.controlEvento = (!permisos.controlEvento && !r.controlEvento) ? false : true;
+      permisos.controlCliente = (!permisos.controlCliente && !r.controlCliente) ? false : true;
+      permisos.controlProducto = (!permisos.controlProducto && !r.controlProducto) ? false : true;
+      permisos.controlTipo = (!permisos.controlTipo && !r.controlTipo) ? false : true;
+      permisos.controlHora = (!permisos.controlHora && !r.controlHora) ? false : true;
+      permisos.controlUsuario = (!permisos.controlUsuario && !r.controlUsuario) ? false : true;
+    });
+    
+    return permisos;
   }
 
 }

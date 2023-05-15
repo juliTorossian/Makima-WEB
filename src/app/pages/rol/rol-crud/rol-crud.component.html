@@ -7,24 +7,68 @@
             <div class="col-6">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="id">Codigo</label>
-                    <input pInputText id="id" aria-describedby="id-help" formControlName="id"/>
+                    <input pInputText id="id" aria-describedby="id-help" formControlName="id" maxlength="5"/>
                     <small id="id-help" [hidden]="rol.get('id')?.valid || modo==='M'">Ingrese un codigo valido.</small>
                 </div>
             </div>
             <div class="col-6">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="descripcion">Descripcion</label>
-                    <input pInputText id="descripcion" aria-describedby="descripcion-help" formControlName="descripcion" />
+                    <input pInputText id="descripcion" aria-describedby="descripcion-help" formControlName="descripcion" maxlength="60"/>
                     <small id="descripcion-help" [hidden]="rol.get('descripcion')?.valid">Ingrese un descripcion valido.</small>
+                </div>
+            </div>
+        </div>
+        <div class="grid mt-2">
+            <div class="col">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="controlTotal">Total</label>
+                    <p-toggleButton formControlName="controlTotal" onLabel="Si" offLabel="No" id="controlTotal" (onChange)="cambioPermisos(true)"></p-toggleButton>
+                </div>
+            </div>
+            <div class="col">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="controlEvento">Eventos</label>
+                    <p-toggleButton formControlName="controlEvento" onLabel="Si" offLabel="No" id="controlEvento" (onChange)="cambioPermisos(false)"></p-toggleButton>
+                </div>
+            </div>
+            <div class="col">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="controlCliente">Clientes</label>
+                    <p-toggleButton formControlName="controlCliente" onLabel="Si" offLabel="No" id="controlCliente" (onChange)="cambioPermisos(false)"></p-toggleButton>
+                </div>
+            </div>
+            <div class="col">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="controlProducto">Productos</label>
+                    <p-toggleButton formControlName="controlProducto" onLabel="Si" offLabel="No" id="controlProducto" (onChange)="cambioPermisos(false)"></p-toggleButton>
+                </div>
+            </div>
+            <div class="col">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="controlTipo">Tipos Evento</label>
+                    <p-toggleButton formControlName="controlTipo" onLabel="Si" offLabel="No" id="controlTipo" (onChange)="cambioPermisos(false)"></p-toggleButton>
+                </div>
+            </div>
+            <div class="col">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="controlHora">Horas</label>
+                    <p-toggleButton formControlName="controlHora" onLabel="Si" offLabel="No" id="controlHora" (onChange)="cambioPermisos(false)"></p-toggleButton>
+                </div>
+            </div>
+            <div class="col">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="controlUsuario">Usuario</label>
+                    <p-toggleButton formControlName="controlUsuario" onLabel="Si" offLabel="No" id="controlUsuario" (onChange)="cambioPermisos(false)"></p-toggleButton>
                 </div>
             </div>
         </div>
 
         <div [hidden]="!(modo==='A')">
-            <button pButton pRipple label="Crear" class="p-button-success" (click)="accion($event)"></button>
+            <button pButton pRipple label="Crear" class="p-button-success mt-3" (click)="accion($event)"></button>
         </div>
         <div [hidden]="!(modo==='M')">
-            <button pButton pRipple label="Modificar" class="p-button-warning" (click)="accion($event)"></button>
+            <button pButton pRipple label="Modificar" class="p-button-warning mt-3" (click)="accion($event)"></button>
         </div>
 
     </form>

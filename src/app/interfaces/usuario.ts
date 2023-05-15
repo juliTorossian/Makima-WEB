@@ -18,7 +18,13 @@ export interface UsuarioCorto {
 }
 
 export interface Rol {
-    id:         string;
-    descipcion: string;
-    nivel:      number | null;
+    id:                 string;
+    descipcion:         string;
+    controlTotal:       boolean;
+    controlEvento:      boolean;
+    controlCliente:     boolean;
+    controlProducto:    boolean;
+    controlTipo:        boolean;
+    controlHora:        boolean;
+    controlUsuario:     boolean;
 }

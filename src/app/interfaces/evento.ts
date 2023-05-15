@@ -17,6 +17,7 @@ export interface Evento {
     estimacion:     number;
     prioridad:      number;
     propio:         boolean;
+    madre:          Evento;
     detalle:        EventoDetalle | null;
 }
 

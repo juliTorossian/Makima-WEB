@@ -92,7 +92,7 @@ import { HoraCrudComponent } from './pages/hora/hora-crud/hora-crud.component';
 import { TotalComoNumeroPipe } from './pipes/total-como-numero.pipe';
 import { VidaEventoComponent } from './pages/eventos/componentes/vida-evento/vida-evento.component';
 import { NovedadesComponent } from './pages/dashboard/componentes/novedades/novedades.component';
-import { SeleccionarEventoComponent } from './pages/hora/componentes/seleccionar-evento/seleccionar-evento.component';
+import { SeleccionarEventoComponent } from './componentes/seleccionar-evento/seleccionar-evento.component';
 import { ActivadoPipe } from './pipes/activado.pipe';
 import { UsuarioComponent } from './pages/usuario/usuario/usuario.component';
 import { BadgeComponent } from './componentes/badge/badge.component';
@@ -113,7 +113,7 @@ import { BadgeComponent } from './componentes/badge/badge.component';
     TareaCrudComponent,
     TipoEventoCrudComponent,
     TiposEventoComponent,
-    ActivoPipe,
+    // ActivoPipe,
     ClienteSeleccionComponent,
     EntornosComponent,
     EntornoCrudComponent,
@@ -139,7 +139,6 @@ import { BadgeComponent } from './componentes/badge/badge.component';
     VidaEventoComponent,
     NovedadesComponent,
     SeleccionarEventoComponent,
-    ActivadoPipe,
     UsuarioComponent,
     BadgeComponent,
   ],
@@ -189,6 +188,8 @@ import { BadgeComponent } from './componentes/badge/badge.component';
     ChipModule,
     InputTextareaModule,
     TabViewModule,
+    ActivoPipe,
+    ActivadoPipe,
   ],
   providers: [
     CookieService,
