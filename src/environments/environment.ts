@@ -1,5 +1,5 @@
 export const environment = {
-    API_BASEURL: 'http://localhost',
+    API_BASEURL: 'localhost',
     API_PORT: '4000',
     API_VERSION: 'api/v2',
 

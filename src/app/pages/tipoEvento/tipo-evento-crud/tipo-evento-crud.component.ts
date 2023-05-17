@@ -30,8 +30,10 @@ export class TipoEventoCrudComponent {
 
   agregarTarea() {
     let etapa = 0;
-    if (this.tareasAsignadas.length > 1){
+    if (this.tareasAsignadas.length >= 1){
       etapa = (this.tareasAsignadas[this.tareasAsignadas.length-1].etapa + 1);
+    }else{
+      etapa = 1;
     }
     this.tareasAsignadas.push({
       etapa: etapa,
