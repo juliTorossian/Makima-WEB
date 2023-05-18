@@ -1,6 +1,6 @@
 export const environment = {
 
-    API_BASEURL: 'localhost',
+    API_BASEURL: 'http://pandora',
     API_PORT: '4000',
     API_VERSION: 'api/v2',
 
