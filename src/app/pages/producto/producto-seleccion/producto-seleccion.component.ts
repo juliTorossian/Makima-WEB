@@ -18,7 +18,7 @@ export class ProductoSeleccionComponent {
   ngOnInit() {
     this.productoService.getProductos().subscribe({
       next: (res : any) => {
-        console.log(res);
+        // console.log(res);
         this.productos = res;
       },
       error: (err) => {

@@ -23,7 +23,7 @@
                 <div class="flex flex-column gap-2">
                     <label htmlFor="submodulo">Submodulo</label>
                     <!-- <input pInputText id="submodulo" aria-describedby="submodulo-help" formControlName="submodulo" /> -->
-                    <p-dropdown appendTo="body" [options]="modulos" formControlName="submodulo" optionLabel="nombre" optionValue="id"></p-dropdown>
+                    <p-dropdown appendTo="body" [options]="submodulos" formControlName="submodulo" optionLabel="nombre" optionValue="id"></p-dropdown>
                     <small id="submodulo-help" [hidden]="producto.get('submodulo')?.valid">Ingrese un Submodulo valido.</small>
                 </div>
             </div>

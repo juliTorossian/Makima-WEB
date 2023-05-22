@@ -27,14 +27,6 @@
     margin: 0 15px;
 }
 
-.separator.pending {
-    background-color: orange;
-}
-
-.separator.completed {
-    background-color: green;
-}
-
 .info {
     display: flex;
     flex-direction: column;

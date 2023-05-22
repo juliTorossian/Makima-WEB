@@ -34,8 +34,10 @@
                         <input pInputText style="padding-top: 0.4rem !important;padding-bottom: 0.4rem !important;" class="p-component p-element p-inputtext" type="text" (input)="dt.filterGlobal(getEventValue($event), 'contains')" placeholder="Search..." />
                     </span>
                     <div class="flex align-items-center gap-1" style="margin:auto 10px">
-                        <p-checkbox id="filtroVerCerrados" [(ngModel)]="filtroVerCerrados" (click)="filtraEventosCerrado()" [binary]="true" inputId="binary"></p-checkbox>
-                        <label for="filtroVerCerrados"> Ver Eventos Cerrados</label>
+                        <p-checkbox id="filtroVerCerrados" [(ngModel)]="filtroVerPropios" (click)="filtraEventos()" [binary]="true" inputId="binary"></p-checkbox>
+                        <label for="filtroVerCerrados" class="mr-2"> Propios</label>
+                        <p-checkbox id="filtroVerCerrados" [(ngModel)]="filtroVerCerrados" (click)="filtraEventos()" [binary]="true" inputId="binary"></p-checkbox>
+                        <label for="filtroVerCerrados"> Cerrados</label>
                     </div>
                 </div>
             </ng-template>

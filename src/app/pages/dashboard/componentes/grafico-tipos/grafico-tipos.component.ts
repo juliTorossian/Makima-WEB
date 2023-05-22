@@ -1,9 +1,8 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, Input, OnInit, ViewChild } from '@angular/core';
 import {
   ApexAxisChartSeries,
   ApexChart,
   ChartComponent,
-  ApexDataLabels,
   ApexPlotOptions,
   ApexResponsive,
   ApexXAxis,
@@ -11,6 +10,7 @@ import {
   ApexFill
 } from "ng-apexcharts";
 import { DashboardService } from 'src/app/servicios/dashboard.service';
+import { UsuarioService } from 'src/app/servicios/usuario.service';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -28,7 +28,11 @@ export type ChartOptions = {
   styleUrls: ['./grafico-tipos.component.css']
 })
 export class GraficoTiposComponent implements OnInit{
+  @Input() origen!: string;
+  @Input() filtro!: string;
+
   private dashboardService = inject(DashboardService);
+  private usuarioService = inject(UsuarioService);
 
   @ViewChild("chart") chart!: ChartComponent;
   public chartOptions!: ChartOptions;
@@ -38,12 +42,24 @@ export class GraficoTiposComponent implements OnInit{
 
   ngOnInit(){
 
-    this.dashboardService.getTareasPorTipo().subscribe({
-      next: (res:any) => {
-        this.data = res;
-        this.crearGrafico();
-      }
-    })
+    if (this.origen === 'D'){
+      // Dashboard
+      this.dashboardService.getTareasPorTipo().subscribe({
+        next: (res:any) => {
+          this.data = res;
+          this.crearGrafico();
+        }
+      });
+    }
+    if (this.origen === 'U'){
+      // Usuario
+      this.usuarioService.getEventosGrafico(this.filtro).subscribe({
+        next: (res:any) => {
+          this.data = res;
+          this.crearGrafico();
+        }
+      });
+    }
 
   }
 
@@ -74,7 +90,10 @@ export class GraficoTiposComponent implements OnInit{
         "data": dataAux
       };
 
+      // console.log(serie);
+
       series.push(serie);
+
 
     });
 
@@ -86,7 +105,7 @@ export class GraficoTiposComponent implements OnInit{
       series: series,
       chart: {
         type: "bar",
-        height: 350,
+        height: 450,
         stacked: true,
         toolbar: {
           show: true

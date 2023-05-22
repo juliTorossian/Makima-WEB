@@ -50,7 +50,7 @@ export class UsuarioCrudComponent {
     console.log(this.config.data);
 
     this.rolService.getRoles().pipe(
-      tap( (res) => console.log(res))
+      // tap( (res) => console.log(res))
     ).subscribe({
       next: (res) => {
         this.roles = res;
@@ -100,7 +100,7 @@ export class UsuarioCrudComponent {
     // console.log(this.usuario.get('password')?.value);
     // console.log(this.usuario.get('confirmPass')?.value);
 
-    console.log(this.rol);
+    // console.log(this.rol);
     
 
     if ( (this.password != this.confirmPass) && this.modo !== 'M' ){
@@ -119,7 +119,7 @@ export class UsuarioCrudComponent {
         color: this.color,
         rol: this.rol
       }
-      console.log(usuario);
+      // console.log(usuario);
   
       this.ref.close(usuario);
       

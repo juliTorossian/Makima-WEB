@@ -22,7 +22,7 @@ export class ModalSeleccionUsuarioComponent implements OnInit{
   comentario!: string;
 
   ngOnInit(): void { 
-    console.log(this.config.data);
+    // console.log(this.config.data);
     this.reqComentario = this.config.data.reqComentario;
     this.comentario = this.config.data.comentario;
     this.usuarioService.getUsuariosRol(this.config.data.rol).pipe(

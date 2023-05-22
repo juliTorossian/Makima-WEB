@@ -36,14 +36,14 @@
                 <label htmlFor="rol">Rol</label>
                 <!-- <input pInputText id="rol" aria-describedby="rol-help" formControlName="rol" /> -->
                 <!-- <p-dropdown formControlName="rol" [options]="roles" optionValue="id" optionLabel="descripcion" id="rol" aria-describedby="rol-help"></p-dropdown> -->
-                <p-multiSelect [options]="roles" [(ngModel)]="rol" defaultLabel="Seleccionar Roles" optionLabel="descripcion" optionValue="id" display="chip" style="display: contents;" ></p-multiSelect>
+                <p-multiSelect appendTo="body" [options]="roles" [(ngModel)]="rol" defaultLabel="Seleccionar Roles" optionLabel="descripcion" optionValue="id" display="chip" style="display: contents;" ></p-multiSelect>
                 <!-- <small id="rol-help" [hidden]="usuario.get('rol')?.valid">Ingrese un rol valido.</small> -->
             </div>
         </div>
         <div class="col-2" style="display:flex;justify-content: center;">
             <div class="flex flex-column gap-2">
                 <label htmlFor="color">Color</label>
-                <p-colorPicker id="color" [(ngModel)]="color" tabindex="6"></p-colorPicker>
+                <p-colorPicker appendTo="body" id="color" [(ngModel)]="color" tabindex="6"></p-colorPicker>
             </div>
         </div>
         <div class="col-6" [hidden]="modo==='M'">

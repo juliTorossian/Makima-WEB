@@ -59,7 +59,7 @@ export class TipoEventoCrudComponent {
       }
     })
 
-    console.log(this.config.data);
+    // console.log(this.config.data);
     this.modo = this.config.data.modo;
     let tipoEvento = this.config.data.tipoEvento;
     

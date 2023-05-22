@@ -7,14 +7,14 @@
             <div class="col-6">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="id">Id</label>
-                    <input pInputText id="id" aria-describedby="id-help" formControlName="id" />
+                    <input pInputText id="id" aria-describedby="id-help" formControlName="id" maxlength="5"/>
                     <small id="id-help" [hidden]="entorno.get('id')?.valid">Ingrese un id valido.</small>
                 </div>
             </div>
             <div class="col-6">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="nombre">Nombre</label>
-                    <input pInputText id="nombre" aria-describedby="nombre-help" formControlName="nombre" />
+                    <input pInputText id="nombre" aria-describedby="nombre-help" formControlName="nombre" maxlength="45"/>
                     <small id="nombre-help" [hidden]="entorno.get('nombre')?.valid">Ingrese un nombre valido.</small>
                 </div>
             </div>

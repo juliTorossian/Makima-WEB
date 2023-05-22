@@ -124,9 +124,9 @@ export class ModulosComponent {
     let moduloRes! : Modulo;
     let header = "";
     if (modo === 'A'){
-      header = "Nueva Tipo de Evento";
+      header = "Nuevo Modulo";
     }else if (modo === 'M'){
-      header = "Modificar Tipo de Evento";
+      header = "Modificar Modulo";
     }
 
     const data = {modulo, modo}

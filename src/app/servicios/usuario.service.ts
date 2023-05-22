@@ -116,4 +116,8 @@ export class UsuarioService {
     return permisos;
   }
 
+  getEventosGrafico(usuarioId:string){
+    return this.http.get(`${this.URL_COMPLETA}/usuario/estadisticas/${usuarioId}`);
+  }
+
 }

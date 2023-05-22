@@ -105,7 +105,7 @@ export class EventosUsuarioComponent {
   }
 
   avanzar(evento:Evento){
-    console.log(evento.detalle?.eventoCircuito);
+    // console.log(evento.detalle?.eventoCircuito);
 
     const data = {
       rol: evento.detalle?.eventoCircuito.sig.tarea?.rol,
@@ -122,8 +122,9 @@ export class EventosUsuarioComponent {
     });
 
     this.ref.onClose.subscribe((res:any) => {
+      // console.log(res);
       if (res){
-        // console.log(usuarioSeleccionado);
+        // console.log(res.usuarioSeleccionado);
         this.eventoAccion.avanzarEvento(evento, res.usuarioSeleccionado, res.comentario).subscribe({
           next: (res) => {
             // console.log(res);

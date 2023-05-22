@@ -56,6 +56,7 @@ export class EventosComponent implements OnInit {
   permisos!: Rol;
 
   filtroVerCerrados: boolean = false; // false no muestra los cerrados
+  filtroVerPropios: boolean = false; // false no muestra los cerrados
 
   ngOnInit() {
     this.identificarUsuario();
@@ -65,7 +66,7 @@ export class EventosComponent implements OnInit {
   identificarUsuario(){
     this.usuarioService.getUsuarioToken(this.usuarioService.getToken()).subscribe({
       next: (res:any) => {
-        console.log(res);
+        // console.log(res);
         this.usuario = res;
         this.permisos = this.usuarioService.getPermisos(this.usuario);
       },
@@ -83,7 +84,9 @@ export class EventosComponent implements OnInit {
     this.eventoService.getEventos().subscribe((res) => {
       console.log(res);
       this.eventosSave = res;
-      this.eventos = this.eventosSave.filter((r:any) => r.cerrado === 0);
+
+      this.eventos = this.eventosSave.filter((e:any) => (e.cerrado == this.filtroVerCerrados) && (e.propio == this.filtroVerPropios));
+      this.ordenarEventos();
     });
   }
 
@@ -176,20 +179,47 @@ export class EventosComponent implements OnInit {
     return $event.target.value;
   } 
 
-  filtraEventosCerrado(){
+  filtraEventos(){
+    this.eventos = this.eventosSave.filter((e:any) => (e.cerrado == 0) && (e.propio == 0));
+
+    const eventosCerrados : Evento[]= this.eventosSave.filter((e:any) => (e.cerrado == true));
+    const eventosPropios : Evento[] = this.eventosSave.filter((e:any) => (e.propio == true));
+
+
     if (this.filtroVerCerrados){
-      this.eventos = this.eventosSave;
-    }else{
-      this.eventos = this.eventosSave.filter((r:any) => r.cerrado === 0);
+      this.eventos = this.eventos.concat(eventosCerrados);
     }
+    if (this.filtroVerPropios){
+      this.eventos = this.eventos.concat(eventosPropios);
+    }
+    this.ordenarEventos();
+  }
+
+  ordenarEventos(){
+    this.eventos.sort((a, b) => {
+      if (a.fechaAlta < b.fechaAlta) {
+        return -1;
+      }
+      if (a.fechaAlta > b.fechaAlta) {
+        return 1;
+      }
+      return 0;
+    });
   }
 
   mostrarModalCrud(evento: Evento | null, modo:any){
 
     const data = {evento, modo}
+    let header = "";
+    if (modo === 'A'){
+      header = "Nuevo Evento";
+    }else if (modo === 'M'){
+      header = "Modificar Evento";
+    }
+
 
     this.ref = this.dialogService.open(EventoCRUDComponent, {
-      header: 'Editar evento',
+      header: header,
       width: '70%',
       contentStyle: { overflow: 'auto' },
       baseZIndex: 10000,

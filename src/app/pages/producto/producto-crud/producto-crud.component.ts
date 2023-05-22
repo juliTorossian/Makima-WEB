@@ -23,13 +23,14 @@ export class ProductoCrudComponent {
   modo!: any;
 
   modulos!: Modulo[];
+  submodulos!: Modulo[];
   entornos!: Entorno[];
 
   producto = new FormGroup({
     id: new FormControl("", [Validators.required]),
     nombre: new FormControl("", [Validators.required]),
     modulo: new FormControl("", [Validators.required]),
-    submodulo: new FormControl("", [Validators.required]),
+    submodulo: new FormControl(""),
     entorno: new FormControl("", [Validators.required]),
   });
 
@@ -42,6 +43,12 @@ export class ProductoCrudComponent {
     this.moduloService.getModulos().subscribe({
       next: (res:any) => {
         this.modulos = res;
+        this.submodulos = res;
+        this.submodulos.unshift({ 
+          id:     null,
+          nombre: null,
+          padre:  null
+        })
       }
     });
     this.entornoService.getEntornos().subscribe({

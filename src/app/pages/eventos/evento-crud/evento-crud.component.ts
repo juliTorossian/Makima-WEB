@@ -35,7 +35,7 @@ export class EventoCRUDComponent implements OnInit {
   modo!: any;
   tiposEvento! : any[];
   tipoEventoFiltrado! : any[];
-  prioridades :any[] = [1, 2, 3, 4, 5];
+  prioridades :any[] = [5, 4, 3, 2, 1];
   evento!: any;
   cliente: Cliente = {
     id: "",
@@ -55,7 +55,7 @@ export class EventoCRUDComponent implements OnInit {
   id = new FormControl("");
   tipo = new FormControl("", [Validators.required]);
   numero = new FormControl(0);
-  prioridad = new FormControl("", [Validators.required]);
+  prioridad = new FormControl(5, [Validators.required]);
   titulo = new FormControl("", [Validators.required]);
   clienteId = new FormControl("", [Validators.required]);
   // eventoHijo = new FormControl(false);
@@ -72,7 +72,7 @@ export class EventoCRUDComponent implements OnInit {
     });
     
     
-    console.log(this.config.data);
+    // console.log(this.config.data);
     this.modo = this.config.data.modo;
     this.evento = this.config.data.evento;
 
@@ -157,7 +157,9 @@ export class EventoCRUDComponent implements OnInit {
 
     this.refCliente.onClose.subscribe((cliente: Cliente) => {
       // console.log(cliente);
-      this.cliente = cliente;
+      if (cliente){
+        this.cliente = cliente;
+      }
     });
   }
 
@@ -170,8 +172,10 @@ export class EventoCRUDComponent implements OnInit {
     });
 
     this.refProducto.onClose.subscribe((producto: Producto) => {
-      console.log(producto);
-      this.producto = producto;
+      // console.log(producto);
+      if (producto){
+        this.producto = producto;
+      }
     });
   }
 

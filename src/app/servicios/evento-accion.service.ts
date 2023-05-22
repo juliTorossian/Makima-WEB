@@ -24,7 +24,7 @@ export class EventoAccionService {
   }
   avanzarEvento(evento:Evento, usuario:Usuario, comentario:string){
     return this.http.get(`${this.URL_COMPLETA}/evento/${evento.id}/circular/a?usuario=${usuario.id}&comentario=${comentario}`).pipe(
-      tap( (res:any) => {console.log(usuario.id, comentario)})
+      // tap( (res:any) => {console.log(usuario.id, comentario)})
     );
   }
   retrocederEvento(evento:Evento, usuario:Usuario, comentario:string){

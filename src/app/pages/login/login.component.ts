@@ -65,4 +65,12 @@ export class LoginComponent {
     // console.log("inicio de sesion satisfactorio");
     this.router.navigateByUrl("/dashboard");
   }
+
+  // ejecutarAccion(e:any){
+  //   console.log(e);
+  //   if (e.keyCode === 13 && !e.shiftKey) {
+  //     e.preventDefault();
+  //     this.login();
+  //   }
+  // }
 }

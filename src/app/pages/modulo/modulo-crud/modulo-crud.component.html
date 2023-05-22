@@ -7,21 +7,21 @@
             <div class="col">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="id">Id</label>
-                    <input pInputText id="id" aria-describedby="id-help" formControlName="id" />
+                    <input pInputText id="id" aria-describedby="id-help" formControlName="id" maxlength="4"/>
                     <small id="id-help" [hidden]="modulo.get('id')?.valid">Ingrese un id valido.</small>
                 </div>
             </div>
             <div class="col">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="nombre">Nombre</label>
-                    <input pInputText id="nombre" aria-describedby="nombre-help" formControlName="nombre" />
+                    <input pInputText id="nombre" aria-describedby="nombre-help" formControlName="nombre" maxlength="45"/>
                     <small id="nombre-help" [hidden]="modulo.get('nombre')?.valid">Ingrese un nombre valido.</small>
                 </div>
             </div>
             <div class="col">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="padre">Padre</label>
-                    <input pInputText id="padre" aria-describedby="padre-help" formControlName="padre" />
+                    <input pInputText id="padre" aria-describedby="padre-help" formControlName="padre" maxlength="4"/>
                 </div>
             </div>
         </div>

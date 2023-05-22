@@ -123,9 +123,9 @@ export class EntornosComponent {
     let entornoRes! : Entorno;
     let header = "";
     if (modo === 'A'){
-      header = "Nueva Tipo de Evento";
+      header = "Nuevo Entorno";
     }else if (modo === 'M'){
-      header = "Modificar Tipo de Evento";
+      header = "Modificar Entorno";
     }
 
     const data = {entorno, modo}

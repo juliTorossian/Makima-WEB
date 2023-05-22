@@ -2,35 +2,88 @@
 
     <div class="grid" *ngIf="usuario">
         <div class="col-4 text-aling-center">
-            <p-card>
-                <p>{{usuario.nombre}} {{usuario.apellido}}</p>
-            </p-card>
+            <div class="card">
+                <div class="card-body body-flex">
+    
+                    <div class="">
+                        <p class="card-title">{{usuario.nombre}} {{usuario.apellido}}</p>
+                    </div>
+
+                    <div class="user-att">
+                        <p class="mr-4">{{usuario.mail}}</p>
+                        <a class="boton-redondo" style="display: flex;" href="mailto:{{usuario.mail}}"><i class="pi pi-send boton-redondo-icon"></i></a>
+                    </div>
+                </div>
+            </div>
+
         </div>
         <div class="col-8 panel">
-            <p-card >
-                <p-tabView styleClass="tabview-custom">
-                    <p-tabPanel>
-                        <ng-template pTemplate="header">
-                            <i class="pi pi-calendar"></i>
-                            <span>  Datos</span>
-                        </ng-template>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </p>
-                    </p-tabPanel>
-                    <p-tabPanel header="Mi Usuario">
-                        <ng-template pTemplate="header">
-                            <i class="pi pi-user"></i>
-                            <span>   Mi Usuario</span>
-                        </ng-template>
-                        <p>
-                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim
-                            ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius modi.
-                        </p>
-                    </p-tabPanel>
-                </p-tabView>
-            </p-card>
+            <div class="card">
+                <div class="card-body">
+                    <p-tabView styleClass="tabview-custom">
+                        <p-tabPanel>
+                            <ng-template pTemplate="header">
+                                <i class="pi pi-calendar mr-1"></i>
+                                <span>Datos</span>
+                            </ng-template>
+                            
+                            <app-grafico-tipos origen="U" [filtro]="usuarioAVer"></app-grafico-tipos>
+
+                        </p-tabPanel>
+                        <p-tabPanel header="Mi Usuario" *ngIf="esUsuario()">
+                            <ng-template pTemplate="header">
+                                <i class="pi pi-user mr-1"></i>
+                                <span>Mi Usuario</span>
+                            </ng-template>
+                            <div class="grid">
+                                <div class="col-6">
+                                    <div class="flex flex-column gap-2">
+                                        <label htmlFor="nombre">Nombre</label>
+                                        <input pInputText id="nombre" aria-describedby="nombre-help" [(ngModel)]="usuarioMod.nombre" tabindex="0" [readOnly]="!esUsuario()"/>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="flex flex-column gap-2">
+                                        <label htmlFor="apellido">Apellido</label>
+                                        <input pInputText id="apellido" aria-describedby="apellido-help" [(ngModel)]="usuarioMod.apellido" tabindex="1" [readOnly]="!esUsuario()"/>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="flex flex-column gap-2">
+                                        <label htmlFor="mail">Mail</label>
+                                        <input type="email" pInputText id="mail" aria-describedby="mail-help" [(ngModel)]="usuarioMod.mail" tabindex="2" [readOnly]="!esUsuario()"/>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="flex flex-column gap-2">
+                                        <label htmlFor="usuario">Usuario</label>
+                                        <input pInputText id="usuario" aria-describedby="usuario-help" [(ngModel)]="usuarioMod.usuario" tabindex="3" [readOnly]="true"/>
+                                    </div>
+                                </div>
+                                <div class="col-3" style="display:flex;justify-content: center;">
+                                    <div class="flex flex-column gap-2">
+                                        <label htmlFor="color">Color</label>
+                                        <p-colorPicker appendTo="body" id="color" [(ngModel)]="usuarioMod.color" tabindex="4" [disabled]="!esUsuario()"></p-colorPicker>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="esUsuario()">
+                                <button pButton pRipple label="Modificar" class="p-button-warning" (click)="modificarUsuario()" tabindex="5"></button>
+                            </div>
+                        </p-tabPanel>
+                        <p-tabPanel header="Preferencias" *ngIf="esUsuario()">
+                            <ng-template pTemplate="header">
+                                <i class="pi pi-cog mr-1"></i>
+                                <span>Preferencias</span>
+                            </ng-template>
+                            <p>
+                                Aca se va a configurar las Preferencias del usuario.
+                                Notificaciones al mail
+                            </p>
+                        </p-tabPanel>
+                    </p-tabView>
+                </div>
+            </div>
         </div>
     </div>
 
