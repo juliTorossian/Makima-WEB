@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { Modulo } from '../interfaces/modulo';
 
@@ -30,5 +30,11 @@ export class ModuloService {
 
   deleteModulo(modulo: Modulo){
     return this.http.delete(`${this.URL_COMPLETA}/modulo/${modulo.id}`);
+  }
+
+  getModulosBusqueda(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.URL_COMPLETA}/modulo`).pipe(
+      map((response: any[]) => response.map(item => ({ value: item.id, label: `${item.id} - ${item.nombre}` })))
+    );
   }
 }

@@ -9,8 +9,6 @@
         <tr>
             <th pSortableColumn="id" hidden>Id <p-sortIcon field="id" ></p-sortIcon></th>
             <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
-            <th pSortableColumn="modulo">Modulo <p-sortIcon field="modulo"></p-sortIcon></th>
-            <th pSortableColumn="submodulo">SubModulo <p-sortIcon field="submodulo"></p-sortIcon></th>
             <th pSortableColumn="entorno">Entorno <p-sortIcon field="entorno"></p-sortIcon></th>
             <th style="width:4em"></th>
         </tr>
@@ -19,8 +17,6 @@
         <tr>
             <td hidden>{{ producto.id }}</td>
             <td>{{ producto.nombre }}</td>
-            <td>{{ producto.modulo.id }}</td>
-            <td>{{ producto.submodulo.id }}</td>
             <td>{{ producto.entorno.id }}</td>
             <td>
                 <button type="button" pButton icon="pi pi-check-circle" (click)="select(producto)"></button>

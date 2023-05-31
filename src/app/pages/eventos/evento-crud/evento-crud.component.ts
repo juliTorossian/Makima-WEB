@@ -13,6 +13,8 @@ import { Producto } from 'src/app/interfaces/producto';
 import { ProductoSeleccionComponent } from '../../producto/producto-seleccion/producto-seleccion.component';
 import { Evento } from 'src/app/interfaces/evento';
 import { SeleccionarEventoComponent } from 'src/app/componentes/seleccionar-evento/seleccionar-evento.component';
+import { ModuloService } from 'src/app/servicios/modulo.service';
+import { Modulo } from 'src/app/interfaces/modulo';
 
 @Component({
   selector: 'app-evento-crud',
@@ -30,12 +32,16 @@ export class EventoCRUDComponent implements OnInit {
   private productoService = inject(ProductoService);
   private usuarioService = inject(UsuarioService);
   private tipoEventoService = inject(TipoEventoService);
+  private moduloService = inject(ModuloService);
 
   usuario!: Usuario;
   modo!: any;
   tiposEvento! : any[];
   tipoEventoFiltrado! : any[];
   prioridades :any[] = [5, 4, 3, 2, 1];
+  modulos! : any[];
+  modulosFiltrados! : any[];
+
   evento!: any;
   cliente: Cliente = {
     id: "",
@@ -45,19 +51,18 @@ export class EventoCRUDComponent implements OnInit {
   };
   producto: Producto = {
     id:        "",
-    nombre:    "",
-    modulo:    {id: "", nombre: "", padre: ""},
-    submodulo: {id: "", nombre: "", padre: ""},
-    entorno:   {id: "", nombre: ""},
+    nombre:    "-",
+    entorno:   {id: "-", nombre: ""},
     activo: true
   };
   
   id = new FormControl("");
   tipo = new FormControl("", [Validators.required]);
-  numero = new FormControl(0);
+  numero = new FormControl({value:0, disabled:true});
   prioridad = new FormControl(5, [Validators.required]);
   titulo = new FormControl("", [Validators.required]);
   clienteId = new FormControl("", [Validators.required]);
+  modulo = new FormControl("");
   // eventoHijo = new FormControl(false);
   // eventoHijo!: boolean;
   // eventoMadre!: Evento;
@@ -70,9 +75,12 @@ export class EventoCRUDComponent implements OnInit {
         this.tiposEvento = res;
       }
     });
+    this.moduloService.getModulosBusqueda().subscribe({
+      next: (res:any) => {
+        this.modulos = res;
+      },
+    })
     
-    
-    // console.log(this.config.data);
     this.modo = this.config.data.modo;
     this.evento = this.config.data.evento;
 
@@ -83,6 +91,9 @@ export class EventoCRUDComponent implements OnInit {
     });
     
     if (this.evento){
+
+      console.log(this.evento);
+
       this.clienteService.getCliente(this.evento.cliente.id).subscribe({
         next: (res:any) => {
           // console.log(res);
@@ -102,6 +113,7 @@ export class EventoCRUDComponent implements OnInit {
       this.prioridad.setValue(this.evento.prioridad);
       this.titulo.setValue(this.evento.titulo);
       this.clienteId.setValue(this.evento.cliente);
+      this.modulo.setValue(this.evento.modulo);
       // this.eventoHijo.setValue((this.evento.madre)!==undefined);
       // this.eventoMadre = this.evento.madre;
     }
@@ -118,6 +130,7 @@ export class EventoCRUDComponent implements OnInit {
       titulo:         this.titulo.value,
       cliente:        this.cliente.id,
       producto:       this.producto.id,
+      modulo:         this.modulo,
       usuAlta:        this.usuario.id,
       prioridad:      this.prioridad.value,
       // madre:          this.eventoMadre.id
@@ -136,6 +149,19 @@ export class EventoCRUDComponent implements OnInit {
       };
     }
     this.tipoEventoFiltrado = filtered;
+  }
+
+  filtroModulo(event:any) {
+    let filtered: any[] = [];
+    let query = event.query;
+
+    for (let i = 0; i < this.modulos.length; i++) {
+      let modulo = this.modulos[i];
+      if (modulo.label.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
+        filtered.push(modulo);
+      };
+    }
+    this.modulosFiltrados = filtered;
   }
 
   // getDatosEvento(){

@@ -1,4 +1,5 @@
 import { Cliente } from "./cliente";
+import { Modulo } from "./modulo";
 import { Producto } from "./producto";
 import { Tarea } from "./tarea";
 import { UsuarioCorto } from "./usuario";
@@ -11,6 +12,7 @@ export interface Evento {
     tareaNombre:    string;
     cliente:        Cliente;
     producto:       Producto;
+    modulo:         Modulo;
     usuarioAlta:    UsuarioCorto;
     usuarioActual:  UsuarioCorto;
     cerrado:        boolean;

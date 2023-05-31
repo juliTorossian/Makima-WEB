@@ -18,7 +18,7 @@
             [value]="eventos"
             [rows]="10"
             [paginator]="true"
-            [globalFilterFields]="['tipo', 'numero', 'detalle.eventoCircuito.act.tarea.nombre', 'titulo', 'cliente.nombre', 'producto.nombre', 'producto.modulo', 'usuarioActual.usuario', 'fechaAlta']"
+            [globalFilterFields]="['tipo', 'numero', 'detalle.eventoCircuito.act.tarea.nombre', 'titulo', 'cliente.nombre', 'producto.nombre', 'modulo', 'usuarioActual.usuario', 'fechaAlta']"
             [tableStyle]="{ 'min-width': '75rem' }"
             [(selection)]="eventoSeleccionado"
             [rowHover]="true"
@@ -74,7 +74,7 @@
                     <td>{{ evento.detalle?.eventoCircuito.act.tarea?.nombre }}</td>
                     <td>{{ evento.cliente.nombre }}</td>
                     <td>{{ evento.producto.nombre }}</td>
-                    <td>{{ evento.producto.modulo }}</td>
+                    <td>{{ evento.modulo }}</td>
                     <td>{{ evento.usuarioActual.usuario }}</td>
                     <td>{{ evento.fechaAlta | date:'short'}}</td>
                     <td hidden>{{ evento.usuarioAlta.usuario }}</td>
@@ -88,7 +88,7 @@
                 <tr>
                     <td colspan="11">
                         <div class="grid px-5 text-center align-items-center eventoDetalle">
-                            <div class="col-5">
+                            <div class="col">
                                 <div class="grid">
                                     <div class="col">
                                         <p>Horas estimadas:</p>
@@ -106,23 +106,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-5">
-                                <div class="grid">
-                                    <div class="col-12">
-                                        <p>{{ eventoDetalle.producto.nombre }}</p>
-                                    </div>
-                                    <div class="col-4">
-                                        <p>Modulo: {{ eventoDetalle.producto.modulo }}</p>
-                                    </div>
-                                    <div class="col-4">
-                                        <p>SubModulo: {{ eventoDetalle.producto.submodulo }}</p>
-                                    </div>
-                                    <div class="col-4">
-                                        <p>Entorno: {{ eventoDetalle.producto.entorno }}</p>
-                                    </div>
-                                </div>
+                            <div class="col">
+                                <p>Entorno: {{ eventoDetalle.producto.entorno }}</p>
                             </div>
-                            <div class="col-2">
+                            <div class="col">
                                 <p>Usuario Alta</p>
                                 <p>{{ eventoDetalle.usuarioAlta.usuario }}</p>
                             </div>
@@ -133,9 +120,6 @@
             <ng-template pTemplate="summary">
                 <div class="flex align-items-center justify-content-between">En total hay {{ eventos ? eventos.length : 0 }} eventos.</div>
             </ng-template>
-            <!-- <p-column field="nombre"></p-column>
-            <p-column field="edad"></p-column>
-            <p-column field="pais"></p-column> -->
         </p-table>
     </div>
 

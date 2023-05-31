@@ -44,8 +44,6 @@
                     </th>
                     <th pSortableColumn="id" hidden>Id <p-sortIcon field="id" ></p-sortIcon></th>
                     <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
-                    <th pSortableColumn="modulo">Modulo <p-sortIcon field="modulo"></p-sortIcon></th>
-                    <th pSortableColumn="submodulo">SubModulo <p-sortIcon field="submodulo"></p-sortIcon></th>
                     <th pSortableColumn="entorno">Entorno <p-sortIcon field="entorno"></p-sortIcon></th>
                     <th pSortableColumn="activo">Activo <p-sortIcon field="activo"></p-sortIcon></th>
                     <th></th>
@@ -58,8 +56,6 @@
                     </td>
                     <td hidden>{{ producto.id }}</td>
                     <td>{{ producto.nombre }}</td>
-                    <td>{{ producto.modulo.id }}</td>
-                    <td>{{ producto.submodulo.id }}</td>
                     <td>{{ producto.entorno.id }}</td>
                     <td><p-tag [value]="producto.activo | activo" [severity]="getSeverity(producto.activo)"></p-tag></td>
                     <td>

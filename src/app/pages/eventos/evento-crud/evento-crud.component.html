@@ -13,25 +13,25 @@
             <div class="col-3">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="username">Tipo</label>
-                    <p-autoComplete [dropdown]="true" [suggestions]="tipoEventoFiltrado" field="label" (completeMethod)="filtroTipoEvento($event)" [formControl]="tipo" [readonly]="modo==='M'"></p-autoComplete>
+                    <p-autoComplete appendTo="body" [dropdown]="true" [suggestions]="tipoEventoFiltrado" field="label" (completeMethod)="filtroTipoEvento($event)" [formControl]="tipo" [readonly]="modo==='M'"></p-autoComplete>
                     <!-- <p-dropdown [options]="tiposEvento"  [formControl]="tipo" placeholder="Select a City" optionLabel="name"></p-dropdown> -->
                     <small id="username-help" [hidden]="tipo.valid" >Ingrese un tipo de evento valido.</small>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-2">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="numero">Numero</label>
-                    <input pInputText id="numero" pTooltip="El numero se asigna automaticamente" [formControl]="numero" [readonly]="true" [disabled]="true"/>
+                    <input pInputText id="numero" pTooltip="El numero se asigna automaticamente" [formControl]="numero" [readonly]="true"/>
                 </div>
             </div>
             <div class="col-2">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="username">Prioridad</label>
-                    <p-dropdown [options]="prioridades" [formControl]="prioridad" ></p-dropdown>
+                    <p-dropdown appendTo="body" [options]="prioridades" [formControl]="prioridad" ></p-dropdown>
                     <small id="username-help" [hidden]="prioridad.valid">Ingrese una prioridad valida.</small>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-5">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="username">Titulo</label>
                     <input pInputText id="username" aria-describedby="username-help" [formControl]="titulo"  />
@@ -53,34 +53,32 @@
             </div>
         </div>
         
-        <div class="grid select-att">
-            <div class="col-4">
-                <div class="flex flex-column gap-2">
-                    <label htmlFor="producto">Producto</label>
-                    <p class="falso-input">{{producto.nombre}}</p>
+        <div class="grid mt-1">
+           <div class="col-9">
+                <div class="grid select-att">
+                    <div class="col-6">
+                        <div class="flex flex-column gap-2">
+                            <label htmlFor="producto">Producto</label>
+                            <p class="falso-input">{{producto.nombre}}</p>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="flex flex-column gap-2">
+                            <label htmlFor="entorno">Entorno</label>
+                            <p class="falso-input">{{producto.entorno.id}}</p>
+                        </div>
+                    </div>
+                    <div class="col-2 cell-boton">
+                        <button pButton pRipple icon="pi pi-search" class="p-button-success" (click)="selectProducto()"></button>
+                    </div>
                 </div>
-            </div>
-            <div class="col-2">
+           </div>
+           <div class="col-3">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="modulo">Modulo</label>
-                    <p class="falso-input">{{producto.modulo.id}}</p>
+                    <p-autoComplete id="modulo" appendTo="body" [dropdown]="true" [suggestions]="modulosFiltrados" field="label" (completeMethod)="filtroModulo($event)" [formControl]="modulo"></p-autoComplete>
                 </div>
-            </div>
-            <div class="col-2">
-                <div class="flex flex-column gap-2">
-                    <label htmlFor="submodulo">SubModulo</label>
-                    <p class="falso-input">{{producto.submodulo.id}}</p>
-                </div>
-            </div>
-            <div class="col-2">
-                <div class="flex flex-column gap-2">
-                    <label htmlFor="entorno">Entorno</label>
-                    <p class="falso-input">{{producto.entorno.id}}</p>
-                </div>
-            </div>
-            <div class="col-2 cell-boton">
-                <button pButton pRipple icon="pi pi-search" class="p-button-success" (click)="selectProducto()"></button>
-            </div>
+           </div>
         </div>
 
         <!-- <div class="grid select-att">
