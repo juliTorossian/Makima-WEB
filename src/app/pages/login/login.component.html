@@ -10,15 +10,15 @@
       <p-toast></p-toast>
     </div>
   
-    <div [formGroup]="loginForm">
+    <form (ngSubmit)="login()" [formGroup]="loginForm">
       <label for="usuario" class="block text-900 font-medium mb-2">Usuario</label>
       <input id="usuario" type="text" placeholder="Usuario" pInputText class="w-full mb-3" formControlName="usuario">
   
       <label for="password" class="block text-900 font-medium mb-2">Contraseña</label>
       <p-password [toggleMask]="true" [feedback]="false" placeholder="Contraseña" formControlName="password" id="password" styleClass="w-full mb-3" inputStyleClass="w-full"></p-password>
 
-      <button pButton pRipple label="Ingresar" icon="pi pi-sign-in" class="w-full" (click)="login()"></button>
-    </div>
+      <button type="submit" pButton pRipple label="Ingresar" icon="pi pi-sign-in" class="w-full"></button>
+    </form>
   </div>
 </div>
 
