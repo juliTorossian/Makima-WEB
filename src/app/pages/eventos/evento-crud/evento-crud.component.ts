@@ -92,7 +92,7 @@ export class EventoCRUDComponent implements OnInit {
     
     if (this.evento){
 
-      console.log(this.evento);
+      // console.log(this.evento);
 
       this.clienteService.getCliente(this.evento.cliente.id).subscribe({
         next: (res:any) => {
@@ -123,18 +123,20 @@ export class EventoCRUDComponent implements OnInit {
   accion($event:any) {
     $event.preventDefault();    
 
-    let value :any = this.tipo.value;
+    let tipo :any = this.tipo.value;
+    let modulo :any = this.modulo.value;
     const evento = {
       id:             this.id.value,
-      tipo:           value.value,
+      tipo:           tipo.value,
       titulo:         this.titulo.value,
       cliente:        this.cliente.id,
       producto:       this.producto.id,
-      modulo:         this.modulo,
+      modulo:         modulo.value,
       usuAlta:        this.usuario.id,
       prioridad:      this.prioridad.value,
       // madre:          this.eventoMadre.id
     }
+    // console.log(evento);
     this.ref.close(evento);
   }
 

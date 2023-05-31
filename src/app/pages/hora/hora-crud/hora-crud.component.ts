@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Evento } from 'src/app/interfaces/evento';
 import { RegistroHora } from 'src/app/interfaces/hora';
@@ -17,6 +18,7 @@ export class HoraCrudComponent {
   private refEvento = inject(DynamicDialogRef);
   private config = inject(DynamicDialogConfig);
   private dialogService = inject(DialogService);
+  private messageService = inject(MessageService);
 
   private usuarioService = inject(UsuarioService);
 
@@ -38,7 +40,8 @@ export class HoraCrudComponent {
   }
 
   ngOnInit(){
-    // console.log(this.config.data);
+    // console.log(this.config.data.hora);
+
     this.modo = this.config.data.modo;
     let registroHoras = this.config.data.hora;
     if (registroHoras){
@@ -46,7 +49,15 @@ export class HoraCrudComponent {
       this.fecha = new Date(registroHoras.fecha);
       this.usuario = registroHoras.usuario;
       this.totalHoras = registroHoras.totalHoras;
-      this.horas = registroHoras.horas;
+
+      // console.log(registroHoras.horas);
+      this.horas = [];
+      registroHoras.horas.map( (h:any) => {
+        // console.log(h);
+        this.horas.push( { id: h.id, evento: {id: h.evento.id, evento: `${h.evento.tipo}-${h.evento.numero}`}, inicio: h.inicio, final: h.final, total: h.total, observaciones: h.observaciones } )
+      })
+
+      // this.horas = registroHoras.horas;
     }
     this.usuarioService.getUsuarioToken(this.usuarioService.getToken()).subscribe({
       next: (res:any) => {
@@ -57,6 +68,18 @@ export class HoraCrudComponent {
 
   accion($event:any){
     $event.preventDefault();
+    let ok = true;
+
+    this.horas.map( (h) => {
+      if (h.evento.id === ""){
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `El campo "Evento" no puede quedar vacio.` });
+        ok = false;
+      }
+      if (h.inicio === "" || h.final === ""){
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `Los campos "Inicio" y "Final" no pueden quedar vacios` });
+        ok = false;
+      }
+    })
 
     let sumaHoras = 0;
 
@@ -74,7 +97,9 @@ export class HoraCrudComponent {
       horas: this.horas
     }
 
-    this.ref.close(registroHoras);
+    if (ok){
+      this.ref.close(registroHoras);
+    }
   }
 
   actualizarTotal(hora:any){

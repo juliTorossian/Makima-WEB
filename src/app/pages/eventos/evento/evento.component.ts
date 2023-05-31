@@ -119,8 +119,16 @@ export class EventoComponent implements OnInit{
       error: (err) => {
         console.log(err)
       },
-      complete: () => this.cargarComentarios()
+      complete: () => {
+        this.limpiarComentario();
+        this.cargarComentarios();
+      }
     })
+  }
+  
+  limpiarComentario(){
+    this.comentario = "";
+    this.adjunto.nativeElement.value = "";
   }
 
   seleccionarArchivo(evento: Event) {
@@ -128,7 +136,7 @@ export class EventoComponent implements OnInit{
     if (input.files && input.files.length > 0) {
       this.archivoSeleccionado = input.files[0];
     }
-    console.log(this.archivoSeleccionado);
+    // console.log(this.archivoSeleccionado);
     // this.archivoSeleccionado = input.files[0];
   }
 

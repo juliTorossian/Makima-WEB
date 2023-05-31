@@ -153,6 +153,8 @@ export class HorasUsuarioComponent {
 
   mostrarModalCrud(hora: RegistroHora | null, modo:any){
 
+    // console.log(hora);
+
     const data = {hora, modo}
     let header = "";
     switch (modo) {
