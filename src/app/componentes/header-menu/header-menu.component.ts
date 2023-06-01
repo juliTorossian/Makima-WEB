@@ -1,7 +1,8 @@
-import { ExpressionType } from '@angular/compiler';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 import { MegaMenuItem, MenuItem } from 'primeng/api';
+import { interval, tap } from 'rxjs';
 import { Rol, Usuario } from 'src/app/interfaces/usuario';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 
@@ -14,6 +15,10 @@ import { UsuarioService } from 'src/app/servicios/usuario.service';
 export class HeaderMenuComponent implements OnInit{
     private usuarioService = inject(UsuarioService);
     private router = inject(Router);
+    // private intervalSubscription = inject(Subscription);
+    private cookies = inject(CookieService);
+
+    INTERVALO: number = 30000;
 
     usuario!: Usuario;
     permisos!: Rol;
@@ -32,6 +37,20 @@ export class HeaderMenuComponent implements OnInit{
             },
             error: (err) => {
                 console.log(err);
+            },
+            complete: () => {
+                this.checkSesion();
+            }
+        });
+    }
+
+    checkSesion(){
+        interval(this.INTERVALO).subscribe({
+            next: () => {
+                const tokenExpiration = this.cookies.get("userToken");
+                if (!tokenExpiration) {
+                    this.cerrarSesion();
+                }
             }
         });
     }

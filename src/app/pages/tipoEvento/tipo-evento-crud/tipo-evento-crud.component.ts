@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { generarNuevoColor } from 'src/app/helpers/color';
 import { Tarea } from 'src/app/interfaces/tarea';
 import { TareaService } from 'src/app/servicios/tarea.service';
 
@@ -21,7 +22,7 @@ export class TipoEventoCrudComponent {
 
   id!: string;
   descripcion!: string;
-  color!: string;
+  color: string = generarNuevoColor();
   activo: boolean = true;
   propio: boolean = false;
   tareasAsignadas: any[] = [

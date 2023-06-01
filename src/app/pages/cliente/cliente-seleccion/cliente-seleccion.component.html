@@ -12,6 +12,15 @@
             <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
             <th style="width:4em"></th>
         </tr>
+        <tr>
+            <th>
+                <p-columnFilter type="text" field="sigla" matchMode="contains"></p-columnFilter>
+            </th>
+            <th>
+                <p-columnFilter type="text" field="nombre" matchMode="contains"></p-columnFilter>
+            </th>
+            <th></th>
+        </tr>
     </ng-template>
     <ng-template pTemplate="body" let-cliente>
         <tr>

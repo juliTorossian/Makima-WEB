@@ -33,8 +33,9 @@
                     <th pSortableColumn="evento">Evento <p-sortIcon field="evento"></p-sortIcon></th>
                     <th pSortableColumn="titulo">Titulo <p-sortIcon field="titulo"></p-sortIcon></th>
                     <th pSortableColumn="etapa">Etapa <p-sortIcon field="etapa"></p-sortIcon></th>
-                    <th pSortableColumn="cliente">Cliente <p-sortIcon field="cliente"></p-sortIcon></th>
-                    <th pSortableColumn="producto">Producto <p-sortIcon field="producto"></p-sortIcon></th>
+                    <th pSortableColumn="cliente">Cliente <p-sortIcon field="cliente.nombre"></p-sortIcon></th>
+                    <th pSortableColumn="producto">Producto <p-sortIcon field="producto.nombre"></p-sortIcon></th>
+                    <th pSortableColumn="modulo">Modulo <p-sortIcon field="modulo"></p-sortIcon></th>
                     <th pSortableColumn="usuarioAlta">Usuario Actual <p-sortIcon field="usuarioAlta"></p-sortIcon></th>
                     <th></th>
                 </tr>
@@ -51,6 +52,7 @@
                     <td>{{ evento.detalle?.eventoCircuito.act.tarea?.nombre }}</td>
                     <td>{{ evento.cliente.nombre }}</td>
                     <td>{{ evento.producto.nombre }}</td>
+                    <td>{{ evento.modulo }}</td>
                     <td>{{ evento.usuarioActual.usuario }}</td>
                     <td>
                         <button pButton pRipple (click)="avanzar(evento)" icon="pi pi-forward" pTooltip="Avanzar" [showDelay]="1000" class="p-button-rounded p-button-success botonRedondoChico mr-2" *ngIf="muestraAvanzar(evento)" ></button>

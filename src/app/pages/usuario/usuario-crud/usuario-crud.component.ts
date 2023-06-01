@@ -6,6 +6,7 @@ import { tap } from 'rxjs';
 import { Rol } from 'src/app/interfaces/usuario';
 import { EncryptDecryptService } from 'src/app/servicios/encrypt-decrypt.service';
 import { RolService } from 'src/app/servicios/rol.service';
+import { generarNuevoColor } from 'src/app/helpers/color';
 
 @Component({
   selector: 'app-usuario-crud',
@@ -41,7 +42,7 @@ export class UsuarioCrudComponent {
   usuario!:string;
   password!:string;
   confirmPass!:string;
-  color!:string;
+  color:string = generarNuevoColor();
   rol!:any[];
 
   roles! : any;

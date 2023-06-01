@@ -17,7 +17,7 @@ export class SeleccionarEventoComponent  implements OnInit {
   ngOnInit() {
     this.eventoService.getEventos().subscribe({
       next: (res : any) => {
-        console.log(res);
+        // console.log(res);
         this.eventos = res;
       },
       error: (err) => {
