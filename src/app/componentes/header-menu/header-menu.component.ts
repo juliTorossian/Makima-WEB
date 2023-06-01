@@ -18,6 +18,8 @@ export class HeaderMenuComponent implements OnInit{
     // private intervalSubscription = inject(Subscription);
     private cookies = inject(CookieService);
 
+    INTERVALO: number = 30000;
+
     usuario!: Usuario;
     permisos!: Rol;
 
@@ -43,7 +45,7 @@ export class HeaderMenuComponent implements OnInit{
     }
 
     checkSesion(){
-        interval(1000).subscribe({
+        interval(this.INTERVALO).subscribe({
             next: () => {
                 const tokenExpiration = this.cookies.get("userToken");
                 if (!tokenExpiration) {

@@ -34,7 +34,12 @@ export class ModuloService {
 
   getModulosBusqueda(): Observable<any[]> {
     return this.http.get<any[]>(`${this.URL_COMPLETA}/modulo`).pipe(
-      map((response: any[]) => response.map(item => ({ value: item.id, label: `${item.id} - ${item.nombre}` })))
+      map((response: any[]) => response.map(item => (item.id)))
     );
   }
+  // getModulosBusqueda(): Observable<any[]> {
+  //   return this.http.get<any[]>(`${this.URL_COMPLETA}/modulo`).pipe(
+  //     map((response: any[]) => response.map(item => ({ value: item.id, label: `${item.id} - ${item.nombre}` })))
+  //   );
+  // }
 }

@@ -30,7 +30,8 @@ export class TipoEventoService {
 
   getTiposEventoBusqueda(): Observable<any[]> {
     return this.http.get<any[]>(`${this.URL_COMPLETA}/tipoEvento`).pipe(
-      map((response: any[]) => response.map(item => ({ value: item.id, label: `${item.id} - ${item.descripcion}` })))
+      // map((response: any[]) => response.map(item => ({ value: item.id, label: `${item.id} - ${item.descripcion}` })))
+      map((response: any[]) => response.map(item => (item.id)))
     );
   }
 }

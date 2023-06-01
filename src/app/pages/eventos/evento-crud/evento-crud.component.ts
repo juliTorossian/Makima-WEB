@@ -80,15 +80,15 @@ export class EventoCRUDComponent implements OnInit {
         this.modulos = res;
       },
     })
-    
-    this.modo = this.config.data.modo;
-    this.evento = this.config.data.evento;
-
     this.usuarioService.getUsuarioToken("").subscribe({
       next: (res:Usuario) => {
         this.usuario = res;
       }
     });
+    
+    this.modo = this.config.data.modo;
+    this.evento = this.config.data.evento;
+    // console.log(this.config.data.evento);
     
     if (this.evento){
 
@@ -122,6 +122,7 @@ export class EventoCRUDComponent implements OnInit {
 
   accion($event:any) {
     $event.preventDefault();    
+    let ok = true;
 
     let tipo :any = this.tipo.value;
     let modulo :any = this.modulo.value;
@@ -146,7 +147,8 @@ export class EventoCRUDComponent implements OnInit {
 
     for (let i = 0; i < this.tiposEvento.length; i++) {
       let tipoEvento = this.tiposEvento[i];
-      if (tipoEvento.label.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
+      // if (tipoEvento.label.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
+      if (tipoEvento.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
         filtered.push(tipoEvento);
       };
     }
@@ -159,7 +161,8 @@ export class EventoCRUDComponent implements OnInit {
 
     for (let i = 0; i < this.modulos.length; i++) {
       let modulo = this.modulos[i];
-      if (modulo.label.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
+      // if (modulo.label.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
+      if (modulo.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
         filtered.push(modulo);
       };
     }

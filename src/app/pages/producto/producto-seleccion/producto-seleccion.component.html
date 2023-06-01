@@ -12,6 +12,15 @@
             <th pSortableColumn="entorno">Entorno <p-sortIcon field="entorno"></p-sortIcon></th>
             <th style="width:4em"></th>
         </tr>
+        <tr>
+            <th>
+                <p-columnFilter type="text" field="nombre" matchMode="contains"></p-columnFilter>
+            </th>
+            <th>
+                <p-columnFilter type="text" field="entorno.id" matchMode="contains"></p-columnFilter>
+            </th>
+            <th></th>
+        </tr>
     </ng-template>
     <ng-template pTemplate="body" let-producto>
         <tr>
