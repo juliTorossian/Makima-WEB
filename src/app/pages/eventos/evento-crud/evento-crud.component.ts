@@ -42,6 +42,10 @@ export class EventoCRUDComponent implements OnInit {
   modulos! : any[];
   modulosFiltrados! : any[];
 
+  clientes!: Cliente[];
+  clientesFiltrado!: Cliente[];
+  clienteSel!: Cliente;
+
   evento!: any;
   cliente: Cliente = {
     id: "",
@@ -76,11 +80,17 @@ export class EventoCRUDComponent implements OnInit {
         this.tiposEvento = res;
       }
     });
+    this.clienteService.getClientes().subscribe({
+      next: (res:any) => {
+        console.log(res);
+        this.clientes = res;
+      }
+    })
     this.moduloService.getModulosBusqueda().subscribe({
       next: (res:any) => {
         this.modulos = res;
       },
-    })
+    });
     this.usuarioService.getUsuarioToken("").subscribe({
       next: (res:Usuario) => {
         this.usuario = res;
@@ -125,13 +135,11 @@ export class EventoCRUDComponent implements OnInit {
     $event.preventDefault();    
     let ok = true;
 
-    console.log(this.tipo);
-
     let tipo :any = this.tipo.value;
     let modulo :any = this.modulo.value;
 
-    console.log(tipo)
-    console.log(modulo)
+    // console.log(tipo)
+    // console.log(modulo)
 
     const evento = {
       id:             this.id.value,
@@ -144,7 +152,7 @@ export class EventoCRUDComponent implements OnInit {
       prioridad:      this.prioridad.value,
       // madre:          this.eventoMadre.id
     }
-    // console.log(evento);
+    console.log(evento);
     this.ref.close(evento);
   }
 
@@ -200,6 +208,10 @@ export class EventoCRUDComponent implements OnInit {
       }
     });
   }
+  selCliente(event:any){
+    console.log(event);
+    this.cliente = event;
+  }
 
   selectProducto(){
     this.refProducto = this.dialogService.open(ProductoSeleccionComponent, {
@@ -216,6 +228,20 @@ export class EventoCRUDComponent implements OnInit {
       }
     });
   }
+
+  filtroCliente(event:any) {
+    let filtered: any[] = [];
+    let query = event.query;
+
+    for (let i = 0; i < this.clientes.length; i++) {
+        let clienteAux = this.clientes[i];
+        if (clienteAux.nombre.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            filtered.push(clienteAux);
+        }
+    }
+
+    this.clientesFiltrado = filtered;
+}
 
   // selectEventoMadre(){
   //   this.refCliente = this.dialogService.open(SeleccionarEventoComponent, {
