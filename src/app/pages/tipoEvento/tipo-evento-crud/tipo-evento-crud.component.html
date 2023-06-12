@@ -30,8 +30,9 @@
         </div>
       </div>
     </div>
-    <div class="col-8">
-        <div class="col-12">
+    <div class="col-8" style="border-left: gray solid 2px;">
+        <div class="col-12" *ngIf="propio"><p style="text-align: center;">Deshabilitado para eventos propios.</p></div>
+        <div class="col-12" *ngIf="!propio">
           <table>
             <thead>
               <tr>

@@ -108,7 +108,7 @@ export class UsuariosComponent {
   deleteSeleccionado() {
     console.log(this.usuarioSeleccionado);
     this.confirmationService.confirm({
-      message: 'Esta seguro que queres hacer una eliminacion masiva de Usuarios??',
+      message: 'Esta seguro que queres hacer una eliminacion masiva de Usuarios?',
       header: 'Eliminar Usuario',
       icon: 'pi pi-info-circle',
       accept: () => {

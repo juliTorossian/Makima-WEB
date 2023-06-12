@@ -88,7 +88,7 @@ export class TareasComponent {
 
   deleteClienteSolo(tarea : Tarea){
     this.confirmationService.confirm({
-      message: 'Esta seguro que queres eliminar el cliente?',
+      message: 'Esta seguro que queres eliminar la Tarea?',
       header: 'Eliminar Cliente',
       icon: 'pi pi-info-circle',
       accept: () => {

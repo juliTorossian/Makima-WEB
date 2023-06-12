@@ -46,7 +46,7 @@ export class RolesComponent {
       this.rolService.setRol(rol).subscribe({
         next: (res) => {
           console.log(res);
-          this.messageService.add({ severity: 'success', summary: 'Tipo de evento creado', detail: `Se creo el Rol` });
+          this.messageService.add({ severity: 'success', summary: 'Rol creado', detail: `Se creo el Rol` });
         },
         error: (err) => {
           console.log(err);
@@ -65,7 +65,7 @@ export class RolesComponent {
     if (rol) {rol
       this.rolService.putRol(rol).subscribe({
         next: () => {
-          this.messageService.add({ severity: 'success', summary: 'Tipo de Evento modificado', detail: `Se modifico el Rol` });
+          this.messageService.add({ severity: 'success', summary: 'Rol modificado', detail: `Se modifico el Rol` });
         },
         error: (err) => {
           console.log(err);

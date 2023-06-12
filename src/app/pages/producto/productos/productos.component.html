@@ -20,7 +20,7 @@
             [value]="productos"
             [rows]="10"
             [paginator]="true"
-            [globalFilterFields]="['id', 'nombre']"
+            [globalFilterFields]="['id', 'sigla', 'nombre', 'entorno.id']"
             [tableStyle]="{ 'min-width': '75rem' }"
             [(selection)]="productoSeleccionado"
             [rowHover]="true"
@@ -43,6 +43,7 @@
                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                     </th>
                     <th pSortableColumn="id" hidden>Id <p-sortIcon field="id" ></p-sortIcon></th>
+                    <th pSortableColumn="sigla">Sigla <p-sortIcon field="sigla"></p-sortIcon></th>
                     <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
                     <th pSortableColumn="entorno">Entorno <p-sortIcon field="entorno"></p-sortIcon></th>
                     <th pSortableColumn="activo">Activo <p-sortIcon field="activo"></p-sortIcon></th>
@@ -55,6 +56,7 @@
                         <p-tableCheckbox [value]="producto"></p-tableCheckbox>
                     </td>
                     <td hidden>{{ producto.id }}</td>
+                    <td>{{ producto.sigla }}</td>
                     <td>{{ producto.nombre }}</td>
                     <td>{{ producto.entorno.id }}</td>
                     <td><p-tag [value]="producto.activo | activo" [severity]="getSeverity(producto.activo)"></p-tag></td>

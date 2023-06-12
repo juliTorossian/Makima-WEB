@@ -46,7 +46,7 @@ export class ModulosComponent {
       this.moduloService.setModulo(modulo).subscribe({
         next: (res) => {
           console.log(res);
-          this.messageService.add({ severity: 'success', summary: 'Tipo de evento creado', detail: `Se creo el Modulo` });
+          this.messageService.add({ severity: 'success', summary: 'Modulo creado', detail: `Se creo el Modulo` });
         },
         error: (err) => {
           console.log(err);
@@ -65,7 +65,7 @@ export class ModulosComponent {
     if (modulo) {
       this.moduloService.putModulo(modulo).subscribe({
         next: () => {
-          this.messageService.add({ severity: 'success', summary: 'Tipo de Evento modificado', detail: `Se modifico el Modulo` });
+          this.messageService.add({ severity: 'success', summary: 'Modulo modificado', detail: `Se modifico el Modulo` });
         },
         error: (err) => {
           console.log(err);

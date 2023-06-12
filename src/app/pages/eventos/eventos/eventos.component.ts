@@ -82,7 +82,7 @@ export class EventosComponent implements OnInit {
 
   llenarTabla(){
     this.eventoService.getEventos().subscribe((res) => {
-      // console.log(res);
+      console.log(res);
       this.eventosSave = res;
 
       this.eventos = this.eventosSave.filter((e:any) => (e.cerrado == this.filtroVerCerrados) && (e.propio == this.filtroVerPropios));

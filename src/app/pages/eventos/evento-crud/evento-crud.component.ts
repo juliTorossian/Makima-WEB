@@ -51,6 +51,7 @@ export class EventoCRUDComponent implements OnInit {
   };
   producto: Producto = {
     id:        "",
+    sigla:     "",
     nombre:    "-",
     entorno:   {id: "-", nombre: ""},
     activo: true
@@ -124,15 +125,21 @@ export class EventoCRUDComponent implements OnInit {
     $event.preventDefault();    
     let ok = true;
 
+    console.log(this.tipo);
+
     let tipo :any = this.tipo.value;
     let modulo :any = this.modulo.value;
+
+    console.log(tipo)
+    console.log(modulo)
+
     const evento = {
       id:             this.id.value,
-      tipo:           tipo.value,
+      tipo:           tipo,
       titulo:         this.titulo.value,
       cliente:        this.cliente.id,
       producto:       this.producto.id,
-      modulo:         modulo.value,
+      modulo:         modulo,
       usuAlta:        this.usuario.id,
       prioridad:      this.prioridad.value,
       // madre:          this.eventoMadre.id

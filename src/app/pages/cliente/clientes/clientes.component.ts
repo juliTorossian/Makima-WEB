@@ -224,9 +224,15 @@ export class ClientesComponent {
   mostrarModalCrud(cliente: Cliente | null, modo:any){
     let clienteRes! : Cliente;
     const data = {cliente, modo}
+    let header = "";
+    if (modo === 'A'){
+      header = "Nuevo Cliente";
+    }else if (modo === 'M'){
+      header = "Modificar Cliente";
+    }
 
     this.ref = this.dialogService.open(ClienteCrudComponent, {
-      header: 'Editar cliente',
+      header: header,
       width: '70%',
       contentStyle: { overflow: 'auto' },
       baseZIndex: 10000,

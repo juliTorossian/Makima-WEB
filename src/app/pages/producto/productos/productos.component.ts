@@ -106,7 +106,7 @@ export class ProductosComponent {
   deleteSeleccionado() {
     console.log(this.productoSeleccionado);
     this.confirmationService.confirm({
-      message: 'Esta seguro que queres hacer una eliminacion masiva de Productos??',
+      message: 'Esta seguro que queres hacer una eliminacion masiva de Productos?',
       header: 'Eliminar Producto',
       icon: 'pi pi-info-circle',
       accept: () => {

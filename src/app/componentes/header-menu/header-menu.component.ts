@@ -32,13 +32,15 @@ export class HeaderMenuComponent implements OnInit{
         this.usuarioService.getUsuarioToken(this.usuarioService.getToken()).subscribe({
             next: (res:any) => {
                 this.usuario = res;
-                this.permisos = this.usuarioService.getPermisos(this.usuario);
-                this.cargarItems();
             },
             error: (err) => {
                 console.log(err);
             },
             complete: () => {
+                if (this.usuario){
+                    this.permisos = this.usuarioService.getPermisos(this.usuario);
+                    this.cargarItems();
+                }
                 this.checkSesion();
             }
         });
@@ -110,14 +112,6 @@ export class HeaderMenuComponent implements OnInit{
                 icon: 'pi pi-fw pi-book',
                 items: [
                     {
-                        label: 'Productos',
-                        routerLink: ['/producto/productos'],
-                        routerLinkActiveOptions: 'active'
-                    },
-                    {
-                        separator: true,
-                    },
-                    {
                         label: 'Modulos',
                         routerLink: ['/producto/modulos'],
                         routerLinkActiveOptions: 'active'
@@ -125,6 +119,14 @@ export class HeaderMenuComponent implements OnInit{
                     {
                         label: 'Entornos',
                         routerLink: ['/producto/entornos'],
+                        routerLinkActiveOptions: 'active'
+                    },
+                    {
+                        separator: true,
+                    },
+                    {
+                        label: 'Productos',
+                        routerLink: ['/producto/productos'],
                         routerLinkActiveOptions: 'active'
                     },
                 ],
@@ -136,16 +138,16 @@ export class HeaderMenuComponent implements OnInit{
                 icon: 'pi pi-fw pi-tags',
                 items: [
                     {
-                        label: 'Tipos Evento',
-                        routerLink: ['/tipoevento/tiposevento'],
+                        label: 'Tareas',
+                        routerLink: ['/tipoevento/tareas'],
                         routerLinkActiveOptions: 'active'
                     },
                     {
                         separator: true,
                     },
                     {
-                        label: 'Tareas',
-                        routerLink: ['/tipoevento/tareas'],
+                        label: 'Tipos Evento',
+                        routerLink: ['/tipoevento/tiposevento'],
                         routerLinkActiveOptions: 'active'
                     },
                 ],
@@ -157,16 +159,16 @@ export class HeaderMenuComponent implements OnInit{
                 icon: 'pi pi-fw pi-user',
                 items: [
                     {
-                        label: 'Usuarios',
-                        routerLink: ['/usuario/usuarios'],
+                        label: 'Roles',
+                        routerLink: ['/usuario/roles'],
                         routerLinkActiveOptions: 'active'
                     },
                     {
                         separator: true,
                     },
                     {
-                        label: 'Roles',
-                        routerLink: ['/usuario/roles'],
+                        label: 'Usuarios',
+                        routerLink: ['/usuario/usuarios'],
                         routerLinkActiveOptions: 'active'
                     },
                 ],

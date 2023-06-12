@@ -8,11 +8,15 @@
     <ng-template pTemplate="header">
         <tr>
             <th pSortableColumn="id" hidden>Id <p-sortIcon field="id" ></p-sortIcon></th>
+            <th pSortableColumn="sigla">Sigla <p-sortIcon field="sigla"></p-sortIcon></th>
             <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
             <th pSortableColumn="entorno">Entorno <p-sortIcon field="entorno"></p-sortIcon></th>
             <th style="width:4em"></th>
         </tr>
         <tr>
+            <th>
+                <p-columnFilter type="text" field="sigla" matchMode="contains"></p-columnFilter>
+            </th>
             <th>
                 <p-columnFilter type="text" field="nombre" matchMode="contains"></p-columnFilter>
             </th>
@@ -25,6 +29,7 @@
     <ng-template pTemplate="body" let-producto>
         <tr>
             <td hidden>{{ producto.id }}</td>
+            <td>{{ producto.sigla }}</td>
             <td>{{ producto.nombre }}</td>
             <td>{{ producto.entorno.id }}</td>
             <td>

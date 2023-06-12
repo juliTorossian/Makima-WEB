@@ -96,7 +96,7 @@ export class HorasUsuarioComponent {
   deleteSeleccion() {
     this.confirmationService.confirm({
       message: 'Esta seguro que queres eliminar masivamente?',
-      header: 'Eliminar Eventos',
+      header: 'Eliminar Horas Masiva',
       icon: 'pi pi-info-circle',
       accept: () => {
         this.horasSeleccionadas.map( (hora) => {

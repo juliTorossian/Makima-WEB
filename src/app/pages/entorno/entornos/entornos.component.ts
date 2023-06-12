@@ -45,11 +45,11 @@ export class EntornosComponent {
       this.entornoService.setEntorno(entorno).subscribe({
         next: (res) => {
           console.log(res);
-          this.messageService.add({ severity: 'success', summary: 'Tipo de evento creado', detail: `Se creo el Tipo de Evento` });
+          this.messageService.add({ severity: 'success', summary: 'Entorno creado', detail: `Se creo el Entorno` });
         },
         error: (err) => {
           console.log(err);
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: `Ocurrio un error al crear el Tipo de Evento` });
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `Ocurrio un error al crear el Entorno` });
         },
         complete: () => {
           this.llenarTabla();
@@ -64,11 +64,11 @@ export class EntornosComponent {
     if (entorno) {
       this.entornoService.putEntorno(entorno).subscribe({
         next: () => {
-          this.messageService.add({ severity: 'success', summary: 'Tipo de Evento modificado', detail: `Se modifico el Tipo de Evento` });
+          this.messageService.add({ severity: 'success', summary: 'Entorno modificado', detail: `Se modifico el Entorno` });
         },
         error: (err) => {
           console.log(err);
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: `Ocurrio un error al modificar el Tipo de Evento` });
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `Ocurrio un error al modificar el Entorno` });
         },
         complete: () => {
           this.llenarTabla();
@@ -88,14 +88,14 @@ export class EntornosComponent {
 
   deleteSolo(entorno : Entorno){
     this.confirmationService.confirm({
-      message: 'Esta seguro que queres eliminar el Tipo de Evento?',
-      header: 'Eliminar Cliente',
+      message: 'Esta seguro que queres eliminar el Entorno?',
+      header: 'Eliminar Entorno',
       icon: 'pi pi-info-circle',
       accept: () => {
         this.delete(entorno);
       },
       reject: () => {
-        this.messageService.add({ severity: 'warn', summary: '', detail: 'No se elimino el Tipo de Evento' });
+        this.messageService.add({ severity: 'warn', summary: '', detail: 'No se elimino el Entorno' });
       }
     });
   }
@@ -103,11 +103,11 @@ export class EntornosComponent {
   delete(entorno: Entorno) {
     this.entornoService.deleteEntorno(entorno).subscribe({
       next: () => {
-        this.messageService.add({ severity: 'info', summary: '', detail: 'Tipo de Evento Eliminado' });
+        this.messageService.add({ severity: 'info', summary: '', detail: 'Entorno Eliminado' });
       },
       error: (err) => {
         console.log(err);
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: `Ocurrio un error al eliminar el Tipo de Evento` });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `Ocurrio un error al eliminar el Entorno` });
       },
       complete: () => {
         this.llenarTabla();
