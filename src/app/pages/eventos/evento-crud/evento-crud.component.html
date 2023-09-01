@@ -46,7 +46,7 @@
                 <div class="flex flex-column gap-2">
                     <label htmlFor="cliente">Cliente</label>
                     <!-- <p class="falso-input">{{cliente.sigla}} - {{cliente.nombre}}</p> -->
-                    <p-autoComplete [(ngModel)]="clienteSel" placeholder="Cliente Nombre" [forceSelection]="true" [suggestions]="clientesFiltrado" (completeMethod)="filtroCliente($event)" field="nombre" (onSelect)="selCliente($event)"></p-autoComplete>
+                    <p-autoComplete [(ngModel)]="clienteSel" [className]="'clienteInput'" placeholder="Cliente Nombre" [forceSelection]="true" [suggestions]="clientesFiltrado" (completeMethod)="filtroCliente($event)" field="nombre" (onSelect)="selCliente($event)"></p-autoComplete>
                 </div>
             </div>
             <div class="col-2 cell-boton">
@@ -55,7 +55,7 @@
         </div>
         
         <div class="grid mt-1">
-           <div class="col-9">
+            <div class="col-9">
                 <div class="grid select-att">
                     <div class="col-6">
                         <div class="flex flex-column gap-2">
@@ -73,13 +73,13 @@
                         <button pButton pRipple icon="pi pi-search" class="p-button-success" (click)="selectProducto()"></button>
                     </div>
                 </div>
-           </div>
-           <div class="col-3">
+            </div>
+            <div class="col-3">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="modulo">Modulo</label>
                     <p-autoComplete id="modulo" appendTo="body" [dropdown]="true" [suggestions]="modulosFiltrados" (completeMethod)="filtroModulo($event)" [formControl]="modulo"></p-autoComplete>
                 </div>
-           </div>
+            </div>
         </div>
 
         <!-- <div class="grid select-att">
