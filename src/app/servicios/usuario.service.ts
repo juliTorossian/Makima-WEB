@@ -34,7 +34,7 @@ export class UsuarioService {
   }
 
   putUsuario(usuario: any){
-    return this.http.put(`${this.URL_COMPLETA}/usuario`, usuario);
+    return this.http.patch(`${this.URL_COMPLETA}/usuario/${usuario.id}`, usuario);
   }
 
   deleteUsuario(usuario: any){

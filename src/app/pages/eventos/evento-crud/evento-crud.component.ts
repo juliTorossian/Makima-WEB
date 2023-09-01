@@ -15,6 +15,7 @@ import { Evento } from 'src/app/interfaces/evento';
 import { SeleccionarEventoComponent } from 'src/app/componentes/seleccionar-evento/seleccionar-evento.component';
 import { ModuloService } from 'src/app/servicios/modulo.service';
 import { Modulo } from 'src/app/interfaces/modulo';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-evento-crud',
@@ -27,6 +28,7 @@ export class EventoCRUDComponent implements OnInit {
   private refProducto = inject(DynamicDialogRef);
   private dialogService = inject(DialogService);
   private config = inject(DynamicDialogConfig);
+  private messageService = inject(MessageService);
 
   private clienteService = inject(ClienteService);
   private productoService = inject(ProductoService);
@@ -82,7 +84,7 @@ export class EventoCRUDComponent implements OnInit {
     });
     this.clienteService.getClientes().subscribe({
       next: (res:any) => {
-        console.log(res);
+        // console.log(res);
         this.clientes = res;
       }
     })
@@ -138,22 +140,43 @@ export class EventoCRUDComponent implements OnInit {
     let tipo :any = this.tipo.value;
     let modulo :any = this.modulo.value;
 
-    // console.log(tipo)
-    // console.log(modulo)
+    if (this.tiposEvento.some((te) => te.toLowerCase() == tipo.toLowerCase()) ){
+      if (this.modulos.some((te) => te.toLowerCase() == modulo.toLowerCase()) ){
 
-    const evento = {
-      id:             this.id.value,
-      tipo:           tipo,
-      titulo:         this.titulo.value,
-      cliente:        this.cliente.id,
-      producto:       this.producto.id,
-      modulo:         modulo,
-      usuAlta:        this.usuario.id,
-      prioridad:      this.prioridad.value,
-      // madre:          this.eventoMadre.id
+        const evento = {
+          id:             this.id.value,
+          tipo:           tipo,
+          titulo:         this.titulo.value,
+          cliente:        this.cliente.id,
+          producto:       this.producto.id,
+          modulo:         modulo,
+          usuAlta:        this.usuario.id,
+          prioridad:      this.prioridad.value,
+          // madre:          this.eventoMadre.id
+        }
+        // console.log(evento);
+        this.ref.close(evento);
+
+      }else{
+        this.messageService.add({ severity: 'warn', summary: '', detail: 'No se existe el Modulo seleccionado' });
+      }
+    }else{
+      this.messageService.add({ severity: 'warn', summary: '', detail: 'No se existe el Tipo de Evento seleccionado' });
     }
-    console.log(evento);
-    this.ref.close(evento);
+
+    // const evento = {
+    //   id:             this.id.value,
+    //   tipo:           tipo,
+    //   titulo:         this.titulo.value,
+    //   cliente:        this.cliente.id,
+    //   producto:       this.producto.id,
+    //   modulo:         modulo,
+    //   usuAlta:        this.usuario.id,
+    //   prioridad:      this.prioridad.value,
+    //   // madre:          this.eventoMadre.id
+    // }
+    // console.log(evento);
+    // this.ref.close(evento);
   }
 
   filtroTipoEvento(event:any) {
@@ -234,10 +257,11 @@ export class EventoCRUDComponent implements OnInit {
     let query = event.query;
 
     for (let i = 0; i < this.clientes.length; i++) {
-        let clienteAux = this.clientes[i];
-        if (clienteAux.nombre.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-            filtered.push(clienteAux);
-        }
+      let clienteAux = this.clientes[i];
+      // if (clienteAux.nombre.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+      if (clienteAux.nombre.toLowerCase().includes(query.toLowerCase())) {
+        filtered.push(clienteAux);
+      }
     }
 
     this.clientesFiltrado = filtered;

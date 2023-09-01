@@ -18,9 +18,6 @@
     margin: 5px 0;
 }
 
-.p-autocomplete > span {
-    width: 100% !important;
-}
-.p-autocomplete > input {
+.clienteSel span input {
     width: 100% !important;
 }
