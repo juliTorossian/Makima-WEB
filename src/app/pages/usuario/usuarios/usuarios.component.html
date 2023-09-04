@@ -11,7 +11,6 @@
             </ng-template>
 
             <ng-template pTemplate="right">
-                
             </ng-template>
         </p-toolbar>
 
@@ -35,6 +34,10 @@
                         <i class="pi pi-search"></i>
                         <input pInputText style="padding-top: 0.4rem !important;padding-bottom: 0.4rem !important;" class="p-component p-element p-inputtext"  type="text" (input)="dt.filterGlobal(getEventValue($event), 'contains')" placeholder="Buscar..." />
                     </span>
+                    <div class="flex align-items-center gap-1" style="margin:auto 10px">
+                        <p-checkbox id="filtroVerCerrados" [(ngModel)]="filtroVerInactivos" (click)="filtraUsuarios()" [binary]="true" inputId="binary"></p-checkbox>
+                        <label for="filtroVerCerrados" class="mr-2"> Propios</label>
+                    </div>
                 </div>
             </ng-template>
             <ng-template pTemplate="header">

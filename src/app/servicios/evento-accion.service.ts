@@ -35,8 +35,8 @@ export class EventoAccionService {
   reasignarEvento(evento:Evento, usuario:Usuario){
     return this.http.get(`${this.URL_COMPLETA}/evento/${evento.id}/reasignar?usuario=${usuario.id}`);
   }
-  estimarEvento(evento:Evento, estimacion:number, comentario:string){
-    return this.http.get(`${this.URL_COMPLETA}/evento/${evento.id}/estimar?estimado=${estimacion}&comentario=${comentario}`);
+  estimarEvento(estimacion:any){
+    return this.http.post(`${this.URL_COMPLETA}/evento/${estimacion.evento}/estimar`, estimacion);
   }
 
 

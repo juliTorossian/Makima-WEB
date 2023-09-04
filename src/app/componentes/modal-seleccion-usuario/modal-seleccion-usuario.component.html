@@ -2,8 +2,8 @@
 <div class="container container-modal">
 
     <div class="flex flex-column gap-2 input-centrado">
-        <!-- <label htmlFor="nombre">Seleccione Usuario</label> -->
-        <p-dropdown appendTo="body" [options]="usuarios" [(ngModel)]="usuario" optionLabel="usuario"></p-dropdown>
+        <label htmlFor="nombre">{{mensaje}}</label>
+        <p-dropdown appendTo="body" [options]="usuarios" [(ngModel)]="usuario" optionLabel="usuario" styleClass="maxWidth" panelStyle="width: 100%;"></p-dropdown>
     </div>
     <div class="flex flex-column gap-2 input-centrado" *ngIf="reqComentario">
         <label for="comentario">Comentario</label>

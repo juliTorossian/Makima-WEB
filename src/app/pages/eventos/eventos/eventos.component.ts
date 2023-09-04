@@ -16,6 +16,7 @@ import { EventoService } from 'src/app/servicios/evento.service';
 import { EventoCRUDComponent } from '../evento-crud/evento-crud.component';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { Rol, Usuario } from 'src/app/interfaces/usuario';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-eventos',
@@ -29,6 +30,7 @@ import { Rol, Usuario } from 'src/app/interfaces/usuario';
     CheckboxModule,
     ButtonModule,
     FormsModule,
+    ConfirmDialogModule,
   ],
   templateUrl: './eventos.component.html',
   styleUrls: ['./eventos.component.css'],
@@ -82,7 +84,7 @@ export class EventosComponent implements OnInit {
 
   llenarTabla(){
     this.eventoService.getEventos().subscribe((res) => {
-      console.log(res);
+      // console.log(res);
       this.eventosSave = res;
 
       this.eventos = this.eventosSave.filter((e:any) => (e.cerrado == this.filtroVerCerrados) && (e.propio == this.filtroVerPropios));
@@ -147,6 +149,7 @@ export class EventosComponent implements OnInit {
   }
   
   deleteSolo(evento: Evento) {
+    console.log('deleteSolo')
     this.confirmationService.confirm({
       message: 'Esta seguro que queres eliminar el evento?',
       header: 'Eliminar Evento',
@@ -161,6 +164,7 @@ export class EventosComponent implements OnInit {
   }
 
   delete(evento : Evento){
+    console.log(evento);
     this.eventoService.deleteEvento(evento).subscribe({
       next: () => {
         this.messageService.add({ severity: 'info', summary: '', detail: 'Evento Eliminado' });
@@ -241,6 +245,6 @@ export class EventosComponent implements OnInit {
 
 
   esPositivo(detalle:any){
-    return (detalle.detalle?.eventoHoras?.estimacion - detalle.detalle?.eventoHoras?.total) > 0;
+    return (detalle.detalle?.eventoHoras?.estimacion.total - detalle.detalle?.eventoHoras?.trabajadas) > 0;
   }
 }

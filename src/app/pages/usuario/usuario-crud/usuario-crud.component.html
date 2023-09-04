@@ -36,7 +36,7 @@
                 <label htmlFor="rol">Rol</label>
                 <!-- <input pInputText id="rol" aria-describedby="rol-help" formControlName="rol" /> -->
                 <!-- <p-dropdown formControlName="rol" [options]="roles" optionValue="id" optionLabel="descripcion" id="rol" aria-describedby="rol-help"></p-dropdown> -->
-                <p-multiSelect appendTo="body" [options]="roles" [(ngModel)]="rol" defaultLabel="Seleccionar Roles" optionLabel="descripcion" optionValue="id" display="chip" style="display: contents;" ></p-multiSelect>
+                <p-multiSelect appendTo="body" [options]="roles" [(ngModel)]="rol" defaultLabel="Seleccionar Roles" optionLabel="descripcion" optionValue="id" display="chip" ></p-multiSelect>
                 <!-- <small id="rol-help" [hidden]="usuario.get('rol')?.valid">Ingrese un rol valido.</small> -->
             </div>
         </div>
@@ -46,19 +46,19 @@
                 <p-colorPicker appendTo="body" id="color" [(ngModel)]="color" tabindex="6"></p-colorPicker>
             </div>
         </div>
-        <div class="col-6" [hidden]="modo==='M'">
+        <div class="col-6">
             <div class="grid">
                 <div class="col-6">
                     <div class="flex flex-column gap-2">
                         <label htmlFor="password">Contraseña</label>
-                        <p-password [toggleMask]="true" [feedback]="true" [(ngModel)]="password" id="password" aria-describedby="password-help" tabindex="7"></p-password>
+                        <p-password [toggleMask]="modo!=='M'" [feedback]="true" [(ngModel)]="password" id="password" aria-describedby="password-help" tabindex="7"></p-password>
                         <!-- <small id="password-help" [hidden]="usuario.get('password')?.valid">Ingrese una contraseña valida.</small> -->
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="flex flex-column gap-2">
                         <label htmlFor="confirmPass">Repetir Contraseña</label>
-                        <p-password [toggleMask]="true" [feedback]="true" [(ngModel)]="confirmPass" id="confirmPass" aria-describedby="confirmPass-help" tabindex="8"></p-password>
+                        <p-password [toggleMask]="modo!=='M'" [feedback]="true" [(ngModel)]="confirmPass" id="confirmPass" aria-describedby="confirmPass-help" tabindex="8"></p-password>
                         <!-- <small id="confirmPass-help" [hidden]="usuario.get('confirmPass')?.valid">Ingrese un usuario valido.</small> -->
                     </div>
                 </div>

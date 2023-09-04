@@ -92,16 +92,16 @@
                                 <div class="grid">
                                     <div class="col">
                                         <p>Horas estimadas:</p>
-                                        <p>{{eventoDetalle.detalle?.eventoHoras?.estimacion}}</p>
+                                        <p>{{eventoDetalle.detalle?.eventoHoras?.estimacion.total}}</p>
                                     </div>
                                     <div class="col">
                                         <p>Horas reales:</p>
-                                        <p>{{eventoDetalle.detalle?.eventoHoras?.total}}</p>
+                                        <p>{{eventoDetalle.detalle?.eventoHoras?.trabajadas}}</p>
                                     </div>
                                     <div class="col">
                                         <p>Diferencia:</p>
                                         <p [ngClass]="{'diferenciaPositiva': esPositivo(eventoDetalle), 'diferenciaNegativa': !esPositivo(eventoDetalle)}">
-                                            {{(eventoDetalle.detalle?.eventoHoras?.estimacion - eventoDetalle.detalle?.eventoHoras?.total)}}
+                                            {{(eventoDetalle.detalle?.eventoHoras?.estimacion.total - eventoDetalle.detalle?.eventoHoras?.trabajadas)}}
                                         </p>
                                     </div>
                                 </div>

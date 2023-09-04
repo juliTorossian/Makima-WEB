@@ -43,8 +43,18 @@ export interface CircuitoMomento {
 }
 
 export interface EventoHoras {
-    estimacion: number;
+    estimacion: EventoHorasEstimacion;
+    trabajadas: number;
+}
+
+export interface EventoHorasEstimacion {
     total:      number;
+    detalle:    EventoHorasDetalle[];
+}
+
+export interface EventoHorasDetalle {
+    estimacion: number;
+    rol:        string;
 }
 
 export interface EventoCRUD {

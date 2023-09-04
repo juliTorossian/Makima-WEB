@@ -28,7 +28,7 @@
                         <td><p-inputMask #inputFinal mask="99:99" [(ngModel)]="hora.final" placeholder="99:99" (onComplete)="actualizarTotal(hora)"></p-inputMask></td>
                         <td><input type="text" pInputText [(ngModel)]="hora.observaciones" /></td>
                         <td><div class="falso-input">{{hora.total | totalComoNumero}} hs</div></td>
-                        <td><button type="button" (click)="eliminarFila(hora)" class="p-button p-button-danger">-</button></td>
+                        <td><button pButton icon="pi pi-trash" (click)="eliminarFila(hora)" class="p-button p-button-danger"></button></td>
                     </tr>
                 </tbody>
             </table>

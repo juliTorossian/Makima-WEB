@@ -40,13 +40,15 @@ import { ActivoPipe } from 'src/app/pipes/activo.pipe';
 })
 export class UsuariosComponent {
   usuarios!: Usuario[];
+  usuariosSave!: Usuario[];
   usuario!: Usuario;
   usuarioSeleccionado!: Usuario[];
+
+  filtroVerInactivos: boolean = false;
 
   ref!: DynamicDialogRef;
 
   private usuarioService = inject(UsuarioService);
-
   private dialogService = inject(DialogService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
@@ -59,7 +61,10 @@ export class UsuariosComponent {
     this.usuarioService.getUsuarios().subscribe({
       next: (res : any) => {
         // console.log(res);
-        this.usuarios = res;
+        // this.usuarios = res;
+        this.usuariosSave = res;
+
+        this.usuarios = this.usuariosSave.filter((u:any) => (u.activo == !this.filtroVerInactivos));
       },
       error: (err) => {
         console.log(err);
@@ -149,6 +154,16 @@ export class UsuariosComponent {
         this.llenarTabla();
       }
     });
+  }
+
+  filtraUsuarios(){
+    this.usuarios = this.usuariosSave.filter((u:any) => (u.activo == true));
+
+    const eventosCerrados : Usuario[] = this.usuariosSave.filter((u:any) => (u.activo == false));
+
+    if (this.filtroVerInactivos){
+      this.usuarios = this.usuarios.concat(eventosCerrados);
+    }
   }
 
   getEventValue($event:any) :string {
