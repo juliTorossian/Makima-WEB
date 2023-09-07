@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-badge',
   template: `
-    <span class="badge" [style.background-color]="color" (click)="navigateTo(url)">({{ text }})</span>
+    <span class="badge" [style.background-color]="color" (click)="navigateTo(url)">{{ text }}</span>
   `,
   styleUrls: ['./badge.component.css']
 })
