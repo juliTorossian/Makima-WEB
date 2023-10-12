@@ -1,0 +1,12 @@
+
+p-password div {
+    width: 100%;    
+}
+p-password div input{
+    width: 100%;    
+}
+
+input.p-inputtext.p-component.p-element.ng-tns-c38-5.p-password-input {
+    width: 100% !important;
+    padding-right: 0;
+}

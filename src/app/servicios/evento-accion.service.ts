@@ -28,7 +28,7 @@ export class EventoAccionService {
     );
   }
   retrocederEvento(evento:Evento, usuario:Usuario, comentario:string){
-    return this.http.get(`${this.URL_COMPLETA}/evento/${evento.id}/circular/r?usuario=${usuario.id}`).pipe(
+    return this.http.get(`${this.URL_COMPLETA}/evento/${evento.id}/circular/r?usuario=${usuario.id}&comentario=${comentario}`).pipe(
       tap( (res:any) => {console.log(usuario.id, comentario)})
     );
   }

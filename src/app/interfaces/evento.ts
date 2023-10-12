@@ -22,6 +22,7 @@ export interface Evento {
     fechaAlta:      string;
     madre:          Evento;
     detalle:        EventoDetalle | null;
+    busqueda:       string;
 }
 
 export interface EventoDetalle {

@@ -17,6 +17,7 @@ import { EventoCRUDComponent } from '../evento-crud/evento-crud.component';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { Rol, Usuario } from 'src/app/interfaces/usuario';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { invertColor } from 'src/app/helpers/color';
 
 @Component({
   selector: 'app-eventos',
@@ -244,6 +245,9 @@ export class EventosComponent implements OnInit {
 
 
 
+  constraste(color:string){
+    return invertColor(color);
+  }
   esPositivo(detalle:any){
     return (detalle.detalle?.eventoHoras?.estimacion.total - detalle.detalle?.eventoHoras?.trabajadas) > 0;
   }

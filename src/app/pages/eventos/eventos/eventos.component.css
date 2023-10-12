@@ -13,3 +13,11 @@
 .eventoDetalle .diferenciaNegativa{
     color: red;
 }
+.badge {
+    /* display: inline-block; */
+    padding: 4px 8px;
+    border-radius: 16px;
+    font-size: 14px;
+    color: #fff;
+    cursor: pointer;
+}

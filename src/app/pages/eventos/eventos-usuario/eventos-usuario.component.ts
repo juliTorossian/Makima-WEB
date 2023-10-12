@@ -87,6 +87,7 @@ export class EventosUsuarioComponent {
     return ( (!evento.cerrado) &&
             (evento.detalle?.eventoCircuito.ant.tiene ));
   }
+
   muestraEstimar(evento:Evento){
   // en el caso de estimacion, la logica es cuando SI muestra
     let muestra = false;
@@ -143,7 +144,7 @@ export class EventosUsuarioComponent {
     
     const data = {
       rol: evento.detalle?.eventoCircuito.ant.tarea?.rol,
-      reqComentario: false,
+      reqComentario: true,
       comentario: "",
       mensaje: "Tarea a retroceder: " +evento.detalle?.eventoCircuito.ant.tarea?.nombre
     }

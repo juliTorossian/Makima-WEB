@@ -58,6 +58,7 @@ export class UsuariosComponent {
   }
 
   llenarTabla(){
+    this.filtroVerInactivos = false;
     this.usuarioService.getUsuarios().subscribe({
       next: (res : any) => {
         // console.log(res);
@@ -154,6 +155,21 @@ export class UsuariosComponent {
         this.llenarTabla();
       }
     });
+  }
+
+  reactivar(usuario: Usuario){
+    this.usuarioService.reactivarUsuario(usuario).subscribe({
+      next: () => {
+        this.messageService.add({ severity: 'info', summary: '', detail: 'Usuario Reactivado' });
+      },
+      error: (err) => {
+        console.log(err);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `Ocurrio un error al reactivar el Usuario` });
+      },
+      complete: () => {
+        this.llenarTabla();
+      }
+    })
   }
 
   filtraUsuarios(){

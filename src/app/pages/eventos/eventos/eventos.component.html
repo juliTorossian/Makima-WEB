@@ -26,6 +26,7 @@
             currentPageReportTemplate="Mostrando desde {first} a {last} de {totalRecords} registros"
             [showCurrentPageReport]="true"
             styleClass="p-datatable-sm"
+            [tableStyle]="{'min-width': '92rem'}"
         >
             <ng-template pTemplate="caption">
                 <div class="flex align-items-center justify-content-between" style="display: flex;">
@@ -65,17 +66,17 @@
                         <p-tableCheckbox [value]="evento" [disabled]="evento.cerrado"></p-tableCheckbox>
                     </td>
                     <td style="height: 61px;">
-                        <button type="button" pButton pRipple [pRowToggler]="evento" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" *ngIf="!evento.propio"></button>
+                        <button type="button" pButton pRipple [pRowToggler]="evento" class="p-button-text p-button-rounded p-button-plain botonRedondoChico" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" *ngIf="!evento.propio"></button>
                     </td>
-                    <td hidden>{{ evento.tipo }}</td>
+                    <td hidden>{{ evento.tipo.id }}</td>
                     <td hidden>{{ evento.numero }}</td>
-                    <td routerLink="/evento/{{evento.id}}">{{ evento.tipo +'-'+ evento.numero }}</td>
+                    <td><span class="badge" [style.background-color]="evento.tipo.color"  [style.color]="constraste(evento.tipo.color)" routerLink="/evento/{{evento.id}}">{{ evento.tipo.id +'-'+ evento.numero }}</span></td>
                     <td>{{ evento.titulo }}</td>
                     <td>{{ evento.detalle?.eventoCircuito.act.tarea?.nombre }}</td>
                     <td>{{ evento.cliente.nombre }}</td>
                     <td>{{ evento.producto.nombre }}</td>
                     <td>{{ evento.modulo }}</td>
-                    <td>{{ evento.usuarioActual.usuario }}</td>
+                    <td><span class="badge" [style.background-color]="evento.usuarioActual.color"  [style.color]="constraste(evento.usuarioActual.color)" routerLink="/usuario/{{evento.usuarioActual.id}}">{{ evento.usuarioActual.usuario }}</span></td>
                     <td>{{ evento.fechaAlta | date:'short'}}</td>
                     <td hidden>{{ evento.usuarioAlta.usuario }}</td>
                     <td *ngIf="tieneControl()">
@@ -111,7 +112,7 @@
                             </div>
                             <div class="col">
                                 <p>Usuario Alta</p>
-                                <p>{{ eventoDetalle.usuarioAlta.usuario }}</p>
+                                <p><span class="badge" [style.background-color]="eventoDetalle.usuarioAlta.color"  [style.color]="constraste(eventoDetalle.usuarioAlta.color)" routerLink="/usuario/{{eventoDetalle.usuarioAlta.id}}">{{ eventoDetalle.usuarioAlta.usuario }}</span></p>
                             </div>
                         </div>
                     </td>

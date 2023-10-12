@@ -41,6 +41,10 @@ export class UsuarioService {
     return this.http.delete(`${this.URL_COMPLETA}/usuario/${usuario.id}`);
   }
 
+  reactivarUsuario(usuario: any){
+    return this.http.get(`${this.URL_COMPLETA}/usuario/${usuario.id}/reactivar`);
+  }
+
   /* */
 
   login(params: any){

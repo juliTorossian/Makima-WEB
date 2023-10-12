@@ -37,6 +37,13 @@ html{
   margin: 30px 25px 10px 25px;
 }
 
+.p-autocomplete,
+.p-inputtext,
+.p-dropdown,
+.p-password-input {
+  width: 100%;
+}
+
 /* MARGIN */
 /* MARGIN RIGHT */
 .mr-1{margin-right: 0.25rem;}

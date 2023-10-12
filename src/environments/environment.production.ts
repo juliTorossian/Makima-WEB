@@ -1,8 +1,8 @@
 export const environment = {
-    production: false,
-    envName: 'dev',
+    production: true,
+    envName: 'prod',
 
-    API_BASEURL: 'http://localhost',
+    API_BASEURL: 'http://pandora',
     API_PORT: '4000',
     API_VERSION: 'api/v1',
 

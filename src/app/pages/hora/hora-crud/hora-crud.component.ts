@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Evento } from 'src/app/interfaces/evento';
 import { RegistroHora } from 'src/app/interfaces/hora';
 import { Usuario } from 'src/app/interfaces/usuario';
+import { EventoService } from 'src/app/servicios/evento.service';
 import { HoraService } from 'src/app/servicios/hora.service';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { SeleccionarEventoComponent } from '../../../componentes/seleccionar-evento/seleccionar-evento.component';
@@ -13,7 +14,7 @@ import { SeleccionarEventoComponent } from '../../../componentes/seleccionar-eve
   templateUrl: './hora-crud.component.html',
   styleUrls: ['./hora-crud.component.css']
 })
-export class HoraCrudComponent {
+export class HoraCrudComponent implements OnInit{
   private ref = inject(DynamicDialogRef);
   private refEvento = inject(DynamicDialogRef);
   private config = inject(DynamicDialogConfig);
@@ -22,12 +23,19 @@ export class HoraCrudComponent {
 
   private usuarioService = inject(UsuarioService);
 
+  @ViewChild('inputInicio') horaInicio!: ElementRef;
+  @ViewChild('inputFinal') horaFinal!: ElementRef;
+
+  private eventoService = inject(EventoService);
+
   modo!: any;
 
   evento!: Evento[];
+  eventos!: Evento[];
+  eventosFiltrados!: Evento[];
 
   id!: string;
-  fecha!: Date;
+  fecha: Date = new Date();
   usuario!: Usuario;
   totalHoras: number = 0;
   horas: any[] = [{ id: "", evento: {id: "", evento: ""}, inicio: "", final: "", total: 0, observaciones: "" }];
@@ -40,7 +48,13 @@ export class HoraCrudComponent {
   }
 
   ngOnInit(){
-    // console.log(this.config.data.hora);
+    // console.log(this.config.data.hora.registroHoras);
+
+    this.eventoService.getEventos().subscribe({
+      next: (res) => {
+        this.eventos = res;
+      }
+    })
 
     this.modo = this.config.data.modo;
     let registroHoras = this.config.data.hora;
@@ -53,7 +67,7 @@ export class HoraCrudComponent {
       // console.log(registroHoras.horas);
       this.horas = [];
       registroHoras.horas.map( (h:any) => {
-        // console.log(h);
+        console.log(h);
         this.horas.push( { id: h.id, evento: {id: h.evento.id, evento: `${h.evento.tipo}-${h.evento.numero}`}, inicio: h.inicio, final: h.final, total: h.total, observaciones: h.observaciones } )
       })
 
@@ -72,11 +86,11 @@ export class HoraCrudComponent {
 
     this.horas.map( (h) => {
       if (h.evento.id === ""){
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: `El campo "Evento" no puede quedar vacio.` });
+        this.messageService.add({ severity: 'warn', summary: '', detail: `El campo "Evento" no puede quedar vacio.` });
         ok = false;
       }
       if (h.inicio === "" || h.final === ""){
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: `Los campos "Inicio" y "Final" no pueden quedar vacios` });
+        this.messageService.add({ severity: 'warn', summary: '', detail: `Los campos "Inicio" y "Final" no pueden quedar vacios` });
         ok = false;
       }
     })
@@ -97,24 +111,28 @@ export class HoraCrudComponent {
       horas: this.horas
     }
 
+    console.log(registroHoras);
     if (ok){
-      this.ref.close(registroHoras);
+      // this.ref.close(registroHoras);
     }
   }
 
   actualizarTotal(hora:any){
-    // console.log(hora);
+    console.log("onComplete");
+    console.log(hora);
     let diferenciaEnHoras = 0;
 
     if (this.comprobarHora(hora.inicio)){
       if (this.comprobarHora(hora.final)){
         diferenciaEnHoras = this.getDiferenciaHoras(hora.inicio, hora.final)
-      }else{
-        hora.final = "";
       }
-    }else{
-      hora.inicio = "";
+      // else{
+      //   hora.final = "";
+      // }
     }
+    // else{
+    //   hora.inicio = "";
+    // }
     hora.total = diferenciaEnHoras;
 
   }
@@ -161,6 +179,41 @@ export class HoraCrudComponent {
       }
     });
 
+  }
+  completarHora(index:any){
+    console.log(this.horas[index])
+    // console.log(hora)
+    let horaAux = this.horas[index].inicio.replaceAll('_', '0');
+
+    // if (cual === 'inicio'){
+      this.horas[index].inicio = horaAux
+    // }else{
+    //   hora.final = horaAux+':00'
+    // }
+    // console.log(hora)
+    this.actualizarTotal(this.horas[index]);  
+  }
+
+  filtroEvento(event:any) {
+    let filtered: any[] = [];
+    let query = event.query;
+
+    for (let i = 0; i < this.eventos.length; i++) {
+      let EventoAux = this.eventos[i];
+      // if (clienteAux.nombre.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+      if (EventoAux.busqueda.toLowerCase().includes(query.toLowerCase())) {
+        filtered.push(EventoAux);
+      }
+    }
+
+    this.eventosFiltrados = filtered;
+  }
+  selEvento(event:any){
+    console.log(event);
+    this.actualizarEvento(event)
+  }
+  actualizarEvento(evento:any){
+    this.evento = evento;
   }
 
 }

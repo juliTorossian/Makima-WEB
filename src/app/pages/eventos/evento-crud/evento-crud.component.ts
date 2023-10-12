@@ -49,12 +49,7 @@ export class EventoCRUDComponent implements OnInit {
   clienteSel!: Cliente;
 
   evento!: any;
-  cliente: Cliente = {
-    id: "",
-    sigla: "",
-    nombre: "",
-    activo: 1
-  };
+
   producto: Producto = {
     id:        "",
     sigla:     "",
@@ -68,8 +63,8 @@ export class EventoCRUDComponent implements OnInit {
   numero = new FormControl({value:0, disabled:true});
   prioridad = new FormControl(5, [Validators.required]);
   titulo = new FormControl("", [Validators.required]);
-  clienteId = new FormControl("", [Validators.required]);
   modulo = new FormControl("");
+  clienteFc = new FormControl({ id: "", sigla: "", nombre: "", activo: 0});
   // eventoHijo = new FormControl(false);
   // eventoHijo!: boolean;
   // eventoMadre!: Evento;
@@ -107,12 +102,8 @@ export class EventoCRUDComponent implements OnInit {
 
       // console.log(this.evento);
 
-      this.clienteService.getCliente(this.evento.cliente.id).subscribe({
-        next: (res:any) => {
-          // console.log(res);
-          this.cliente = res;
-        }
-      });
+      this.actualizarCliente(this.evento.cliente.id);
+
       this.productoService.getProducto(this.evento.producto.id).subscribe({
         next: (res:any) => {
           // console.log(res);
@@ -121,11 +112,11 @@ export class EventoCRUDComponent implements OnInit {
       });
 
       this.id.setValue(this.evento.id)
-      this.tipo.setValue(this.evento.tipo);
+      this.tipo.setValue(this.evento.tipo.id);
       this.numero.setValue(this.evento.numero);
       this.prioridad.setValue(this.evento.prioridad);
       this.titulo.setValue(this.evento.titulo);
-      this.clienteId.setValue(this.evento.cliente);
+      // this.clienteId.setValue(this.evento.cliente);
       this.modulo.setValue(this.evento.modulo);
       // this.eventoHijo.setValue((this.evento.madre)!==undefined);
       // this.eventoMadre = this.evento.madre;
@@ -133,29 +124,55 @@ export class EventoCRUDComponent implements OnInit {
     
   }
 
+  actualizarCliente(clienteId:any){
+    this.clienteService.getCliente(clienteId).subscribe({
+      next: (res:any) => {
+        // console.log(res);
+        this.clienteFc.setValue(res);
+      }
+    });
+  }
+
   accion($event:any) {
     $event.preventDefault();    
     let ok = true;
 
+    // console.log(this.clienteId); 
+
     let tipo :any = this.tipo.value;
     let modulo :any = this.modulo.value;
+    // let clienteAux = 
 
     if (this.tiposEvento.some((te) => te.toLowerCase() == tipo.toLowerCase()) ){
       if (this.modulos.some((te) => te.toLowerCase() == modulo.toLowerCase()) ){
 
-        const evento = {
-          id:             this.id.value,
-          tipo:           tipo,
-          titulo:         this.titulo.value,
-          cliente:        this.cliente.id,
-          producto:       this.producto.id,
-          modulo:         modulo,
-          usuAlta:        this.usuario.id,
-          prioridad:      this.prioridad.value,
-          // madre:          this.eventoMadre.id
+
+        if (this.clienteFc.value){
+          if (this.producto.id){
+            if (this.titulo.valid){
+              const evento = {
+                id:             this.id.value,
+                tipo:           tipo,
+                titulo:         this.titulo.value,
+                cliente:        this.clienteFc.value!.id,
+                producto:       this.producto.id,
+                modulo:         modulo,
+                usuAlta:        this.usuario.id,
+                prioridad:      this.prioridad.value,
+                // madre:          this.eventoMadre.id
+              }
+              // console.log("fin");
+              // console.log(evento);
+              this.ref.close(evento);
+            }else{
+              this.messageService.add({ severity: 'warn', summary: '', detail: 'Debe ingresar un titulo al evento' });
+            }
+          }else{
+            this.messageService.add({ severity: 'warn', summary: '', detail: 'Debe seleccionar un producto' });
+          }
+        }else{
+          this.messageService.add({ severity: 'warn', summary: '', detail: 'Debe seleccionar un cliente' });
         }
-        // console.log(evento);
-        this.ref.close(evento);
 
       }else{
         this.messageService.add({ severity: 'warn', summary: '', detail: 'No se existe el Modulo seleccionado' });
@@ -227,13 +244,14 @@ export class EventoCRUDComponent implements OnInit {
     this.refCliente.onClose.subscribe((cliente: Cliente) => {
       // console.log(cliente);
       if (cliente){
-        this.cliente = cliente;
+        this.actualizarCliente(cliente.id)
       }
     });
   }
   selCliente(event:any){
-    console.log(event);
-    this.cliente = event;
+    // console.log(event);
+    // this.clienteFc.setV = event;
+    this.actualizarCliente(event.id)
   }
 
   selectProducto(){
@@ -265,7 +283,7 @@ export class EventoCRUDComponent implements OnInit {
     }
 
     this.clientesFiltrado = filtered;
-}
+  }
 
   // selectEventoMadre(){
   //   this.refCliente = this.dialogService.open(SeleccionarEventoComponent, {

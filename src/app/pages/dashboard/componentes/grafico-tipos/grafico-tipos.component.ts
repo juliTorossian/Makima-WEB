@@ -7,13 +7,16 @@ import {
   ApexResponsive,
   ApexXAxis,
   ApexLegend,
-  ApexFill
+  ApexFill,
+  
 } from "ng-apexcharts";
+import { generarNuevoColor } from 'src/app/helpers/color';
 import { DashboardService } from 'src/app/servicios/dashboard.service';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
+  colors: string[],
   chart: ApexChart;
   plotOptions: ApexPlotOptions;
   responsive: ApexResponsive[];
@@ -67,6 +70,7 @@ export class GraficoTiposComponent implements OnInit{
 
     let series : any = [];
     let categorias : any = [];
+    let colors : string[] = [];
     this.data.tipos.map( (tipo:any) => { categorias.push(tipo.id) });
 
     this.data.tareas.map( (tarea:any) => {
@@ -97,12 +101,20 @@ export class GraficoTiposComponent implements OnInit{
 
     });
 
-    // console.log(series);
+    // console.log(series.length);
     // console.log(categorias);
     
+    for (let i = 0; i < series.length; i++) {
+      colors.push(generarNuevoColor())
+    }
+    // series.map( 
+    //   colors.push(generarNuevoColor())
+    // )
+    // console.log(colors)
 
     this.chartOptions = {
       series: series,
+      colors: colors,
       chart: {
         type: "bar",
         height: 450,
@@ -137,6 +149,7 @@ export class GraficoTiposComponent implements OnInit{
               fontWeight: 900,
               },
             },
+            
           },
         }
       },
@@ -149,7 +162,7 @@ export class GraficoTiposComponent implements OnInit{
         offsetY: 40
       },
       fill: {
-        opacity: 1
+        opacity: 1,
       }
     };
 

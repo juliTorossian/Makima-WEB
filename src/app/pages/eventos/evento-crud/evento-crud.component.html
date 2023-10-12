@@ -45,8 +45,8 @@
             <div class="col-10">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="cliente">Cliente</label>
-                    <!-- <p class="falso-input">{{cliente.sigla}} - {{cliente.nombre}}</p> -->
-                    <p-autoComplete [(ngModel)]="clienteSel" [className]="'clienteInput'" placeholder="Cliente Nombre" [forceSelection]="true" [suggestions]="clientesFiltrado" (completeMethod)="filtroCliente($event)" field="nombre" (onSelect)="selCliente($event)"></p-autoComplete>
+                    <!-- <p class="falso-input">{{cliente.sigla}} - {{cliente.nombre}}</p> [(ngModel)]="clienteSel" -->
+                    <p-autoComplete [formControl]="clienteFc" [className]="'clienteInput'" placeholder="Cliente Nombre" [forceSelection]="true" [suggestions]="clientesFiltrado" (completeMethod)="filtroCliente($event)" field="nombre" (onSelect)="selCliente($event)"></p-autoComplete>
                 </div>
             </div>
             <div class="col-2 cell-boton">
