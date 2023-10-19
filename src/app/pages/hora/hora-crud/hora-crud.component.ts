@@ -38,10 +38,10 @@ export class HoraCrudComponent implements OnInit{
   fecha: Date = new Date();
   usuario!: Usuario;
   totalHoras: number = 0;
-  horas: any[] = [{ id: "", evento: {id: "", evento: ""}, inicio: "", final: "", total: 0, observaciones: "" }];
+  horas: any[] = [{ id: "", evento: {id: "", evento: "", busqueda: ""}, inicio: "", final: "", total: 0, observaciones: "" }];
 
   agregarFila() {
-    this.horas.push({ id: "", evento: {id: "", evento: ""}, inicio: "", final: "", total: 0, observaciones: "" })
+    this.horas.push({ id: "", evento: {id: "", evento: "", busqueda: ""}, inicio: "", final: "", total: 0, observaciones: "" })
   }
   eliminarFila(horaEliminar:any) {
     this.horas = this.horas.filter((item) => item.inicio !== horaEliminar.inicio)
@@ -67,7 +67,7 @@ export class HoraCrudComponent implements OnInit{
       // console.log(registroHoras.horas);
       this.horas = [];
       registroHoras.horas.map( (h:any) => {
-        console.log(h);
+        // console.log(h);
         this.horas.push( { id: h.id, evento: {id: h.evento.id, evento: `${h.evento.tipo}-${h.evento.numero}`}, inicio: h.inicio, final: h.final, total: h.total, observaciones: h.observaciones } )
       })
 
@@ -111,15 +111,15 @@ export class HoraCrudComponent implements OnInit{
       horas: this.horas
     }
 
-    console.log(registroHoras);
+    // console.log(registroHoras);
     if (ok){
-      // this.ref.close(registroHoras);
+      this.ref.close(registroHoras);
     }
   }
 
   actualizarTotal(hora:any){
-    console.log("onComplete");
-    console.log(hora);
+    // console.log("onComplete");
+    // console.log(hora);
     let diferenciaEnHoras = 0;
 
     if (this.comprobarHora(hora.inicio)){
@@ -174,14 +174,15 @@ export class HoraCrudComponent implements OnInit{
     this.refEvento.onClose.subscribe((eventoSel: any) => {
       // console.log(eventoSel);
       if(eventoSel){
-        let aux = {id: eventoSel.id, "evento": `${eventoSel.tipo}-${eventoSel.numero}`}
-        hora.evento = aux;
+        // let aux = {id: eventoSel.id, "evento": eventoSel.busqueda}
+        // hora.evento = aux;
+        this.selEvento(eventoSel, hora);
       }
     });
 
   }
   completarHora(index:any){
-    console.log(this.horas[index])
+    // console.log(this.horas[index])
     // console.log(hora)
     let horaAux = this.horas[index].inicio.replaceAll('_', '0');
 
@@ -208,12 +209,20 @@ export class HoraCrudComponent implements OnInit{
 
     this.eventosFiltrados = filtered;
   }
-  selEvento(event:any){
-    console.log(event);
-    this.actualizarEvento(event)
+  selEvento(evento:any, hora:any){
+    // console.log(evento);
+    // console.log(hora);
+
+    hora.evento = {
+      id: evento.id,
+      evento: evento.busqueda,
+      busqueda: evento.busqueda
+    }
+
+    // this.actualizarEvento(event)
   }
-  actualizarEvento(evento:any){
-    this.evento = evento;
-  }
+  // actualizarEvento(evento:any){
+  //   this.evento = evento;
+  // }
 
 }

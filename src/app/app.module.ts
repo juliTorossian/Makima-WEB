@@ -96,6 +96,7 @@ import { SeleccionarEventoComponent } from './componentes/seleccionar-evento/sel
 import { ActivadoPipe } from './pipes/activado.pipe';
 import { UsuarioComponent } from './pages/usuario/usuario/usuario.component';
 import { BadgeComponent } from './componentes/badge/badge.component';
+import { CargarArchivosComponent } from './pages/eventos/componentes/cargar-archivos/cargar-archivos.component';
 
 @NgModule({
   declarations: [
@@ -141,6 +142,7 @@ import { BadgeComponent } from './componentes/badge/badge.component';
     SeleccionarEventoComponent,
     UsuarioComponent,
     BadgeComponent,
+    CargarArchivosComponent,
   ],
   imports: [
     CKEditorModule,

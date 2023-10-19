@@ -11,7 +11,7 @@ export class AppComponent implements OnInit{
   title = 'Makima-WEB';
   
   ngOnInit(){
-    
+    // console.log(env)
   }
 
 

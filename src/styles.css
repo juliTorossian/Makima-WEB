@@ -6,9 +6,9 @@
 @import "primeflex/primeflex.css";
 
 @import "primeng/resources/themes/lara-light-blue/theme.css";
-@media (prefers-color-scheme: dark){
+/* @media (prefers-color-scheme: dark){
   @import "primeng/resources/themes/lara-dark-purple/theme.css";
-}
+} */
 
 html{
   background-color: var(--bluegray-200);

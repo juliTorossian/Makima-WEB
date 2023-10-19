@@ -25,7 +25,7 @@
                     <tr *ngFor="let hora of horas; index as i;">
                         <!-- <td><div style="display: flex;align-items:center;"><input type="text" pInputText [(ngModel)]="hora.evento.evento" [disabled]="true" /> <button type="button" pButton icon="pi pi-check-circle" (click)="seleccionarEvento(hora)" class="p-button-rounded p-button-success botonRedondoChico"></button></div></td> -->
                         <td><div style="display: flex;align-items:center;">
-                            <p-autoComplete [(ngModel)]="hora.evento" [className]="'clienteInput'" placeholder="Evento" [forceSelection]="true" [suggestions]="eventosFiltrados" (completeMethod)="filtroEvento($event)" field="busqueda" (onSelect)="selEvento($event)"></p-autoComplete>
+                            <p-autoComplete [(ngModel)]="hora.evento" [className]="'clienteInput'" placeholder="Evento" [forceSelection]="true" [suggestions]="eventosFiltrados" (completeMethod)="filtroEvento($event)" field="busqueda" (onSelect)="selEvento($event, hora)"></p-autoComplete>
                             <button type="button" pButton icon="pi pi-check-circle" (click)="seleccionarEvento(hora)" class="p-button-rounded p-button-success botonRedondoChico"></button>
                         </div></td>
                         <td><p-inputMask #inputInicio mask="99:99" [(ngModel)]="hora.inicio" placeholder="99:99" (onComplete)="actualizarTotal(hora)"></p-inputMask></td>

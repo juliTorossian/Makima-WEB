@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
-    envName: 'production',
+    envName: 'gaci',
 
     API_BASEURL: 'http://pandora',
     API_PORT: '4000',

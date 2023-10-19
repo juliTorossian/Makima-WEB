@@ -47,6 +47,12 @@ export class EventoService {
       // tap( (res) => console.log(res))
     );
   }
+
+  getAdjuntos(eventoId : string){
+    return this.http.get(`${this.URL_COMPLETA}/evento/${eventoId}/adjuntos`).pipe(
+      // tap( (res) => console.log(res))
+    );
+  }
   setComentario(eventoId : string, comentario:any){
     const headers = new HttpHeaders();
     headers.set('Content-Type', ['multipart/form-data']);

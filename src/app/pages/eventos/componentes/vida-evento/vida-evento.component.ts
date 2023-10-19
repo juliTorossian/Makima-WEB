@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { tap } from 'rxjs';
@@ -12,8 +12,10 @@ import { NovedadesColor, NovedadesMensaje, VidaMensaje } from 'src/app/utilidade
   styleUrls: ['./vida-evento.component.css']
 })
 export class VidaEventoComponent implements OnInit{
-  private ref = inject(DynamicDialogRef);
-  private config = inject(DynamicDialogConfig);
+  @Input() eventoId: string = "";
+
+  // private ref = inject(DynamicDialogRef);
+  // private config = inject(DynamicDialogConfig);
 
   private eventoService = inject(EventoService);
   private sanitizer = inject(DomSanitizer);
@@ -22,13 +24,15 @@ export class VidaEventoComponent implements OnInit{
   evento!: Evento;
 
   ngOnInit(){
-    // console.log(this.config.data);
-    this.evento = this.config.data;
-
-    this.eventoService.getVidaEvento(this.evento.id).pipe(
-      tap((res:any) => {console.log(res)})
-    )
-    .subscribe({
+    this.eventoService.getEvento(this.eventoId).subscribe({
+      next: (res:any) => {
+        this.evento = res;
+        this.getVida();
+      }
+    })
+  }
+  getVida(){
+    this.eventoService.getVidaEvento(this.evento.id).subscribe({
       next: (res:any) => {
         this.vidaEvento = res;
       }

@@ -10,6 +10,8 @@ import { Usuario } from 'src/app/interfaces/usuario';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { VidaEventoComponent } from '../componentes/vida-evento/vida-evento.component';
+import { CargarArchivosComponent } from '../componentes/cargar-archivos/cargar-archivos.component';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-evento',
@@ -25,6 +27,8 @@ export class EventoComponent implements OnInit{
   @ViewChild("adjunto", {
     read: ElementRef
   }) adjunto!: ElementRef;
+
+  ref!: DynamicDialogRef;
 
   private dialogService = inject(DialogService);
 
@@ -45,6 +49,8 @@ export class EventoComponent implements OnInit{
   porcentajeAvance! : any;
 
   comentarios!: Comentario[];
+
+  archivosAdjuntos!: File[];
 
 
   public Editor:any = ClassicEditor;
@@ -70,13 +76,49 @@ export class EventoComponent implements OnInit{
     });
 
     this.cargarComentarios();
+    this.cargarAdjuntos();
 
+  }
+
+  cargarArchivos(){
+
+    const data = {
+      eventoId: this.eventoId,
+      usuarioId: this.usuario.id
+    }
+    
+    this.ref = this.dialogService.open(CargarArchivosComponent, {
+      header: "Seleccionar archivos",
+      width: '70%',
+      contentStyle: { overflow: 'auto' },
+      baseZIndex: 10000,
+      maximizable: true,
+      data: data
+    });
+
+    this.ref.onClose.subscribe((aux: any) => {
+      console.log("aux: ", aux)
+    });
   }
 
   cargarComentarios(){
     this.eventoService.getComentarios(this.eventoId).subscribe({
       next: (res:any) =>{
         this.comentarios = res;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+  cargarAdjuntos(){
+    this.eventoService.getAdjuntos(this.eventoId).pipe(
+      tap( (res:any) => console.log(res))
+    )
+    .subscribe({
+      next: (res:any) =>{
+        this.archivosAdjuntos = res;
       },
       error: (err) => {
         console.log(err);
@@ -140,18 +182,18 @@ export class EventoComponent implements OnInit{
     // this.archivoSeleccionado = input.files[0];
   }
 
-  verVidaEvento(evento:Evento){
+  // verVidaEvento(evento:Evento){
 
-    this.refVidaEvento = this.dialogService.open(VidaEventoComponent, {
-      header: 'Vida del evento',
-      width: '60%',
-      contentStyle: { overflow: 'auto' },
-      baseZIndex: 10000,
-      data: evento
-    });
+  //   this.refVidaEvento = this.dialogService.open(VidaEventoComponent, {
+  //     header: 'Vida del evento',
+  //     width: '60%',
+  //     contentStyle: { overflow: 'auto' },
+  //     baseZIndex: 10000,
+  //     data: evento
+  //   });
 
-    // this.refVidaEvento.onClose.subscribe((eventoCrud: Evento) => {
-    // });
-  }
+  //   // this.refVidaEvento.onClose.subscribe((eventoCrud: Evento) => {
+  //   // });
+  // }
 
 }
