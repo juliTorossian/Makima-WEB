@@ -22,6 +22,10 @@ export class CargarArchivosComponent implements OnInit{
   eventoId!: string;
   urlCarga: string = "http://localhost:4000/api/v1/evento/";
 
+  chooseLabel: string = "Seleccionar";
+  uploadLabel: string = "Enviar";
+  cancelLabel: string = "Cancelar";
+
 
   ngOnInit() {
     this.headers.set('Content-Type', ['multipart/form-data']);
@@ -34,22 +38,16 @@ export class CargarArchivosComponent implements OnInit{
   }
 
   onUpload(event:UploadEvent) {
-      for(let file of event.files) {
-          this.uploadedFiles.push(file);
-      }
-      
-
-      // this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
+    // console.log(event);
+    this.cerrar(true);
+  }
+  onError(event:any){
+    // console.log(event);
+    this.cerrar(false);
   }
 
-  cerrar() {
-    // if (this.estimacion && this.estimacion > 0){
-      // let respuesta = {
-      //   estimacion: this.estimacion,
-      //   comentario: this.comentario
-      // }
-      this.ref.close(this.uploadedFiles);
-    // }
+  cerrar(ok:boolean) {
+    this.ref.close(ok);
   }
 
 

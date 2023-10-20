@@ -1,7 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { DynamicDialogRef, DynamicDialogConfig, DialogService } from 'primeng/dynamicdialog';
-import { map, tap } from 'rxjs';
 import { Cliente } from 'src/app/interfaces/cliente';
 import { Usuario } from 'src/app/interfaces/usuario';
 import { ClienteService } from 'src/app/servicios/cliente.service';
@@ -11,10 +10,7 @@ import { TipoEventoService } from 'src/app/servicios/tipo-evento.service';
 import { ProductoService } from 'src/app/servicios/producto.service';
 import { Producto } from 'src/app/interfaces/producto';
 import { ProductoSeleccionComponent } from '../../producto/producto-seleccion/producto-seleccion.component';
-import { Evento } from 'src/app/interfaces/evento';
-import { SeleccionarEventoComponent } from 'src/app/componentes/seleccionar-evento/seleccionar-evento.component';
 import { ModuloService } from 'src/app/servicios/modulo.service';
-import { Modulo } from 'src/app/interfaces/modulo';
 import { MessageService } from 'primeng/api';
 
 @Component({
@@ -65,6 +61,8 @@ export class EventoCRUDComponent implements OnInit {
   titulo = new FormControl("", [Validators.required]);
   modulo = new FormControl("");
   clienteFc = new FormControl({ id: "", sigla: "", nombre: "", activo: 0});
+  descripcion = new FormControl("");
+  adjunto!: File | null;
   // eventoHijo = new FormControl(false);
   // eventoHijo!: boolean;
   // eventoMadre!: Evento;
@@ -159,11 +157,12 @@ export class EventoCRUDComponent implements OnInit {
                 modulo:         modulo,
                 usuAlta:        this.usuario.id,
                 prioridad:      this.prioridad.value,
+                descripcion:    this.descripcion.value
                 // madre:          this.eventoMadre.id
               }
-              // console.log("fin");
-              // console.log(evento);
-              this.ref.close(evento);
+              console.log(this.adjunto);
+              console.log(evento);
+              // this.ref.close(evento);
             }else{
               this.messageService.add({ severity: 'warn', summary: '', detail: 'Debe ingresar un titulo al evento' });
             }
@@ -180,20 +179,6 @@ export class EventoCRUDComponent implements OnInit {
     }else{
       this.messageService.add({ severity: 'warn', summary: '', detail: 'No se existe el Tipo de Evento seleccionado' });
     }
-
-    // const evento = {
-    //   id:             this.id.value,
-    //   tipo:           tipo,
-    //   titulo:         this.titulo.value,
-    //   cliente:        this.cliente.id,
-    //   producto:       this.producto.id,
-    //   modulo:         modulo,
-    //   usuAlta:        this.usuario.id,
-    //   prioridad:      this.prioridad.value,
-    //   // madre:          this.eventoMadre.id
-    // }
-    // console.log(evento);
-    // this.ref.close(evento);
   }
 
   filtroTipoEvento(event:any) {
@@ -223,15 +208,6 @@ export class EventoCRUDComponent implements OnInit {
     }
     this.modulosFiltrados = filtered;
   }
-
-  // getDatosEvento(){
-  //   // {{eventoMadre.tipo}} - {{eventoMadre.numero}} | {{eventoMadre.titulo}}
-  //   if (this.eventoMadre){
-  //     return `${this.eventoMadre.tipo} - ${this.eventoMadre.numero} | ${this.eventoMadre.titulo}`
-  //   }else{
-  //     return "";
-  //   }
-  // }
 
   selectCliente(){
     this.refCliente = this.dialogService.open(ClienteSeleccionComponent, {
@@ -285,17 +261,22 @@ export class EventoCRUDComponent implements OnInit {
     this.clientesFiltrado = filtered;
   }
 
-  // selectEventoMadre(){
-  //   this.refCliente = this.dialogService.open(SeleccionarEventoComponent, {
-  //     header: 'Seleccionar Evento',
-  //     width: '70%',
-  //     contentStyle: { overflow: 'auto' },
-  //     baseZIndex: 11000
-  //   });
+  onUpload(event:any){
+    console.log(event)
+  }
+  onSelect(event:any){
+    console.log(event)
+    console.log(event.currentFiles)
+    this.adjunto = event.currentFiles;
+  }
 
-  //   this.refCliente.onClose.subscribe((evento: Evento) => {
-  //     console.log(evento);
-  //     this.eventoMadre = evento;
-  //   });
-  // }
+  onFileSelected(event: any) {
+    const file = event.target!.files[0];
+    this.adjunto = file;
+  }
+
+  onFileCanceled() {
+    this.adjunto = null;
+  }
+
 }

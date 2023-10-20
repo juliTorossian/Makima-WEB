@@ -53,10 +53,12 @@ export class EventoService {
       // tap( (res) => console.log(res))
     );
   }
+  deleteAdjunto(adicionId: any){
+    return this.http.delete(`${this.URL_COMPLETA}/evento/adjunto/${adicionId}`);
+  }
   setComentario(eventoId : string, comentario:any){
-    const headers = new HttpHeaders();
-    headers.set('Content-Type', ['multipart/form-data']);
-    return this.http.post(`${this.URL_COMPLETA}/evento/${eventoId}/comentar`, comentario, { headers });
+    console.log(comentario);
+    return this.http.post(`${this.URL_COMPLETA}/evento/${eventoId}/comentar`, comentario);
   }
   getVidaEvento(eventoId : string){
     return this.http.get(`${this.URL_COMPLETA}/evento/${eventoId}/vida`).pipe(

@@ -1,5 +1,7 @@
 
 <div class="container" *ngIf="evento">
+    <p-toast></p-toast>
+    <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
 
     <app-boton-back></app-boton-back>
 
@@ -83,7 +85,7 @@
                             <p-table [value]="archivosAdjuntos" styleClass="p-datatable-sm">
                                 <ng-template pTemplate="caption">
                                     <div class="flex align-items-center justify-content-between" style="display: flex;">
-                                        <button pButton pRipple label="Agregar" icon="pi pi-plus" class="p-button-success botonChico" (click)="cargarArchivos()"></button>
+                                        <button pButton pRipple label="Agregar" icon="pi pi-plus" class="p-button-success botonChico" (click)="adjuntarDocumentos()"></button>
                                     </div>
                                 </ng-template>
                                 <ng-template pTemplate="header">
@@ -95,11 +97,11 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-file>
                                     <tr>
-                                        <td>{{ file.name }}</td>
-                                        <td>{{ file.type }}</td>
+                                        <td>{{ file.nombre }}</td>
+                                        <td>{{ file.tipo }}</td>
                                         <td>
-                                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success botonRedondoChico mr-2"></button>
-                                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning botonRedondoChico"></button>
+                                            <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-success botonRedondoChico mr-2" (click)="verAdjunto(file)"></button>
+                                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger botonRedondoChico" (click)="eliminarAdjunto(file)"></button>
                                         </td>
                                     </tr>
                                 </ng-template>

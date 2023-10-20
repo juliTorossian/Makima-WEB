@@ -4,13 +4,12 @@ export interface Comentario {
     id: string,
     comentario: string,
     fecha: Date,
-    usuario: Usuario,
-    adjunto: Adjunto
+    usuario: Usuario
 }
 
 export interface Adjunto {
-    tiene: boolean,
-    tipo: string,
-    base: string,
-    nombre: string
+    id?: string,
+    nombre: string,
+    base64: string,
+    mime: string
 }
