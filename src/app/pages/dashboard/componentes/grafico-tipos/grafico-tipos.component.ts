@@ -97,6 +97,7 @@ export class GraficoTiposComponent implements OnInit{
       // console.log(serie);
 
       series.push(serie);
+      colors.push(tarea.color);
 
 
     });
@@ -104,9 +105,10 @@ export class GraficoTiposComponent implements OnInit{
     // console.log(series.length);
     // console.log(categorias);
     
-    for (let i = 0; i < series.length; i++) {
-      colors.push(generarNuevoColor())
-    }
+    // for (let i = 0; i < series.length; i++) {
+    //   colors.push(generarNuevoColor())
+    //   this.getColorTarea("");
+    // }
     // series.map( 
     //   colors.push(generarNuevoColor())
     // )
@@ -169,4 +171,10 @@ export class GraficoTiposComponent implements OnInit{
     this.listoGrafico = true;
   }
 
+  getColorTarea(tarea:any){
+    console.log(this.data);
+
+  }
+
 }
+

@@ -48,7 +48,7 @@ export class EventosUsuarioComponent {
     this.usuarioService.getUsuarioToken(token).subscribe({
       next: (usuario) => {
         this.eventoService.getEventosUsuario(usuario.id).subscribe((res) => {
-          console.log(res);
+          // console.log(res);
           this.eventosSave = res;
           this.eventos = this.eventosSave.filter((r:any) => r.cerrado === 0);
         });    

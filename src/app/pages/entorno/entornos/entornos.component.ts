@@ -1,7 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Entorno } from 'src/app/interfaces/entorno';
+import { Shortcut } from 'src/app/interfaces/shortcut';
 import { EntornoService } from 'src/app/servicios/entorno.service';
 import { EntornoCrudComponent } from '../entorno-crud/entorno-crud.component';
 
@@ -12,6 +13,12 @@ import { EntornoCrudComponent } from '../entorno-crud/entorno-crud.component';
   providers: [DialogService, MessageService, ConfirmationService]
 })
 export class EntornosComponent {
+  @HostListener('window:'+Shortcut.ALTA, ['$event'])
+  sc_alta(event: KeyboardEvent) {
+    event.preventDefault();
+    this.mostrarModalCrud(null, 'A');
+  }
+
   entornos!: Entorno[];
   entorno!: Entorno;
   entornoSeleccionado!: Entorno[];

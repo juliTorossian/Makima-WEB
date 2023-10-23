@@ -42,12 +42,19 @@ export class EventoService {
     return this.http.delete(`${this.URL_COMPLETA}/evento/${evento.id}`);
   }
 
+  // Comentarios
+
   getComentarios(eventoId : string){
     return this.http.get(`${this.URL_COMPLETA}/evento/${eventoId}/comentarios`).pipe(
       // tap( (res) => console.log(res))
     );
   }
+  setComentario(eventoId : string, comentario:any){
+    console.log(comentario);
+    return this.http.post(`${this.URL_COMPLETA}/evento/${eventoId}/comentar`, comentario);
+  }
 
+  // Adjuntos
   getAdjuntos(eventoId : string){
     return this.http.get(`${this.URL_COMPLETA}/evento/${eventoId}/adjuntos`).pipe(
       // tap( (res) => console.log(res))
@@ -56,12 +63,17 @@ export class EventoService {
   deleteAdjunto(adicionId: any){
     return this.http.delete(`${this.URL_COMPLETA}/evento/adjunto/${adicionId}`);
   }
-  setComentario(eventoId : string, comentario:any){
-    console.log(comentario);
-    return this.http.post(`${this.URL_COMPLETA}/evento/${eventoId}/comentar`, comentario);
-  }
+
+  // Vida
   getVidaEvento(eventoId : string){
     return this.http.get(`${this.URL_COMPLETA}/evento/${eventoId}/vida`).pipe(
+      // tap( (res) => console.log(res))
+    );
+  }
+
+  // Horas
+  getHorasEvento(eventoId : string){
+    return this.http.get(`${this.URL_COMPLETA}/evento/${eventoId}/horas`).pipe(
       // tap( (res) => console.log(res))
     );
   }

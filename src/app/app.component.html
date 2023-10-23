@@ -1,3 +1,16 @@
 <app-header-menu *ngIf="muestraHeader()"></app-header-menu>
 
 <router-outlet></router-outlet>
+
+<div class="card flex justify-content-center">
+    <p-dialog header="Atajos de teclado" [(visible)]="visible" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+        <div class="grid atajo" *ngFor="let atajo of atajos">
+            <div class="col atajo_desc">
+                <p>{{atajo.desc}}:</p>
+            </div>
+            <div class="col atajo_atajo">
+                <p>{{atajo.atajo}}</p>
+            </div>
+        </div>
+    </p-dialog>
+</div>

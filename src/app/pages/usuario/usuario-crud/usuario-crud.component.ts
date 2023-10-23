@@ -48,7 +48,7 @@ export class UsuarioCrudComponent {
   roles! : any;
 
   ngOnInit(){
-    console.log(this.config.data);
+    // console.log(this.config.data);
 
     this.rolService.getRoles().pipe(
       // tap( (res) => console.log(res))
@@ -62,7 +62,7 @@ export class UsuarioCrudComponent {
     let usuario = this.config.data.usuario;
 
     if (usuario){
-      console.log(usuario)
+      // console.log(usuario)
 
       this.id = usuario.id;
       this.nombre = usuario.nombre;

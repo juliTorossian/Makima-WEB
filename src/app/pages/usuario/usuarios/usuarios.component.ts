@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -16,6 +16,7 @@ import { Usuario } from 'src/app/interfaces/usuario';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { UsuarioCrudComponent } from '../usuario-crud/usuario-crud.component';
 import { ActivoPipe } from 'src/app/pipes/activo.pipe';
+import { Shortcut } from 'src/app/interfaces/shortcut';
 
 @Component({
   selector: 'app-usuarios',
@@ -39,6 +40,12 @@ import { ActivoPipe } from 'src/app/pipes/activo.pipe';
   providers: [DialogService, MessageService, ConfirmationService]
 })
 export class UsuariosComponent {
+  @HostListener('window:'+Shortcut.ALTA, ['$event'])
+  sc_alta(event: KeyboardEvent) {
+    event.preventDefault();
+    this.mostrarModalCrud(null, 'A');
+  }
+
   usuarios!: Usuario[];
   usuariosSave!: Usuario[];
   usuario!: Usuario;

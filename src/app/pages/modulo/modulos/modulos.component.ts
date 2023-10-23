@@ -1,7 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Modulo } from 'src/app/interfaces/modulo';
+import { Shortcut } from 'src/app/interfaces/shortcut';
 import { ModuloService } from 'src/app/servicios/modulo.service';
 import { ModuloCrudComponent } from '../modulo-crud/modulo-crud.component';
 
@@ -12,6 +13,12 @@ import { ModuloCrudComponent } from '../modulo-crud/modulo-crud.component';
   providers: [DialogService, MessageService, ConfirmationService]
 })
 export class ModulosComponent {
+  @HostListener('window:'+Shortcut.ALTA, ['$event'])
+  sc_alta(event: KeyboardEvent) {
+    event.preventDefault();
+    this.mostrarModalCrud(null, 'A');
+  }
+
   modulos!: Modulo[];
   modulo!: Modulo;
   moduloSeleccionado!: Modulo[];

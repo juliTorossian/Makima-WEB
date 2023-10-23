@@ -62,6 +62,8 @@ export class UsuarioComponent implements OnInit{
   }
 
   esUsuario(){
+    // console.log(this.usuarioLogeado);
+    // console.log(this.usuarioAVer);
     return this.usuarioLogeado.id === this.usuarioAVer;
   }
 

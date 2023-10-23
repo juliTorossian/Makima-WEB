@@ -7,6 +7,7 @@ export interface Tarea {
     completada: boolean;
     reqComentario:    boolean;
     comentario: string;
+    color:      string;
 }
 
 export enum TareaClave {

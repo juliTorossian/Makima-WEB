@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { Shortcut } from 'src/app/interfaces/shortcut';
 import { Rol } from 'src/app/interfaces/usuario';
 import { RolService } from 'src/app/servicios/rol.service';
 import { RolCrudComponent } from '../rol-crud/rol-crud.component';
@@ -12,6 +13,12 @@ import { RolCrudComponent } from '../rol-crud/rol-crud.component';
   providers: [DialogService, MessageService, ConfirmationService]
 })
 export class RolesComponent {
+  @HostListener('window:'+Shortcut.ALTA, ['$event'])
+  sc_alta(event: KeyboardEvent) {
+    event.preventDefault();
+    this.mostrarModalCrud(null, 'A');
+  }
+
   roles!: Rol[];
   rol!: Rol;
   rolSeleccionado!: Rol[];

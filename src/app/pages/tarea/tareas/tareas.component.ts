@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { Shortcut } from 'src/app/interfaces/shortcut';
 import { Tarea } from 'src/app/interfaces/tarea';
 import { TareaService } from 'src/app/servicios/tarea.service';
 import { TareaCrudComponent } from '../tarea-crud/tarea-crud.component';
@@ -12,6 +13,12 @@ import { TareaCrudComponent } from '../tarea-crud/tarea-crud.component';
   providers: [DialogService, MessageService, ConfirmationService]
 })
 export class TareasComponent {
+  @HostListener('window:'+Shortcut.ALTA, ['$event'])
+  sc_altaEvento(event: KeyboardEvent) {
+    event.preventDefault();
+    this.mostrarModalCrud(null, 'A');
+  }
+
   tareas!: Tarea[];
   tarea!: Tarea;
   tareaSeleccionada!: Tarea[];
@@ -30,7 +37,7 @@ export class TareasComponent {
   llenarTabla(){
     this.tareaService.getTareas().subscribe({
       next: (res : any) => {
-        console.log(res);
+        // console.log(res);
         this.tareas = res;
       },
       error: (err) => {

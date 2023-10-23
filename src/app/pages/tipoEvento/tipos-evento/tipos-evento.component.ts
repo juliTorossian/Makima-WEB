@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { Shortcut } from 'src/app/interfaces/shortcut';
 import { TipoEvento } from 'src/app/interfaces/tipo-evento';
 import { TipoEventoService } from 'src/app/servicios/tipo-evento.service';
 import { TipoEventoCrudComponent } from '../tipo-evento-crud/tipo-evento-crud.component';
@@ -12,6 +13,12 @@ import { TipoEventoCrudComponent } from '../tipo-evento-crud/tipo-evento-crud.co
   providers: [DialogService, MessageService, ConfirmationService]
 })
 export class TiposEventoComponent {
+  @HostListener('window:'+Shortcut.ALTA, ['$event'])
+  sc_alta(event: KeyboardEvent) {
+    event.preventDefault();
+    this.mostrarModalCrud(null, 'A');
+  }
+
   tipoEventos!: TipoEvento[];
   tipoEvento!: TipoEvento;
   tipoEventoSeleccionado!: TipoEvento[];

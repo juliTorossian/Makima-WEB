@@ -45,6 +45,7 @@ export class EventoComponent implements OnInit{
 
   comentarios!: Comentario[];
   archivosAdjuntos!: Adjunto[];
+  horas!: any[];
 
 
   public Editor:any = ClassicEditor;
@@ -67,9 +68,13 @@ export class EventoComponent implements OnInit{
       }
     });
 
+    this.actualizar()
+  }
+
+  actualizar(){
     this.cargarComentarios();
     this.cargarAdjuntos();
-
+    this.cargarHoras();
   }
 
 
@@ -135,8 +140,8 @@ export class EventoComponent implements OnInit{
   eliminarAdjunto(event:any){
     console.log(event);
     this.confirmationService.confirm({
-      message: 'Esta seguro que queres hacer una eliminacion masiva de Usuarios?',
-      header: 'Eliminar Usuario',
+      message: 'Esta seguro de eliminar el Documento?',
+      header: 'Eliminar documento',
       icon: 'pi pi-info-circle',
       accept: () => {
         this.eventoService.deleteAdjunto(event.id).subscribe({
@@ -191,6 +196,21 @@ export class EventoComponent implements OnInit{
   // Limpia el editor
   limpiarComentario(){
     this.comentario = "";
+  }
+
+
+  // HORAS
+
+  cargarHoras(){
+    this.eventoService.getHorasEvento(this.eventoId).subscribe({
+      next: (res:any) =>{
+        console.log(res);
+        this.horas = res;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
   }
 
 }

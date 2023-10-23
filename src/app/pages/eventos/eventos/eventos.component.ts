@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -18,6 +18,7 @@ import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { Rol, Usuario } from 'src/app/interfaces/usuario';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { invertColor } from 'src/app/helpers/color';
+import { Shortcut } from 'src/app/interfaces/shortcut';
 
 @Component({
   selector: 'app-eventos',
@@ -39,6 +40,12 @@ import { invertColor } from 'src/app/helpers/color';
 })
 
 export class EventosComponent implements OnInit {
+  @HostListener('window:'+Shortcut.ALTA, ['$event'])
+  sc_altaEvento(event: KeyboardEvent) {
+    event.preventDefault();
+    this.mostrarModalCrud(null, 'A');
+  }
+
   private dialogService = inject(DialogService);
   private eventoService = inject(EventoService);
   private usuarioService = inject(UsuarioService);

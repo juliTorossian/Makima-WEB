@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { ConfirmEventType, ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Cliente } from 'src/app/interfaces/cliente';
@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { TagModule } from 'primeng/tag';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ActivoPipe } from 'src/app/pipes/activo.pipe';
+import { Shortcut } from 'src/app/interfaces/shortcut';
 
 @Component({
   selector: 'app-clientes',
@@ -38,6 +39,12 @@ import { ActivoPipe } from 'src/app/pipes/activo.pipe';
   providers: [DialogService, MessageService, ConfirmationService]
 })
 export class ClientesComponent {
+  @HostListener('window:'+Shortcut.ALTA, ['$event'])
+  sc_alta(event: KeyboardEvent) {
+    event.preventDefault();
+    this.mostrarModalCrud(null, 'A');
+  }
+
   clienteDialog!: boolean;
   clientes!: Cliente[];
   cliente!: Cliente;

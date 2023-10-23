@@ -130,6 +130,54 @@
 
                         </p-tabPanel>
 
+                        
+                        <p-tabPanel header="Horas">
+                            <ng-template pTemplate="header">
+                                <i class="pi pi-clock mr-1"></i>
+                                <span>Horas</span>
+                            </ng-template>
+                            
+                            
+                            <p-table [value]="horas" rowGroupMode="rowspan" groupRowsBy="fecha" sortMode="single"  [tableStyle]="{'min-width': '75rem'}">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th style="width:150px">Fecha</th>
+                                        <th>Usuario</th>
+                                        <th>Inicio</th>
+                                        <th>Final</th>
+                                        <th>Total</th>
+                                        <th>Observaciones</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-registro let-rowIndex="rowIndex" let-rowgroup="rowgroup" let-rowspan="rowspan" let-expanded="expanded">
+                                    <tr>
+                                        <td *ngIf="rowgroup" [attr.rowspan]="rowspan">
+                                            <span class="font-bold ml-2">{{registro.fecha | date:'fullDate'}}</span>
+                                        </td>
+                                        <td>
+                                            <app-badge [text]="registro.usuario.usuario" [color]="registro.usuario.color" [url]="'/usuario/'+registro.usuario.id"></app-badge>
+                                        </td>
+                                        <td>
+                                            {{registro.inicio}}
+                                        </td>
+                                        <td>
+                                            {{registro.final}}
+                                        </td>
+                                        <td>
+                                            {{registro.total}}
+                                        </td>
+                                        <td>
+                                            {{registro.observaciones}}
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                    <tr>
+                                        <td colspan="6">No se cargaron horas.</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </p-tabPanel>
 
                     </p-tabView>
                 </div>

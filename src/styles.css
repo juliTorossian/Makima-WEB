@@ -1,18 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
 
-/* @import "primeng/resources/themes/lara-light-blue/theme.css"; */
 @import "primeng/resources/primeng.css";
 @import "primeicons/primeicons.css";
 @import "primeflex/primeflex.css";
 
-@import "primeng/resources/themes/lara-light-blue/theme.css";
-/* @media (prefers-color-scheme: dark){
-  @import "primeng/resources/themes/lara-dark-purple/theme.css";
-} */
 
-html{
-  background-color: var(--bluegray-200);
+/* @import "primeng/resources/themes/luna-green/theme.css"; */
+
+
+/* LIGHTS */
+/* @import "primeng/resources/themes/lara-light-blue/theme.css"; */
+/* @import "primeng/resources/themes/rhea/theme.css"; */
+
+
+
+/* DARKS */
+/* @import "primeng/resources/themes/luna-amber/theme.css"; */
+
+/* @import "primeng/resources/themes/lara-dark-purple/theme.css"; */
+/* @import "primeng/resources/themes/arya-green/theme.css"; */
+/* @import "primeng/resources/themes/soho-dark/theme.css"; */
+
+
+/* @media (prefers-color-scheme: dark) {
+  @import "primeng/resources/themes/luna-amber/theme.css";
 }
+
+@media (prefers-color-scheme: light) {
+  @import "primeng/resources/themes/rhea/theme.css" ;
+  html{
+    background-color: var(--bluegray-200);
+  }
+} */
+@media (prefers-color-scheme: light) {
+  @import "primeng/resources/themes/rhea/theme.css" ;
+}
+
+@media (prefers-color-scheme: dark) {
+  @import "primeng/resources/themes/luna-amber/theme.css";
+}
+
 
 .botonRedondoChico{
   height: 2rem !important;
