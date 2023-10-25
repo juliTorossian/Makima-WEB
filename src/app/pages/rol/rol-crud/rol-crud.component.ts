@@ -22,6 +22,14 @@ export class RolCrudComponent {
     controlUsuario: new FormControl(false)
   });
 
+  
+  permisos: any[] = [
+    { clave: 'permiso1', lectura: true, escritura: false, eliminacion: false },
+    { clave: 'permiso2', lectura: false, escritura: true, eliminacion: true },
+    { clave: 'permiso3', lectura: true, escritura: true, eliminacion: true }
+  ];
+  permisosTable: any[] = [];
+
   private ref = inject(DynamicDialogRef);
   private config = inject(DynamicDialogConfig);
 
@@ -29,6 +37,15 @@ export class RolCrudComponent {
     // console.log(this.config.data);
     this.modo = this.config.data.modo;
     let rol = this.config.data.rol;
+    // Llena la tabla con los datos de los permisos
+    this.permisos.forEach((permiso) => {
+      this.permisosTable.push({
+        clave: permiso.clave,
+        lectura: permiso.lectura,
+        escritura: permiso.escritura,
+        eliminacion: permiso.eliminacion
+      });
+    });
     
     if (rol){
       this.rol.get("id")?.setValue(rol.id);
@@ -42,6 +59,15 @@ export class RolCrudComponent {
       this.rol.get("controlHora")?.setValue(rol.controlHora);
       this.rol.get("controlUsuario")?.setValue(rol.controlUsuario);
     }
+  }
+
+  // Evento de click de cada checkbox
+  onCheckChange(event:any) {
+    console.log(event);
+    // Actualiza el estado del permiso
+    this.permisos[event.index].lectura = event.checked;
+    this.permisos[event.index].escritura = event.checked;
+    this.permisos[event.index].eliminacion = event.checked;
   }
 
   cambioPermisos(total:boolean){

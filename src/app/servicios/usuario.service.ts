@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
-import { Rol, Usuario } from '../interfaces/usuario';
+import { PermisoClave, PermisoRol, Rol, Usuario, UsuarioPreferencia } from '../interfaces/usuario';
 import { environment } from 'src/environments/environment.development';
 import { Router } from '@angular/router';
 
@@ -71,6 +71,12 @@ export class UsuarioService {
       map( (res:any) => res.tokenUsuario )
     );
   }
+  getUsuarioPreferencias(usuarioId: string){
+    return this.http.get(`${this.URL_COMPLETA}/usuario/${usuarioId}/preferencias`);
+  }
+  setDelUsuarioPreferencias(usuarioId: string, preferencia: UsuarioPreferencia){
+    return this.http.get(`${this.URL_COMPLETA}/usuario/${usuarioId}/preferencias/${preferencia}`);
+  }
 
   // TOKEN
   
@@ -92,32 +98,34 @@ export class UsuarioService {
 
   // PERMISOS
 
-  getPermisos(usuario:Usuario) : Rol{
-    // console.log(usuario)
-
-    let permisos : Rol = {
-      id : "permisos",
-      descipcion: "permisos",
-      controlTotal: false,
-      controlEvento: false,
-      controlCliente: false,
-      controlProducto: false,
-      controlTipo: false,
-      controlHora: false,
-      controlUsuario: false
-    }
-
+  normalizarPermisos(usuario:Usuario) : PermisoRol[] {
+    let permisos : PermisoRol[] = []
     usuario.rol.map( (r:Rol) => {
-      permisos.controlTotal = (!permisos.controlTotal && !r.controlTotal) ? false : true;
-      permisos.controlEvento = (!permisos.controlEvento && !r.controlEvento) ? false : true;
-      permisos.controlCliente = (!permisos.controlCliente && !r.controlCliente) ? false : true;
-      permisos.controlProducto = (!permisos.controlProducto && !r.controlProducto) ? false : true;
-      permisos.controlTipo = (!permisos.controlTipo && !r.controlTipo) ? false : true;
-      permisos.controlHora = (!permisos.controlHora && !r.controlHora) ? false : true;
-      permisos.controlUsuario = (!permisos.controlUsuario && !r.controlUsuario) ? false : true;
+
+      r.permisos.map( (rp) => {
+        let aux = permisos.some((a) => a.clave === rp.clave)
+        if (aux){
+          permisos.map( (p) => {
+            if (p.clave == rp.clave && p.nivel < rp.nivel){
+              p.nivel = rp.nivel
+            }
+          })
+        }else{
+          permisos.push(rp);
+        }
+      })
     });
     
+    // console.log(permisos);
     return permisos;
+  }
+
+  getNivelPermiso(clave:PermisoClave, usuario:Usuario) : number {
+    let permisos = this.normalizarPermisos(usuario);
+    let aux = permisos.find( (p) => p.clave === clave);
+    let nivel = (aux) ? aux!.nivel : 0;
+    let admin = permisos.some( (p) => p.clave === PermisoClave.ADMIN);
+    return (admin) ? 9 : nivel;
   }
 
   getEventosGrafico(usuarioId:string){

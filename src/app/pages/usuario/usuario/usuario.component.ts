@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Usuario } from 'src/app/interfaces/usuario';
+import { Usuario, UsuarioPreferencia, PreferenciasData } from 'src/app/interfaces/usuario';
 import { RolService } from 'src/app/servicios/rol.service';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 
@@ -17,6 +17,8 @@ export class UsuarioComponent implements OnInit{
 
   usuarioLogeado!: Usuario;
   usuarioAVer!: string;
+  usuarioPreferencias!: UsuarioPreferencia[];
+  preferencias: UsuarioPreferencia[] = PreferenciasData;
 
   usuario!: Usuario;
   usuarioMod = {
@@ -53,12 +55,24 @@ export class UsuarioComponent implements OnInit{
   }
 
   identificarUsuario(){
-    
     this.usuarioService.getUsuarioToken(this.usuarioService.getToken()).subscribe({
       next: (res:any) => {
         this.usuarioLogeado = res;
+      },
+      complete: () => {
+        this.usuarioService.getUsuarioPreferencias(this.usuarioLogeado.id).subscribe({
+          next: (res:any) => {
+            this.preferencias.map( (p) => {
+              res.map( (r:any) => {
+                if (p.clave === r){
+                  p.activo = true;
+                }
+              })
+            })
+          }
+        })
       }
-  });
+    });
   }
 
   esUsuario(){
@@ -85,6 +99,10 @@ export class UsuarioComponent implements OnInit{
         this.getUsuario();
       }
     });
+  }
+
+  actualizarPreferencia(preferencia:UsuarioPreferencia) {
+    console.log(preferencia);
   }
 
 }

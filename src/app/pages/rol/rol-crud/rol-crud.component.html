@@ -20,7 +20,10 @@
             </div>
         </div>
         <div class="grid mt-2">
-            <div class="col">
+            
+            <app-tabla-permisos></app-tabla-permisos>
+
+            <!-- <div class="col">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="controlTotal">Total</label>
                     <p-toggleButton formControlName="controlTotal" onLabel="Si" offLabel="No" id="controlTotal" (onChange)="cambioPermisos(true)"></p-toggleButton>
@@ -61,7 +64,7 @@
                     <label htmlFor="controlUsuario">Usuario</label>
                     <p-toggleButton formControlName="controlUsuario" onLabel="Si" offLabel="No" id="controlUsuario" (onChange)="cambioPermisos(false)"></p-toggleButton>
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <div [hidden]="!(modo==='A')">

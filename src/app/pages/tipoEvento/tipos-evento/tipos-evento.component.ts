@@ -3,7 +3,9 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Shortcut } from 'src/app/interfaces/shortcut';
 import { TipoEvento } from 'src/app/interfaces/tipo-evento';
+import { PermisoClave, Usuario } from 'src/app/interfaces/usuario';
 import { TipoEventoService } from 'src/app/servicios/tipo-evento.service';
+import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { TipoEventoCrudComponent } from '../tipo-evento-crud/tipo-evento-crud.component';
 
 @Component({
@@ -18,6 +20,7 @@ export class TiposEventoComponent {
     event.preventDefault();
     this.mostrarModalCrud(null, 'A');
   }
+  usuario!: Usuario;
 
   tipoEventos!: TipoEvento[];
   tipoEvento!: TipoEvento;
@@ -29,10 +32,30 @@ export class TiposEventoComponent {
   private tipoEventoService = inject(TipoEventoService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
+  private usuarioService = inject(UsuarioService);
 
   
   ngOnInit() {
+    this.identificarUsuario();
     this.llenarTabla();
+  }
+
+  identificarUsuario(){
+    this.usuarioService.getUsuarioToken(this.usuarioService.getToken()).subscribe({
+      next: (res:any) => {
+        this.usuario = res;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+  tieneControl():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.TIPO_EVENTO, this.usuario) >= 2)
+  }
+  puedeEliminar():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.TIPO_EVENTO, this.usuario) >= 3)
   }
 
   llenarTabla(){

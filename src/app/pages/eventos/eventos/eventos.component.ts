@@ -15,7 +15,7 @@ import { TotalComoNumeroPipe } from 'src/app/pipes/total-como-numero.pipe';
 import { EventoService } from 'src/app/servicios/evento.service';
 import { EventoCRUDComponent } from '../evento-crud/evento-crud.component';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
-import { Rol, Usuario } from 'src/app/interfaces/usuario';
+import { PermisoClave, Rol, Usuario } from 'src/app/interfaces/usuario';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { invertColor } from 'src/app/helpers/color';
 import { Shortcut } from 'src/app/interfaces/shortcut';
@@ -78,7 +78,7 @@ export class EventosComponent implements OnInit {
       next: (res:any) => {
         // console.log(res);
         this.usuario = res;
-        this.permisos = this.usuarioService.getPermisos(this.usuario);
+        // this.permisos = this.usuarioService.getPermisos(this.usuario);
       },
       error: (err) => {
         console.log(err);
@@ -87,7 +87,10 @@ export class EventosComponent implements OnInit {
   }
 
   tieneControl():boolean{
-    return (this.permisos) && (this.permisos.controlTotal || this.permisos.controlEvento)
+    return (this.usuarioService.getNivelPermiso(PermisoClave.EVENTO, this.usuario) >= 2)
+  }
+  puedeEliminar():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.EVENTO, this.usuario) >= 3)
   }
 
   llenarTabla(){

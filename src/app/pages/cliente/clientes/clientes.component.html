@@ -4,10 +4,10 @@
     <div class="card">
         <p-toast></p-toast>
         <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
-        <p-toolbar styleClass="mb-4 gap-2">
+        <p-toolbar styleClass="mb-4 gap-2" *ngIf="tieneControl()">
             <ng-template pTemplate="left">
                 <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2 botonChico" (click)="mostrarModalCrud(cliente, 'A')"></button>
-                <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger botonChico" (click)="deleteClienteSeleccionado()" [disabled]="!clienteSeleccionado || !clienteSeleccionado.length"></button>
+                <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger botonChico" *ngIf="puedeEliminar()" (click)="deleteClienteSeleccionado()" [disabled]="!clienteSeleccionado || !clienteSeleccionado.length"></button>
             </ng-template>
 
             <ng-template pTemplate="right">
@@ -50,7 +50,7 @@
                     <th pSortableColumn="sigla">Sigla <p-sortIcon field="sigla"></p-sortIcon></th>
                     <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
                     <th pSortableColumn="activo">Cliente Activo <p-sortIcon field="activo"></p-sortIcon></th>
-                    <th></th>
+                    <th *ngIf="tieneControl()"></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-cliente>
@@ -62,10 +62,10 @@
                     <td>{{ cliente.sigla }}</td>
                     <td>{{ cliente.nombre }}</td>
                     <td><p-tag [value]="cliente.activo | activo" [severity]="getSeverity(cliente.activo)"></p-tag></td>
-                    <td>
+                    <td *ngIf="tieneControl()">
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning botonRedondoChico mr-2" (click)="mostrarModalCrud(cliente, 'M')"></button>
-                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger botonRedondoChico mr-2" (click)="deleteClienteSolo(cliente)"></button>
-                        <button pButton pRipple icon="pi pi-refresh" class="p-button-rounded p-button-success botonRedondoChico" (click)="reactivarCliente(cliente)" [disabled]="cliente.activo"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger botonRedondoChico mr-2" *ngIf="puedeEliminar()" (click)="deleteClienteSolo(cliente)"></button>
+                        <button pButton pRipple icon="pi pi-refresh" class="p-button-rounded p-button-success botonRedondoChico" *ngIf="puedeEliminar()" (click)="reactivarCliente(cliente)" [disabled]="cliente.activo"></button>
                     </td>
                 </tr>
             </ng-template>

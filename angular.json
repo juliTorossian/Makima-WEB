@@ -147,7 +147,17 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              {
+                "input": "src/lightTheme.css",
+                "bundleName": "lightTheme",
+                "inject": false
+              },
+              {
+                "input": "src/darkTheme.css",
+                "bundleName": "darkTheme",
+                "inject": false
+              }
             ],
             "scripts": []
           }

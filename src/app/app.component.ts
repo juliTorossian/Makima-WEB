@@ -1,6 +1,7 @@
 import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Shortcut, Shortcut_txt } from './interfaces/shortcut';
+import { ColorSchemeService } from './servicios/color-scheme.service';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ export class AppComponent implements OnInit{
     this.mostarInfoShortcut();
   }
 
+  private colorSchemeService = inject(ColorSchemeService);
   private router = inject(Router)
   title = 'Makima-WEB';
 
@@ -23,8 +25,10 @@ export class AppComponent implements OnInit{
   
   ngOnInit(){
 
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-    console.log(prefersDark);
+    this.colorSchemeService.load();
+    console.log(this.colorSchemeService.currentActive());
+    // const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    // console.log(prefersDark);
 
     this.setAtajos();
   }

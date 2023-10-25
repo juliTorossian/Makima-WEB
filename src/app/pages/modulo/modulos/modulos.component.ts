@@ -3,7 +3,9 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Modulo } from 'src/app/interfaces/modulo';
 import { Shortcut } from 'src/app/interfaces/shortcut';
+import { PermisoClave, Usuario } from 'src/app/interfaces/usuario';
 import { ModuloService } from 'src/app/servicios/modulo.service';
+import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { ModuloCrudComponent } from '../modulo-crud/modulo-crud.component';
 
 @Component({
@@ -18,6 +20,7 @@ export class ModulosComponent {
     event.preventDefault();
     this.mostrarModalCrud(null, 'A');
   }
+  usuario!: Usuario;
 
   modulos!: Modulo[];
   modulo!: Modulo;
@@ -30,9 +33,29 @@ export class ModulosComponent {
   private dialogService = inject(DialogService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
+  private usuarioService = inject(UsuarioService);
 
   ngOnInit() {
+    this.identificarUsuario();
     this.llenarTabla();
+  }
+
+  identificarUsuario(){
+    this.usuarioService.getUsuarioToken(this.usuarioService.getToken()).subscribe({
+      next: (res:any) => {
+        this.usuario = res;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+  tieneControl():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.MODULO, this.usuario) >= 2)
+  }
+  puedeEliminar():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.MODULO, this.usuario) >= 3)
   }
 
   llenarTabla(){

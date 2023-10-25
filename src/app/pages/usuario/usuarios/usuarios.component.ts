@@ -12,7 +12,7 @@ import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { Usuario } from 'src/app/interfaces/usuario';
+import { PermisoClave, Usuario } from 'src/app/interfaces/usuario';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { UsuarioCrudComponent } from '../usuario-crud/usuario-crud.component';
 import { ActivoPipe } from 'src/app/pipes/activo.pipe';
@@ -45,6 +45,7 @@ export class UsuariosComponent {
     event.preventDefault();
     this.mostrarModalCrud(null, 'A');
   }
+  usuarioLogeado!: Usuario;
 
   usuarios!: Usuario[];
   usuariosSave!: Usuario[];
@@ -61,7 +62,26 @@ export class UsuariosComponent {
   private confirmationService = inject(ConfirmationService);
 
   ngOnInit() {
+    this.identificarUsuario();
     this.llenarTabla();
+  }
+
+  identificarUsuario(){
+    this.usuarioService.getUsuarioToken(this.usuarioService.getToken()).subscribe({
+      next: (res:any) => {
+        this.usuarioLogeado = res;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+  tieneControl():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.USUARIO, this.usuarioLogeado) >= 2)
+  }
+  puedeEliminar():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.USUARIO, this.usuarioLogeado) >= 3)
   }
 
   llenarTabla(){

@@ -3,7 +3,9 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Shortcut } from 'src/app/interfaces/shortcut';
 import { Tarea } from 'src/app/interfaces/tarea';
+import { PermisoClave, Usuario } from 'src/app/interfaces/usuario';
 import { TareaService } from 'src/app/servicios/tarea.service';
+import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { TareaCrudComponent } from '../tarea-crud/tarea-crud.component';
 
 @Component({
@@ -18,6 +20,7 @@ export class TareasComponent {
     event.preventDefault();
     this.mostrarModalCrud(null, 'A');
   }
+  usuario!: Usuario;
 
   tareas!: Tarea[];
   tarea!: Tarea;
@@ -29,9 +32,29 @@ export class TareasComponent {
   private tareaService = inject(TareaService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
+  private usuarioService = inject(UsuarioService);
 
   ngOnInit() {
+    this.identificarUsuario();
     this.llenarTabla();
+  }
+
+  identificarUsuario(){
+    this.usuarioService.getUsuarioToken(this.usuarioService.getToken()).subscribe({
+      next: (res:any) => {
+        this.usuario = res;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+  tieneControl():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.TAREA, this.usuario) >= 2)
+  }
+  puedeEliminar():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.TAREA, this.usuario) >= 3)
   }
 
   llenarTabla(){

@@ -16,6 +16,8 @@ import { ProductoService } from 'src/app/servicios/producto.service';
 import { ProductoCrudComponent } from '../producto-crud/producto-crud.component';
 import { ActivoPipe } from 'src/app/pipes/activo.pipe';
 import { Shortcut } from 'src/app/interfaces/shortcut';
+import { PermisoClave, Usuario } from 'src/app/interfaces/usuario';
+import { UsuarioService } from 'src/app/servicios/usuario.service';
 
 @Component({
   selector: 'app-productos',
@@ -43,6 +45,7 @@ export class ProductosComponent {
     event.preventDefault();
     this.mostrarModalCrud(null, 'A');
   }
+  usuario!: Usuario;
 
   productos!: Producto[];
   producto!: Producto;
@@ -55,9 +58,29 @@ export class ProductosComponent {
   private dialogService = inject(DialogService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
+  private usuarioService = inject(UsuarioService);
 
   ngOnInit() {
+    this.identificarUsuario();
     this.llenarTabla();
+  }
+
+  identificarUsuario(){
+    this.usuarioService.getUsuarioToken(this.usuarioService.getToken()).subscribe({
+      next: (res:any) => {
+        this.usuario = res;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+  tieneControl():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.PRODUCTO, this.usuario) >= 2)
+  }
+  puedeEliminar():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.PRODUCTO, this.usuario) >= 3)
   }
 
   llenarTabla(){

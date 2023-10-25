@@ -39,16 +39,13 @@
 } */
 
 @import "primeng/resources/themes/rhea/theme.css";
-@media (prefers-color-scheme: light) {
-  html{
-    background-color: var(--bluegray-200);
-  }
+html{
+  background-color: var(--bluegray-200);
 }
 
-@media (prefers-color-scheme: dark) {
+/* body.color-scheme-dark{
   @import "primeng/resources/themes/luna-amber/theme.css";
-}
-
+} */
 
 .botonRedondoChico{
   height: 2rem !important;

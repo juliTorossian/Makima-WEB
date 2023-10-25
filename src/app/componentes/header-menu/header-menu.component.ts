@@ -3,9 +3,14 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { MegaMenuItem, MenuItem } from 'primeng/api';
 import { interval, tap } from 'rxjs';
-import { Rol, Usuario } from 'src/app/interfaces/usuario';
+import { PermisoClave, PermisoRol, Rol, Usuario } from 'src/app/interfaces/usuario';
+import { ColorSchemeService } from 'src/app/servicios/color-scheme.service';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 
+enum ThemeIcon {
+    LIGHT = 'pi-sun',
+    DARK  = 'pi-moon'
+}
 
 @Component({
     selector: 'app-header-menu',
@@ -17,17 +22,26 @@ export class HeaderMenuComponent implements OnInit{
     private router = inject(Router);
     // private intervalSubscription = inject(Subscription);
     private cookies = inject(CookieService);
+    private colorSchemeService = inject(ColorSchemeService)
 
     INTERVALO: number = 30000;
 
     usuario!: Usuario;
-    permisos!: Rol;
+    permisos!: PermisoRol[];
 
     // items!: MegaMenuItem[];
     items!: MenuItem[];
     itemsUsuario!: MenuItem[];
 
+    themeIcon!: string;
+
     ngOnInit() {
+
+        if (this.colorSchemeService.currentActive() === 'dark') {
+            this.themeIcon = ThemeIcon.DARK
+        }else{
+            this.themeIcon = ThemeIcon.LIGHT
+        }
 
         this.usuarioService.getUsuarioToken(this.usuarioService.getToken()).subscribe({
             next: (res:any) => {
@@ -38,12 +52,27 @@ export class HeaderMenuComponent implements OnInit{
             },
             complete: () => {
                 if (this.usuario){
-                    this.permisos = this.usuarioService.getPermisos(this.usuario);
+                    this.permisos = this.usuarioService.normalizarPermisos(this.usuario);
+                    // console.log(this.permisos);
                     this.cargarItems();
                 }
                 this.checkSesion();
             }
         });
+    }
+
+    changeTheme() {
+        console.log(this.colorSchemeService.currentActive());
+        if (this.colorSchemeService.currentActive() === 'dark') {
+            // this.colorSchemeService.update('light')
+            this.themeIcon = ThemeIcon.DARK
+            this.colorSchemeService.switchTheme('lightTheme')
+        }else{
+            // this.colorSchemeService.update('dark')
+            this.themeIcon = ThemeIcon.LIGHT
+            this.colorSchemeService.switchTheme('darkTheme')
+        }
+        console.log(this.colorSchemeService.currentActive());
     }
 
     checkSesion(){
@@ -82,15 +111,18 @@ export class HeaderMenuComponent implements OnInit{
                 routerLink: ['/hora/usuario'],
                 routerLinkActiveOptions: 'active'
             },
-            {
+        ];
+
+        if (this.tienePermiso(PermisoClave.EVENTO)){
+            this.items.push({
                 label: 'Eventos',
                 icon: 'pi pi-fw pi-server',
                 routerLink: ['/evento/eventos'],
                 routerLinkActiveOptions: 'active'
-            },
-        ];
+            });
+        }
 
-        if (this.permisos.controlCliente){
+        if (this.tienePermiso(PermisoClave.CLIENTE)){
             this.items.push({
                 label: 'Clientes',
                 icon: 'pi pi-fw pi-id-card',
@@ -98,7 +130,7 @@ export class HeaderMenuComponent implements OnInit{
                 routerLinkActiveOptions: 'active'
             });
         }
-        if (this.permisos.controlHora){
+        if (this.tienePermiso(PermisoClave.HORAS_GENERALES)){
             this.items.push({
                 label: 'Horas',
                 icon: 'pi pi-fw pi-clock',
@@ -106,73 +138,97 @@ export class HeaderMenuComponent implements OnInit{
                 routerLinkActiveOptions: 'active'
             });
         }
-        if (this.permisos.controlProducto){
-            this.items.push({
+        if (this.tienePermiso(PermisoClave.PRODUCTO) || this.tienePermiso(PermisoClave.MODULO) || this.tienePermiso(PermisoClave.ENTORNO)){
+
+            let itemProducto: MenuItem = {
                 label: 'Productos',
                 icon: 'pi pi-fw pi-book',
-                items: [
-                    {
-                        label: 'Modulos',
-                        routerLink: ['/producto/modulos'],
-                        routerLinkActiveOptions: 'active'
-                    },
-                    {
-                        label: 'Entornos',
-                        routerLink: ['/producto/entornos'],
-                        routerLinkActiveOptions: 'active'
-                    },
-                    {
-                        separator: true,
-                    },
-                    {
-                        label: 'Productos',
-                        routerLink: ['/producto/productos'],
-                        routerLinkActiveOptions: 'active'
-                    },
-                ],
-            });
+                items: []
+            }
+
+            if (this.tienePermiso(PermisoClave.MODULO)){
+                itemProducto.items!.push({
+                    label: 'Modulos',
+                    routerLink: ['/producto/modulos'],
+                    routerLinkActiveOptions: 'active'
+                });
+            }
+
+            if (this.tienePermiso(PermisoClave.ENTORNO)){
+                itemProducto.items!.push({
+                    label: 'Entornos',
+                    routerLink: ['/producto/entornos'],
+                    routerLinkActiveOptions: 'active'
+                });
+            }
+
+            if (this.tienePermiso(PermisoClave.PRODUCTO)){
+                itemProducto.items!.push({
+                    separator: true,
+                })
+                itemProducto.items!.push({
+                    label: 'Productos',
+                    routerLink: ['/producto/productos'],
+                    routerLinkActiveOptions: 'active'
+                });
+            }
+            this.items.push(itemProducto);
         }
-        if (this.permisos.controlTipo){
-            this.items.push({
+        if (this.tienePermiso(PermisoClave.TAREA) || this.tienePermiso(PermisoClave.TIPO_EVENTO)){
+
+            let itemTipoEvento: MenuItem = {
                 label: 'Tipos Evento',
                 icon: 'pi pi-fw pi-tags',
-                items: [
-                    {
-                        label: 'Tareas',
-                        routerLink: ['/tipoevento/tareas'],
-                        routerLinkActiveOptions: 'active'
-                    },
-                    {
-                        separator: true,
-                    },
-                    {
-                        label: 'Tipos Evento',
-                        routerLink: ['/tipoevento/tiposevento'],
-                        routerLinkActiveOptions: 'active'
-                    },
-                ],
-            });
+                items: []
+            }
+
+            if (this.tienePermiso(PermisoClave.TAREA)){
+                itemTipoEvento.items!.push({
+                    label: 'Tareas',
+                    routerLink: ['/tipoevento/tareas'],
+                    routerLinkActiveOptions: 'active'
+                });
+            }
+
+            if (this.tienePermiso(PermisoClave.TIPO_EVENTO)){
+                itemTipoEvento.items!.push({
+                    separator: true,
+                })
+                itemTipoEvento.items!.push({
+                    label: 'Tipos Evento',
+                    routerLink: ['/tipoevento/tiposevento'],
+                    routerLinkActiveOptions: 'active'
+                });
+            }
+            this.items.push(itemTipoEvento);
         }
-        if (this.permisos.controlUsuario){
-            this.items.push({
+        if (this.tienePermiso(PermisoClave.USUARIO) || this.tienePermiso(PermisoClave.ROL)){
+
+            let itemUsuario: MenuItem = {
                 label: 'Usuario',
                 icon: 'pi pi-fw pi-user',
-                items: [
-                    {
-                        label: 'Roles',
-                        routerLink: ['/usuario/roles'],
-                        routerLinkActiveOptions: 'active'
-                    },
-                    {
-                        separator: true,
-                    },
-                    {
-                        label: 'Usuarios',
-                        routerLink: ['/usuario/usuarios'],
-                        routerLinkActiveOptions: 'active'
-                    },
-                ],
-            });
+                items: []
+            }
+
+            if (this.tienePermiso(PermisoClave.ROL)){
+                itemUsuario.items!.push({
+                    label: 'Roles',
+                    routerLink: ['/usuario/roles'],
+                    routerLinkActiveOptions: 'active'
+                });
+            }
+
+            if (this.tienePermiso(PermisoClave.USUARIO)){
+                itemUsuario.items!.push({
+                    separator: true,
+                })
+                itemUsuario.items!.push({
+                    label: 'Usuarios',
+                    routerLink: ['/usuario/usuarios'],
+                    routerLinkActiveOptions: 'active'
+                });
+            }
+            this.items.push(itemUsuario);
         }
 
         // let itemsAdmin = [
@@ -299,6 +355,13 @@ export class HeaderMenuComponent implements OnInit{
             }
         })
         return tiene;
+    }
+
+    tienePermiso(clave:string):boolean{
+        let aux = this.permisos.find( (p) => p.clave === clave);
+        let tiene = (aux) ? aux!.nivel >= 1 : false;
+        let admin = this.permisos.some( (p) => p.clave === PermisoClave.ADMIN);
+        return (tiene || admin);
     }
 
     // getPermisos(){

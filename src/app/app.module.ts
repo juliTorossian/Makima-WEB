@@ -97,6 +97,7 @@ import { ActivadoPipe } from './pipes/activado.pipe';
 import { UsuarioComponent } from './pages/usuario/usuario/usuario.component';
 import { BadgeComponent } from './componentes/badge/badge.component';
 import { CargarArchivosComponent } from './pages/eventos/componentes/cargar-archivos/cargar-archivos.component';
+import { TablaPermisosComponent } from './pages/rol/componente/tabla-permisos/tabla-permisos.component';
 
 @NgModule({
   declarations: [
@@ -143,6 +144,7 @@ import { CargarArchivosComponent } from './pages/eventos/componentes/cargar-arch
     UsuarioComponent,
     BadgeComponent,
     CargarArchivosComponent,
+    TablaPermisosComponent,
   ],
   imports: [
     CKEditorModule,

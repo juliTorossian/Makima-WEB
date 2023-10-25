@@ -3,7 +3,9 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Entorno } from 'src/app/interfaces/entorno';
 import { Shortcut } from 'src/app/interfaces/shortcut';
+import { PermisoClave, Usuario } from 'src/app/interfaces/usuario';
 import { EntornoService } from 'src/app/servicios/entorno.service';
+import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { EntornoCrudComponent } from '../entorno-crud/entorno-crud.component';
 
 @Component({
@@ -18,6 +20,7 @@ export class EntornosComponent {
     event.preventDefault();
     this.mostrarModalCrud(null, 'A');
   }
+  usuario!: Usuario;
 
   entornos!: Entorno[];
   entorno!: Entorno;
@@ -29,9 +32,31 @@ export class EntornosComponent {
   private entornoService = inject(EntornoService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
+  private usuarioService = inject(UsuarioService);
 
   ngOnInit() {
+    this.identificarUsuario();
     this.llenarTabla();
+  }
+
+  identificarUsuario(){
+    this.usuarioService.getUsuarioToken(this.usuarioService.getToken()).subscribe({
+      next: (res:any) => {
+        // console.log(res);
+        this.usuario = res;
+        // this.permisos = this.usuarioService.getPermisos(this.usuario);
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+  tieneControl():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.ENTORNO, this.usuario) >= 2)
+  }
+  puedeEliminar():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.ENTORNO, this.usuario) >= 3)
   }
 
   llenarTabla(){

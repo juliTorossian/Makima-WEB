@@ -83,10 +83,12 @@
                                 <i class="pi pi-cog mr-1"></i>
                                 <span>Preferencias</span>
                             </ng-template>
-                            <p>
-                                Aca se va a configurar las Preferencias del usuario.
-                                Notificaciones al mail
-                            </p>
+                            <div class="grid">
+                                <div class="col" *ngFor="let p of preferencias">
+                                    <p>{{p.desc}}</p>
+                                    <input type="checkbox" [(ngModel)]="p.activo" (ngModelChange)="actualizarPreferencia(p)">
+                                </div>
+                            </div>
                         </p-tabPanel>
                     </p-tabView>
                 </div>

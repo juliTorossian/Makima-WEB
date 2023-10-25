@@ -5,6 +5,7 @@
             <img src="./assets/img/G_abreviada.png" height="40" routerLink="/" />
         </ng-template>
             <ng-template pTemplate="end">
+                <!-- <p-button icon="pi {{themeIcon}}" severity="secondary" (onClick)="changeTheme()"></p-button> -->
                 <p-menu #menuUsuario [model]="itemsUsuario" [popup]="true"></p-menu>
                 <p-button *ngIf="usuario" (click)="menuUsuario.toggle($event)" icon="pi pi-angle-down" iconPos="right" [label]="usuario.usuario" styleClass="p-button-link"></p-button>
             </ng-template>

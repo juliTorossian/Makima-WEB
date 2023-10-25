@@ -2,8 +2,9 @@ import { Component, HostListener, inject } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Shortcut } from 'src/app/interfaces/shortcut';
-import { Rol } from 'src/app/interfaces/usuario';
+import { PermisoClave, Rol, Usuario } from 'src/app/interfaces/usuario';
 import { RolService } from 'src/app/servicios/rol.service';
+import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { RolCrudComponent } from '../rol-crud/rol-crud.component';
 
 @Component({
@@ -18,6 +19,7 @@ export class RolesComponent {
     event.preventDefault();
     this.mostrarModalCrud(null, 'A');
   }
+  usuario!: Usuario;
 
   roles!: Rol[];
   rol!: Rol;
@@ -30,9 +32,29 @@ export class RolesComponent {
   private dialogService = inject(DialogService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
+  private usuarioService = inject(UsuarioService);
 
   ngOnInit() {
+    this.identificarUsuario();
     this.llenarTabla();
+  }
+
+  identificarUsuario(){
+    this.usuarioService.getUsuarioToken(this.usuarioService.getToken()).subscribe({
+      next: (res:any) => {
+        this.usuario = res;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+  tieneControl():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.ROL, this.usuario) >= 2)
+  }
+  puedeEliminar():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.ROL, this.usuario) >= 3)
   }
 
   llenarTabla(){
