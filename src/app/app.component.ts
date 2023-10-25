@@ -22,6 +22,10 @@ export class AppComponent implements OnInit{
   visible: boolean = false;
   
   ngOnInit(){
+
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    console.log(prefersDark);
+
     this.setAtajos();
   }
 
