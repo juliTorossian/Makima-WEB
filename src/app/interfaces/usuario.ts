@@ -44,7 +44,7 @@ export interface Rol {
 export interface PermisoRol {
     clave: string;
     desc?:  string;
-    nivel: number;
+    nivel: number | null;
 }
 
 export enum PermisoClave {
@@ -63,19 +63,24 @@ export enum PermisoClave {
 }
 
 export const permisosData: PermisoRol[]= [
-    // {
-    //     clave: 'ADM',
-    //     desc: 'Administrador',
-    //     nivel: 0
-    // },
     {
         clave: 'EVT',
         desc: 'Eventos',
         nivel: 0
     },
     {
-        clave: 'USR',
-        desc: 'Usuarios',
+        clave: 'EVD',
+        desc: 'Documentos de eventos',
+        nivel: 0
+    },
+    {
+        clave: 'CLI',
+        desc: 'Clientes',
+        nivel: 0
+    },
+    {
+        clave: 'HOG',
+        desc: 'Horas Generales',
         nivel: 0
     },
     {
@@ -94,21 +99,6 @@ export const permisosData: PermisoRol[]= [
         nivel: 0
     },
     {
-        clave: 'CLI',
-        desc: 'Clientes',
-        nivel: 0
-    },
-    {
-        clave: 'HOG',
-        desc: 'Horas Generales',
-        nivel: 0
-    },
-    {
-        clave: 'EVD',
-        desc: 'Documentos de eventos',
-        nivel: 0
-    },
-    {
         clave: 'TAR',
         desc: 'Tareas',
         nivel: 0
@@ -121,6 +111,11 @@ export const permisosData: PermisoRol[]= [
     {
         clave: 'ROL',
         desc: 'Roles',
+        nivel: 0
+    },
+    {
+        clave: 'USR',
+        desc: 'Usuarios',
         nivel: 0
     },
 ]

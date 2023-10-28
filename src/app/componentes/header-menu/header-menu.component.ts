@@ -359,7 +359,7 @@ export class HeaderMenuComponent implements OnInit{
 
     tienePermiso(clave:string):boolean{
         let aux = this.permisos.find( (p) => p.clave === clave);
-        let tiene = (aux) ? aux!.nivel >= 1 : false;
+        let tiene = (aux) ? aux!.nivel! >= 1 : false;
         let admin = this.permisos.some( (p) => p.clave === PermisoClave.ADMIN);
         return (tiene || admin);
     }

@@ -106,7 +106,7 @@ export class UsuarioService {
         let aux = permisos.some((a) => a.clave === rp.clave)
         if (aux){
           permisos.map( (p) => {
-            if (p.clave == rp.clave && p.nivel < rp.nivel){
+            if (p.clave == rp.clave && p.nivel! < rp.nivel!){
               p.nivel = rp.nivel
             }
           })
@@ -125,7 +125,7 @@ export class UsuarioService {
     let aux = permisos.find( (p) => p.clave === clave);
     let nivel = (aux) ? aux!.nivel : 0;
     let admin = permisos.some( (p) => p.clave === PermisoClave.ADMIN);
-    return (admin) ? 9 : nivel;
+    return (admin) ? 9 : nivel!;
   }
 
   getEventosGrafico(usuarioId:string){
