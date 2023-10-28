@@ -1,0 +1,31 @@
+<div class="card flex justify-content-center">
+    <p-toast></p-toast>
+    <p-fileUpload 
+        name="files" 
+        method="post"
+
+        (onUpload)="onUpload($event)"
+        (onError)="onError($event)"
+
+        [multiple]="true"
+        [maxFileSize]="1000000"
+        [url]="urlCarga"
+        [headers]="headers"
+
+        [chooseLabel]="chooseLabel"
+        [uploadLabel]="uploadLabel"
+        [cancelLabel]="cancelLabel"
+
+        chooseStyleClass="p-button-info botonChico"
+        uploadStyleClass="p-button-success botonChico"
+        cancelStyleClass="p-button-warning botonChico"
+        removeStyleClass="p-button-danger"
+
+    >
+        <ng-template pTemplate="content">
+            <ul *ngIf="uploadedFiles.length">
+                <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+            </ul>
+        </ng-template>
+    </p-fileUpload>
+</div>

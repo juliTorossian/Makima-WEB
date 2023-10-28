@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { generarNuevoColor } from 'src/app/helpers/color';
 import { TareaClave } from 'src/app/interfaces/tarea';
 import { RolService } from 'src/app/servicios/rol.service';
 
@@ -26,12 +27,13 @@ export class TareaCrudComponent {
     rol: new FormControl("", [Validators.required]),
     controla: new FormControl(false),
     clave: new FormControl(""),
-    comentario: new FormControl(false)
+    comentario: new FormControl(false),
+    color: new FormControl(generarNuevoColor())
   });
 
 
   ngOnInit(){
-    console.log(this.claves);
+    // console.log(this.claves);
     this.rolService.getRoles().subscribe({
       next: (res) => {
         // console.log(res);
@@ -50,6 +52,9 @@ export class TareaCrudComponent {
       this.tarea.get("controla")?.setValue(tarea.controla);
       this.tarea.get("clave")?.setValue(tarea.clave);
       this.tarea.get("comentario")?.setValue(tarea.comentario);
+      if (tarea.color){
+        this.tarea.get("color")?.setValue(tarea.color);
+      }
     }
   }
 
@@ -61,7 +66,8 @@ export class TareaCrudComponent {
       rol: this.tarea.get('rol')?.value,
       controla: this.tarea.get('controla')?.value,
       clave: ((this.tarea.get('controla')?.value) ? this.tarea.get('clave')?.value : null),
-      comentario: this.tarea.get('comentario')?.value
+      comentario: this.tarea.get('comentario')?.value,
+      color: this.tarea.get('color')?.value
     }
     // console.log(tarea);
 

@@ -1,8 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Entorno } from 'src/app/interfaces/entorno';
+import { Shortcut } from 'src/app/interfaces/shortcut';
+import { PermisoClave, Usuario } from 'src/app/interfaces/usuario';
 import { EntornoService } from 'src/app/servicios/entorno.service';
+import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { EntornoCrudComponent } from '../entorno-crud/entorno-crud.component';
 
 @Component({
@@ -12,6 +15,13 @@ import { EntornoCrudComponent } from '../entorno-crud/entorno-crud.component';
   providers: [DialogService, MessageService, ConfirmationService]
 })
 export class EntornosComponent {
+  @HostListener('window:'+Shortcut.ALTA, ['$event'])
+  sc_alta(event: KeyboardEvent) {
+    event.preventDefault();
+    this.mostrarModalCrud(null, 'A');
+  }
+  usuario!: Usuario;
+
   entornos!: Entorno[];
   entorno!: Entorno;
   entornoSeleccionado!: Entorno[];
@@ -22,9 +32,31 @@ export class EntornosComponent {
   private entornoService = inject(EntornoService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
+  private usuarioService = inject(UsuarioService);
 
   ngOnInit() {
+    this.identificarUsuario();
     this.llenarTabla();
+  }
+
+  identificarUsuario(){
+    this.usuarioService.getUsuarioToken(this.usuarioService.getToken()).subscribe({
+      next: (res:any) => {
+        // console.log(res);
+        this.usuario = res;
+        // this.permisos = this.usuarioService.getPermisos(this.usuario);
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+  tieneControl():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.ENTORNO, this.usuario) >= 2)
+  }
+  puedeEliminar():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.ENTORNO, this.usuario) >= 3)
   }
 
   llenarTabla(){
@@ -45,11 +77,11 @@ export class EntornosComponent {
       this.entornoService.setEntorno(entorno).subscribe({
         next: (res) => {
           console.log(res);
-          this.messageService.add({ severity: 'success', summary: 'Tipo de evento creado', detail: `Se creo el Tipo de Evento` });
+          this.messageService.add({ severity: 'success', summary: 'Entorno creado', detail: `Se creo el Entorno` });
         },
         error: (err) => {
           console.log(err);
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: `Ocurrio un error al crear el Tipo de Evento` });
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `Ocurrio un error al crear el Entorno` });
         },
         complete: () => {
           this.llenarTabla();
@@ -64,11 +96,11 @@ export class EntornosComponent {
     if (entorno) {
       this.entornoService.putEntorno(entorno).subscribe({
         next: () => {
-          this.messageService.add({ severity: 'success', summary: 'Tipo de Evento modificado', detail: `Se modifico el Tipo de Evento` });
+          this.messageService.add({ severity: 'success', summary: 'Entorno modificado', detail: `Se modifico el Entorno` });
         },
         error: (err) => {
           console.log(err);
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: `Ocurrio un error al modificar el Tipo de Evento` });
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `Ocurrio un error al modificar el Entorno` });
         },
         complete: () => {
           this.llenarTabla();
@@ -88,14 +120,14 @@ export class EntornosComponent {
 
   deleteSolo(entorno : Entorno){
     this.confirmationService.confirm({
-      message: 'Esta seguro que queres eliminar el Tipo de Evento?',
-      header: 'Eliminar Cliente',
+      message: 'Esta seguro que queres eliminar el Entorno?',
+      header: 'Eliminar Entorno',
       icon: 'pi pi-info-circle',
       accept: () => {
         this.delete(entorno);
       },
       reject: () => {
-        this.messageService.add({ severity: 'warn', summary: '', detail: 'No se elimino el Tipo de Evento' });
+        this.messageService.add({ severity: 'warn', summary: '', detail: 'No se elimino el Entorno' });
       }
     });
   }
@@ -103,11 +135,11 @@ export class EntornosComponent {
   delete(entorno: Entorno) {
     this.entornoService.deleteEntorno(entorno).subscribe({
       next: () => {
-        this.messageService.add({ severity: 'info', summary: '', detail: 'Tipo de Evento Eliminado' });
+        this.messageService.add({ severity: 'info', summary: '', detail: 'Entorno Eliminado' });
       },
       error: (err) => {
         console.log(err);
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: `Ocurrio un error al eliminar el Tipo de Evento` });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `Ocurrio un error al eliminar el Entorno` });
       },
       complete: () => {
         this.llenarTabla();

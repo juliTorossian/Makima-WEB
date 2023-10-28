@@ -9,7 +9,6 @@ import { EventoAccionService } from 'src/app/servicios/evento-accion.service';
 import { EventoService } from 'src/app/servicios/evento.service';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { ModalEstimacionComponent } from '../componentes/modal-estimacion/modal-estimacion.component';
-
 @Component({
   selector: 'app-eventos-usuario',
   templateUrl: './eventos-usuario.component.html',
@@ -49,6 +48,7 @@ export class EventosUsuarioComponent {
     this.usuarioService.getUsuarioToken(token).subscribe({
       next: (usuario) => {
         this.eventoService.getEventosUsuario(usuario.id).subscribe((res) => {
+          // console.log(res);
           this.eventosSave = res;
           this.eventos = this.eventosSave.filter((r:any) => r.cerrado === 0);
         });    
@@ -85,8 +85,9 @@ export class EventosUsuarioComponent {
   }
   muestraRetroceder(evento:Evento){
     return ( (!evento.cerrado) &&
-             (evento.detalle?.eventoCircuito.ant.tiene ));
+            (evento.detalle?.eventoCircuito.ant.tiene ));
   }
+
   muestraEstimar(evento:Evento){
   // en el caso de estimacion, la logica es cuando SI muestra
     let muestra = false;
@@ -110,12 +111,13 @@ export class EventosUsuarioComponent {
     const data = {
       rol: evento.detalle?.eventoCircuito.sig.tarea?.rol,
       reqComentario: evento.detalle?.eventoCircuito.act.tarea?.reqComentario,
-      comentario: ""//evento.detalle?.eventoCircuito.act.tarea?.comentario
+      comentario: "",//evento.detalle?.eventoCircuito.act.tarea?.comentario,
+      mensaje: "Proxima tarea: " +evento.detalle?.eventoCircuito.sig.tarea?.nombre
     }
 
     this.ref = this.dialogService.open(ModalSeleccionUsuarioComponent, {
       header: "Seleccionar usuario",
-      width: '70%',
+      width: '50%',
       contentStyle: { overflow: 'auto' },
       baseZIndex: 10,
       data: data
@@ -141,14 +143,15 @@ export class EventosUsuarioComponent {
   retroceder(evento:Evento){
     
     const data = {
-      rol: evento.detalle?.eventoCircuito.sig.tarea?.rol,
-      reqComentario: false,
-      comentario: ""
+      rol: evento.detalle?.eventoCircuito.ant.tarea?.rol,
+      reqComentario: true,
+      comentario: "",
+      mensaje: "Tarea a retroceder: " +evento.detalle?.eventoCircuito.ant.tarea?.nombre
     }
 
     this.ref = this.dialogService.open(ModalSeleccionUsuarioComponent, {
       header: "Seleccionar usuario",
-      width: '70%',
+      width: '50%',
       contentStyle: { overflow: 'auto' },
       baseZIndex: 10,
       data: data
@@ -175,14 +178,15 @@ export class EventosUsuarioComponent {
     // const rol = evento.detalle?.eventoCircuito.act.tarea?.rol
     
     const data = {
-      rol: evento.detalle?.eventoCircuito.sig.tarea?.rol,
+      rol: evento.detalle?.eventoCircuito.act.tarea?.rol,
       reqComentario: false,
-      comentario: ""
+      comentario: "",
+      mensaje: "Evento en tarea: " +evento.detalle?.eventoCircuito.act.tarea?.nombre
     }
 
     this.ref = this.dialogService.open(ModalSeleccionUsuarioComponent, {
       header: "Seleccionar usuario",
-      width: '70%',
+      width: '50%',
       contentStyle: { overflow: 'auto' },
       baseZIndex: 10,
       data: data
@@ -208,10 +212,26 @@ export class EventosUsuarioComponent {
 
     console.log(evento)
 
+    let estimacionRol = 0;
+    evento.detalle?.eventoHoras.estimacion.detalle.map( (est) => {
+      console.log(est);
+      if (est.rol === evento.detalle?.eventoCircuito.act.tarea?.rol){
+        estimacionRol = est.estimacion;
+      }
+    } )
+
     const data = {
-      estimacion: evento.detalle?.eventoHoras.estimacion,
-      comentario: evento.detalle?.eventoCircuito.act.tarea?.comentario,
+      estimacion: estimacionRol,
+      comentario: ""
     };
+
+    let estimacionAux = {
+      evento: evento.id,
+      usuario: evento.usuarioActual.id,
+      rol: evento.detalle?.eventoCircuito.act.tarea?.rol,
+      comentario: "",
+      estimacion: 0
+    }
 
     this.ref = this.dialogService.open(ModalEstimacionComponent, {
       header: "Estimar evento",
@@ -223,8 +243,11 @@ export class EventosUsuarioComponent {
 
     this.ref.onClose.subscribe((estimacion:any) => {
       if (estimacion){
-        console.log(estimacion);
-        this.eventoAccion.estimarEvento(evento, estimacion.estimacion, estimacion.comentario).subscribe({
+        
+        estimacionAux.comentario = estimacion.comentario;
+        estimacionAux.estimacion = estimacion.estimacion;
+
+        this.eventoAccion.estimarEvento(estimacionAux).subscribe({
           next: (res) => {
             // console.log(res);
           },

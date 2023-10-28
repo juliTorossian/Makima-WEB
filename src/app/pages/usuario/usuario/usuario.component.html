@@ -5,13 +5,20 @@
             <div class="card">
                 <div class="card-body body-flex">
     
-                    <div class="">
-                        <p class="card-title">{{usuario.nombre}} {{usuario.apellido}}</p>
+                    <div class="cell-title">
+
+                        <img src="https://placehold.co/240" alt="avatar" class="avatar">
+
+                        <p class="title">{{usuario.nombre}} {{usuario.apellido}}</p>
+                        <p class="subtitle">{{usuario.usuario}}</p>
                     </div>
 
-                    <div class="user-att">
+                    <hr style="width: 50%;">
+                    <!-- <span class="separador"></span> -->
+
+                    <div class="user-att" style="margin-top: 5px;">
                         <p class="mr-4">{{usuario.mail}}</p>
-                        <a class="boton-redondo" style="display: flex;" href="mailto:{{usuario.mail}}"><i class="pi pi-send boton-redondo-icon"></i></a>
+                        <a class="boton-redondo" style="display: flex;" target="_blank" href="https://mail.google.com/mail/u/0/?to={{usuario.mail}}&tf=cm" *ngIf="!esUsuario()"><i class="pi pi-send boton-redondo-icon"></i></a>
                     </div>
                 </div>
             </div>
@@ -76,10 +83,12 @@
                                 <i class="pi pi-cog mr-1"></i>
                                 <span>Preferencias</span>
                             </ng-template>
-                            <p>
-                                Aca se va a configurar las Preferencias del usuario.
-                                Notificaciones al mail
-                            </p>
+                            <div class="grid">
+                                <div class="col" *ngFor="let p of preferencias">
+                                    <p>{{p.desc}}</p>
+                                    <input type="checkbox" [(ngModel)]="p.activo" (ngModelChange)="actualizarPreferencia(p)">
+                                </div>
+                            </div>
                         </p-tabPanel>
                     </p-tabView>
                 </div>

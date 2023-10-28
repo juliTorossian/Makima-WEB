@@ -21,6 +21,7 @@ export class ProductoCrudComponent {
 
   producto = new FormGroup({
     id: new FormControl("", [Validators.required]),
+    sigla: new FormControl("", [Validators.required]),
     nombre: new FormControl("", [Validators.required]),
     entorno: new FormControl("", [Validators.required]),
   });
@@ -39,6 +40,7 @@ export class ProductoCrudComponent {
     
     if (producto){
       this.producto.get("id")?.setValue(producto.id);
+      this.producto.get("sigla")?.setValue(producto.sigla);
       this.producto.get("nombre")?.setValue(producto.nombre);
       this.producto.get("entorno")?.setValue(producto.entorno.id);
 
@@ -47,16 +49,14 @@ export class ProductoCrudComponent {
 
   accion($event:any){
     $event.preventDefault();
-
       
     const producto : any = {
       id: this.producto.get('id')?.value,
+      sigla: this.producto.get('sigla')?.value,
       nombre: this.producto.get('nombre')?.value,
       entorno: this.producto.get('entorno')?.value
     }
 
     this.ref.close(producto);
-    
-
   }
 }

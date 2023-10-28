@@ -5,7 +5,8 @@ export enum NovedadesMensaje {
     AVANZO      = '<p>El evento &evento se avanzo a la etapa <b>&tarea</b> y se asigno a &usuario</p>',
     RETROCESO   = '<p>El evento &evento se revirtio a la etapa <b>&tarea</b> y se asigno a &usuario</p>',
     REASIGNO    = '<p>El evento &evento se reasigno a &usuario</p>',
-    ESTIMAR     = '<p>El usuario &usuario estimo el evento &evento</p>'
+    ESTIMAR     = '<p>El usuario &usuario estimo el evento &evento</p>',
+    ADJUNTO     = '<p>El usuario &usuario agrego un adjunto a &evento</p>'
 }
 export enum VidaMensaje {
     COMENTARIO  = '<p>&usuario agrego un comentario</p>',
@@ -14,7 +15,8 @@ export enum VidaMensaje {
     AVANZO      = '<p>Avanzo a la etapa <b>&tarea</b> y se asigno a &usuario</p>',
     RETROCESO   = '<p>Revirtio a la etapa <b>&tarea</b> y se asigno a &usuario</p>',
     REASIGNO    = '<p>Reasigno a &usuario</p>',
-    ESTIMAR     = '<p>&usuario estimo el evento</p>'
+    ESTIMAR     = '<p>&usuario estimo el evento</p>',
+    ADJUNTO     = '<p>&usuario agrego un adjunto</p>'
 }
 export enum NovedadesColor {
     COMENTARIO  = '#fd7e14',
@@ -24,5 +26,6 @@ export enum NovedadesColor {
     RETROCESO   = '#ffc107',
     REASIGNO    = '#6c757d',
     ESTIMAR     = '#6610f2',
-    OTRO        = '#6610f2'
+    OTRO        = '#6610f2',
+    ADJUNTO     = '#7f7f7f'
 }

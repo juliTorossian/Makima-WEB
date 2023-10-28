@@ -1,8 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Modulo } from 'src/app/interfaces/modulo';
+import { Shortcut } from 'src/app/interfaces/shortcut';
+import { PermisoClave, Usuario } from 'src/app/interfaces/usuario';
 import { ModuloService } from 'src/app/servicios/modulo.service';
+import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { ModuloCrudComponent } from '../modulo-crud/modulo-crud.component';
 
 @Component({
@@ -12,6 +15,13 @@ import { ModuloCrudComponent } from '../modulo-crud/modulo-crud.component';
   providers: [DialogService, MessageService, ConfirmationService]
 })
 export class ModulosComponent {
+  @HostListener('window:'+Shortcut.ALTA, ['$event'])
+  sc_alta(event: KeyboardEvent) {
+    event.preventDefault();
+    this.mostrarModalCrud(null, 'A');
+  }
+  usuario!: Usuario;
+
   modulos!: Modulo[];
   modulo!: Modulo;
   moduloSeleccionado!: Modulo[];
@@ -23,9 +33,29 @@ export class ModulosComponent {
   private dialogService = inject(DialogService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
+  private usuarioService = inject(UsuarioService);
 
   ngOnInit() {
+    this.identificarUsuario();
     this.llenarTabla();
+  }
+
+  identificarUsuario(){
+    this.usuarioService.getUsuarioToken(this.usuarioService.getToken()).subscribe({
+      next: (res:any) => {
+        this.usuario = res;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+  tieneControl():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.MODULO, this.usuario) >= 2)
+  }
+  puedeEliminar():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.MODULO, this.usuario) >= 3)
   }
 
   llenarTabla(){
@@ -46,7 +76,7 @@ export class ModulosComponent {
       this.moduloService.setModulo(modulo).subscribe({
         next: (res) => {
           console.log(res);
-          this.messageService.add({ severity: 'success', summary: 'Tipo de evento creado', detail: `Se creo el Modulo` });
+          this.messageService.add({ severity: 'success', summary: 'Modulo creado', detail: `Se creo el Modulo` });
         },
         error: (err) => {
           console.log(err);
@@ -65,7 +95,7 @@ export class ModulosComponent {
     if (modulo) {
       this.moduloService.putModulo(modulo).subscribe({
         next: () => {
-          this.messageService.add({ severity: 'success', summary: 'Tipo de Evento modificado', detail: `Se modifico el Modulo` });
+          this.messageService.add({ severity: 'success', summary: 'Modulo modificado', detail: `Se modifico el Modulo` });
         },
         error: (err) => {
           console.log(err);

@@ -1,7 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { DynamicDialogRef, DynamicDialogConfig, DialogService } from 'primeng/dynamicdialog';
-import { map, tap } from 'rxjs';
 import { Cliente } from 'src/app/interfaces/cliente';
 import { Usuario } from 'src/app/interfaces/usuario';
 import { ClienteService } from 'src/app/servicios/cliente.service';
@@ -11,10 +10,8 @@ import { TipoEventoService } from 'src/app/servicios/tipo-evento.service';
 import { ProductoService } from 'src/app/servicios/producto.service';
 import { Producto } from 'src/app/interfaces/producto';
 import { ProductoSeleccionComponent } from '../../producto/producto-seleccion/producto-seleccion.component';
-import { Evento } from 'src/app/interfaces/evento';
-import { SeleccionarEventoComponent } from 'src/app/componentes/seleccionar-evento/seleccionar-evento.component';
 import { ModuloService } from 'src/app/servicios/modulo.service';
-import { Modulo } from 'src/app/interfaces/modulo';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-evento-crud',
@@ -27,6 +24,7 @@ export class EventoCRUDComponent implements OnInit {
   private refProducto = inject(DynamicDialogRef);
   private dialogService = inject(DialogService);
   private config = inject(DynamicDialogConfig);
+  private messageService = inject(MessageService);
 
   private clienteService = inject(ClienteService);
   private productoService = inject(ProductoService);
@@ -42,15 +40,15 @@ export class EventoCRUDComponent implements OnInit {
   modulos! : any[];
   modulosFiltrados! : any[];
 
+  clientes!: Cliente[];
+  clientesFiltrado!: Cliente[];
+  clienteSel!: Cliente;
+
   evento!: any;
-  cliente: Cliente = {
-    id: "",
-    sigla: "",
-    nombre: "",
-    activo: 1
-  };
+
   producto: Producto = {
     id:        "",
+    sigla:     "",
     nombre:    "-",
     entorno:   {id: "-", nombre: ""},
     activo: true
@@ -61,8 +59,10 @@ export class EventoCRUDComponent implements OnInit {
   numero = new FormControl({value:0, disabled:true});
   prioridad = new FormControl(5, [Validators.required]);
   titulo = new FormControl("", [Validators.required]);
-  clienteId = new FormControl("", [Validators.required]);
   modulo = new FormControl("");
+  clienteFc = new FormControl({ id: "", sigla: "", nombre: "", activo: 0});
+  descripcion = new FormControl("");
+  adjunto!: File | null;
   // eventoHijo = new FormControl(false);
   // eventoHijo!: boolean;
   // eventoMadre!: Evento;
@@ -75,11 +75,17 @@ export class EventoCRUDComponent implements OnInit {
         this.tiposEvento = res;
       }
     });
+    this.clienteService.getClientes().subscribe({
+      next: (res:any) => {
+        // console.log(res);
+        this.clientes = res;
+      }
+    })
     this.moduloService.getModulosBusqueda().subscribe({
       next: (res:any) => {
         this.modulos = res;
       },
-    })
+    });
     this.usuarioService.getUsuarioToken("").subscribe({
       next: (res:Usuario) => {
         this.usuario = res;
@@ -94,12 +100,8 @@ export class EventoCRUDComponent implements OnInit {
 
       // console.log(this.evento);
 
-      this.clienteService.getCliente(this.evento.cliente.id).subscribe({
-        next: (res:any) => {
-          // console.log(res);
-          this.cliente = res;
-        }
-      });
+      this.actualizarCliente(this.evento.cliente.id);
+
       this.productoService.getProducto(this.evento.producto.id).subscribe({
         next: (res:any) => {
           // console.log(res);
@@ -108,11 +110,11 @@ export class EventoCRUDComponent implements OnInit {
       });
 
       this.id.setValue(this.evento.id)
-      this.tipo.setValue(this.evento.tipo);
+      this.tipo.setValue(this.evento.tipo.id);
       this.numero.setValue(this.evento.numero);
       this.prioridad.setValue(this.evento.prioridad);
       this.titulo.setValue(this.evento.titulo);
-      this.clienteId.setValue(this.evento.cliente);
+      // this.clienteId.setValue(this.evento.cliente);
       this.modulo.setValue(this.evento.modulo);
       // this.eventoHijo.setValue((this.evento.madre)!==undefined);
       // this.eventoMadre = this.evento.madre;
@@ -120,25 +122,63 @@ export class EventoCRUDComponent implements OnInit {
     
   }
 
+  actualizarCliente(clienteId:any){
+    this.clienteService.getCliente(clienteId).subscribe({
+      next: (res:any) => {
+        // console.log(res);
+        this.clienteFc.setValue(res);
+      }
+    });
+  }
+
   accion($event:any) {
     $event.preventDefault();    
     let ok = true;
 
+    // console.log(this.clienteId); 
+
     let tipo :any = this.tipo.value;
     let modulo :any = this.modulo.value;
-    const evento = {
-      id:             this.id.value,
-      tipo:           tipo.value,
-      titulo:         this.titulo.value,
-      cliente:        this.cliente.id,
-      producto:       this.producto.id,
-      modulo:         modulo.value,
-      usuAlta:        this.usuario.id,
-      prioridad:      this.prioridad.value,
-      // madre:          this.eventoMadre.id
+    // let clienteAux = 
+
+    if (this.tiposEvento.some((te) => te.toLowerCase() == tipo.toLowerCase()) ){
+      if (this.modulos.some((te) => te.toLowerCase() == modulo.toLowerCase()) ){
+
+
+        if (this.clienteFc.value){
+          if (this.producto.id){
+            if (this.titulo.valid){
+              const evento = {
+                id:             this.id.value,
+                tipo:           tipo,
+                titulo:         this.titulo.value,
+                cliente:        this.clienteFc.value!.id,
+                producto:       this.producto.id,
+                modulo:         modulo,
+                usuAlta:        this.usuario.id,
+                prioridad:      this.prioridad.value,
+                descripcion:    this.descripcion.value
+                // madre:          this.eventoMadre.id
+              }
+              // console.log(this.adjunto);
+              // console.log(evento);
+              this.ref.close(evento);
+            }else{
+              this.messageService.add({ severity: 'warn', summary: '', detail: 'Debe ingresar un titulo al evento' });
+            }
+          }else{
+            this.messageService.add({ severity: 'warn', summary: '', detail: 'Debe seleccionar un producto' });
+          }
+        }else{
+          this.messageService.add({ severity: 'warn', summary: '', detail: 'Debe seleccionar un cliente' });
+        }
+
+      }else{
+        this.messageService.add({ severity: 'warn', summary: '', detail: 'No se existe el Modulo seleccionado' });
+      }
+    }else{
+      this.messageService.add({ severity: 'warn', summary: '', detail: 'No se existe el Tipo de Evento seleccionado' });
     }
-    // console.log(evento);
-    this.ref.close(evento);
   }
 
   filtroTipoEvento(event:any) {
@@ -169,15 +209,6 @@ export class EventoCRUDComponent implements OnInit {
     this.modulosFiltrados = filtered;
   }
 
-  // getDatosEvento(){
-  //   // {{eventoMadre.tipo}} - {{eventoMadre.numero}} | {{eventoMadre.titulo}}
-  //   if (this.eventoMadre){
-  //     return `${this.eventoMadre.tipo} - ${this.eventoMadre.numero} | ${this.eventoMadre.titulo}`
-  //   }else{
-  //     return "";
-  //   }
-  // }
-
   selectCliente(){
     this.refCliente = this.dialogService.open(ClienteSeleccionComponent, {
       header: 'Seleccionar cliente',
@@ -189,9 +220,14 @@ export class EventoCRUDComponent implements OnInit {
     this.refCliente.onClose.subscribe((cliente: Cliente) => {
       // console.log(cliente);
       if (cliente){
-        this.cliente = cliente;
+        this.actualizarCliente(cliente.id)
       }
     });
+  }
+  selCliente(event:any){
+    // console.log(event);
+    // this.clienteFc.setV = event;
+    this.actualizarCliente(event.id)
   }
 
   selectProducto(){
@@ -210,17 +246,37 @@ export class EventoCRUDComponent implements OnInit {
     });
   }
 
-  // selectEventoMadre(){
-  //   this.refCliente = this.dialogService.open(SeleccionarEventoComponent, {
-  //     header: 'Seleccionar Evento',
-  //     width: '70%',
-  //     contentStyle: { overflow: 'auto' },
-  //     baseZIndex: 11000
-  //   });
+  filtroCliente(event:any) {
+    let filtered: any[] = [];
+    let query = event.query;
 
-  //   this.refCliente.onClose.subscribe((evento: Evento) => {
-  //     console.log(evento);
-  //     this.eventoMadre = evento;
-  //   });
-  // }
+    for (let i = 0; i < this.clientes.length; i++) {
+      let clienteAux = this.clientes[i];
+      // if (clienteAux.nombre.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+      if (clienteAux.nombre.toLowerCase().includes(query.toLowerCase())) {
+        filtered.push(clienteAux);
+      }
+    }
+
+    this.clientesFiltrado = filtered;
+  }
+
+  onUpload(event:any){
+    console.log(event)
+  }
+  onSelect(event:any){
+    console.log(event)
+    console.log(event.currentFiles)
+    this.adjunto = event.currentFiles;
+  }
+
+  onFileSelected(event: any) {
+    const file = event.target!.files[0];
+    this.adjunto = file;
+  }
+
+  onFileCanceled() {
+    this.adjunto = null;
+  }
+
 }

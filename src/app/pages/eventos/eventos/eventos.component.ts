@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -15,7 +15,10 @@ import { TotalComoNumeroPipe } from 'src/app/pipes/total-como-numero.pipe';
 import { EventoService } from 'src/app/servicios/evento.service';
 import { EventoCRUDComponent } from '../evento-crud/evento-crud.component';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
-import { Rol, Usuario } from 'src/app/interfaces/usuario';
+import { PermisoClave, Rol, Usuario } from 'src/app/interfaces/usuario';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { invertColor } from 'src/app/helpers/color';
+import { Shortcut } from 'src/app/interfaces/shortcut';
 
 @Component({
   selector: 'app-eventos',
@@ -29,6 +32,7 @@ import { Rol, Usuario } from 'src/app/interfaces/usuario';
     CheckboxModule,
     ButtonModule,
     FormsModule,
+    ConfirmDialogModule,
   ],
   templateUrl: './eventos.component.html',
   styleUrls: ['./eventos.component.css'],
@@ -36,6 +40,12 @@ import { Rol, Usuario } from 'src/app/interfaces/usuario';
 })
 
 export class EventosComponent implements OnInit {
+  @HostListener('window:'+Shortcut.ALTA, ['$event'])
+  sc_altaEvento(event: KeyboardEvent) {
+    event.preventDefault();
+    this.mostrarModalCrud(null, 'A');
+  }
+
   private dialogService = inject(DialogService);
   private eventoService = inject(EventoService);
   private usuarioService = inject(UsuarioService);
@@ -68,7 +78,7 @@ export class EventosComponent implements OnInit {
       next: (res:any) => {
         // console.log(res);
         this.usuario = res;
-        this.permisos = this.usuarioService.getPermisos(this.usuario);
+        // this.permisos = this.usuarioService.getPermisos(this.usuario);
       },
       error: (err) => {
         console.log(err);
@@ -77,7 +87,10 @@ export class EventosComponent implements OnInit {
   }
 
   tieneControl():boolean{
-    return (this.permisos) && (this.permisos.controlTotal || this.permisos.controlEvento)
+    return (this.usuarioService.getNivelPermiso(PermisoClave.EVENTO, this.usuario) >= 2)
+  }
+  puedeEliminar():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.EVENTO, this.usuario) >= 3)
   }
 
   llenarTabla(){
@@ -147,6 +160,7 @@ export class EventosComponent implements OnInit {
   }
   
   deleteSolo(evento: Evento) {
+    console.log('deleteSolo')
     this.confirmationService.confirm({
       message: 'Esta seguro que queres eliminar el evento?',
       header: 'Eliminar Evento',
@@ -161,6 +175,7 @@ export class EventosComponent implements OnInit {
   }
 
   delete(evento : Evento){
+    console.log(evento);
     this.eventoService.deleteEvento(evento).subscribe({
       next: () => {
         this.messageService.add({ severity: 'info', summary: '', detail: 'Evento Eliminado' });
@@ -240,7 +255,10 @@ export class EventosComponent implements OnInit {
 
 
 
+  constraste(color:string){
+    return invertColor(color);
+  }
   esPositivo(detalle:any){
-    return (detalle.detalle?.eventoHoras?.estimacion - detalle.detalle?.eventoHoras?.total) > 0;
+    return (detalle.detalle?.eventoHoras?.estimacion.total - detalle.detalle?.eventoHoras?.trabajadas) > 0;
   }
 }

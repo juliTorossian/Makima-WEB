@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -12,10 +12,11 @@ import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { Usuario } from 'src/app/interfaces/usuario';
+import { PermisoClave, Usuario } from 'src/app/interfaces/usuario';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { UsuarioCrudComponent } from '../usuario-crud/usuario-crud.component';
 import { ActivoPipe } from 'src/app/pipes/activo.pipe';
+import { Shortcut } from 'src/app/interfaces/shortcut';
 
 @Component({
   selector: 'app-usuarios',
@@ -39,27 +40,59 @@ import { ActivoPipe } from 'src/app/pipes/activo.pipe';
   providers: [DialogService, MessageService, ConfirmationService]
 })
 export class UsuariosComponent {
+  @HostListener('window:'+Shortcut.ALTA, ['$event'])
+  sc_alta(event: KeyboardEvent) {
+    event.preventDefault();
+    this.mostrarModalCrud(null, 'A');
+  }
+  usuarioLogeado!: Usuario;
+
   usuarios!: Usuario[];
+  usuariosSave!: Usuario[];
   usuario!: Usuario;
   usuarioSeleccionado!: Usuario[];
+
+  filtroVerInactivos: boolean = false;
 
   ref!: DynamicDialogRef;
 
   private usuarioService = inject(UsuarioService);
-
   private dialogService = inject(DialogService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
 
   ngOnInit() {
+    this.identificarUsuario();
     this.llenarTabla();
   }
 
+  identificarUsuario(){
+    this.usuarioService.getUsuarioToken(this.usuarioService.getToken()).subscribe({
+      next: (res:any) => {
+        this.usuarioLogeado = res;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+  tieneControl():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.USUARIO, this.usuarioLogeado) >= 2)
+  }
+  puedeEliminar():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.USUARIO, this.usuarioLogeado) >= 3)
+  }
+
   llenarTabla(){
+    this.filtroVerInactivos = false;
     this.usuarioService.getUsuarios().subscribe({
       next: (res : any) => {
         // console.log(res);
-        this.usuarios = res;
+        // this.usuarios = res;
+        this.usuariosSave = res;
+
+        this.usuarios = this.usuariosSave.filter((u:any) => (u.activo == !this.filtroVerInactivos));
       },
       error: (err) => {
         console.log(err);
@@ -108,7 +141,7 @@ export class UsuariosComponent {
   deleteSeleccionado() {
     console.log(this.usuarioSeleccionado);
     this.confirmationService.confirm({
-      message: 'Esta seguro que queres hacer una eliminacion masiva de Usuarios??',
+      message: 'Esta seguro que queres hacer una eliminacion masiva de Usuarios?',
       header: 'Eliminar Usuario',
       icon: 'pi pi-info-circle',
       accept: () => {
@@ -149,6 +182,31 @@ export class UsuariosComponent {
         this.llenarTabla();
       }
     });
+  }
+
+  reactivar(usuario: Usuario){
+    this.usuarioService.reactivarUsuario(usuario).subscribe({
+      next: () => {
+        this.messageService.add({ severity: 'info', summary: '', detail: 'Usuario Reactivado' });
+      },
+      error: (err) => {
+        console.log(err);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `Ocurrio un error al reactivar el Usuario` });
+      },
+      complete: () => {
+        this.llenarTabla();
+      }
+    })
+  }
+
+  filtraUsuarios(){
+    this.usuarios = this.usuariosSave.filter((u:any) => (u.activo == true));
+
+    const eventosCerrados : Usuario[] = this.usuariosSave.filter((u:any) => (u.activo == false));
+
+    if (this.filtroVerInactivos){
+      this.usuarios = this.usuarios.concat(eventosCerrados);
+    }
   }
 
   getEventValue($event:any) :string {

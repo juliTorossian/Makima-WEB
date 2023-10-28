@@ -1,8 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Rol } from 'src/app/interfaces/usuario';
+import { Shortcut } from 'src/app/interfaces/shortcut';
+import { PermisoClave, Rol, Usuario } from 'src/app/interfaces/usuario';
 import { RolService } from 'src/app/servicios/rol.service';
+import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { RolCrudComponent } from '../rol-crud/rol-crud.component';
 
 @Component({
@@ -12,6 +14,13 @@ import { RolCrudComponent } from '../rol-crud/rol-crud.component';
   providers: [DialogService, MessageService, ConfirmationService]
 })
 export class RolesComponent {
+  @HostListener('window:'+Shortcut.ALTA, ['$event'])
+  sc_alta(event: KeyboardEvent) {
+    event.preventDefault();
+    this.mostrarModalCrud(null, 'A');
+  }
+  usuario!: Usuario;
+
   roles!: Rol[];
   rol!: Rol;
   rolSeleccionado!: Rol[];
@@ -23,9 +32,29 @@ export class RolesComponent {
   private dialogService = inject(DialogService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
+  private usuarioService = inject(UsuarioService);
 
   ngOnInit() {
+    this.identificarUsuario();
     this.llenarTabla();
+  }
+
+  identificarUsuario(){
+    this.usuarioService.getUsuarioToken(this.usuarioService.getToken()).subscribe({
+      next: (res:any) => {
+        this.usuario = res;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+  tieneControl():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.ROL, this.usuario) >= 2)
+  }
+  puedeEliminar():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.ROL, this.usuario) >= 3)
   }
 
   llenarTabla(){
@@ -46,7 +75,7 @@ export class RolesComponent {
       this.rolService.setRol(rol).subscribe({
         next: (res) => {
           console.log(res);
-          this.messageService.add({ severity: 'success', summary: 'Tipo de evento creado', detail: `Se creo el Rol` });
+          this.messageService.add({ severity: 'success', summary: 'Rol creado', detail: `Se creo el Rol` });
         },
         error: (err) => {
           console.log(err);
@@ -65,7 +94,7 @@ export class RolesComponent {
     if (rol) {rol
       this.rolService.putRol(rol).subscribe({
         next: () => {
-          this.messageService.add({ severity: 'success', summary: 'Tipo de Evento modificado', detail: `Se modifico el Rol` });
+          this.messageService.add({ severity: 'success', summary: 'Rol modificado', detail: `Se modifico el Rol` });
         },
         error: (err) => {
           console.log(err);

@@ -1,8 +1,8 @@
 <div class="timeline">
-    <div *ngFor="let vida of vidaEvento; let last = last" class="status">
-        <div class="date">{{ vida.fecha | date }}</div>
-        <div class="separator" [style.background-color]="obtenerColor(vida.accion)"></div>
-        <div class="info">
+    <div *ngFor="let vida of vidaEvento; let last = last" class="grid" style="align-items:center">
+        <div class="date col-2">{{ vida.fecha | date }}</div>
+        <div class="separator col-1" [style.background-color]="obtenerColor(vida.accion)"></div>
+        <div class="info col-9">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">{{ vida.accion }}</h5>
@@ -28,6 +28,7 @@
                 </div>
             </div>
         </div>
+        <hr style="width: 90%; border-color: #dee2e6; border-block-style: solid;">
     </div>
 </div>
 

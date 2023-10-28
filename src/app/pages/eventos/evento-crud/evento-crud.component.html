@@ -1,10 +1,4 @@
 
-<!-- <div class="surface-card p-4 shadow-2 border-round">
-    <div class="text-3xl font-medium text-900 mb-3">Card Title</div>
-    <div class="font-medium text-500 mb-3">Vivamus id nisl interdum, blandit augue sit amet, eleifend mi.</div>
-    <div style="height: 150px" class="border-2 border-dashed surface-border"></div>
-</div> -->
-
 <div class="container">
 
     <form>
@@ -45,7 +39,8 @@
             <div class="col-10">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="cliente">Cliente</label>
-                    <p class="falso-input">{{cliente.sigla}} - {{cliente.nombre}}</p>
+                    <!-- <p class="falso-input">{{cliente.sigla}} - {{cliente.nombre}}</p> [(ngModel)]="clienteSel" -->
+                    <p-autoComplete [formControl]="clienteFc" [className]="'clienteInput'" placeholder="Cliente Nombre" [forceSelection]="true" [suggestions]="clientesFiltrado" (completeMethod)="filtroCliente($event)" field="nombre" (onSelect)="selCliente($event)"></p-autoComplete>
                 </div>
             </div>
             <div class="col-2 cell-boton">
@@ -54,7 +49,7 @@
         </div>
         
         <div class="grid mt-1">
-           <div class="col-9">
+            <div class="col-9">
                 <div class="grid select-att">
                     <div class="col-6">
                         <div class="flex flex-column gap-2">
@@ -72,13 +67,42 @@
                         <button pButton pRipple icon="pi pi-search" class="p-button-success" (click)="selectProducto()"></button>
                     </div>
                 </div>
-           </div>
-           <div class="col-3">
+            </div>
+            <div class="col-3">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="modulo">Modulo</label>
                     <p-autoComplete id="modulo" appendTo="body" [dropdown]="true" [suggestions]="modulosFiltrados" (completeMethod)="filtroModulo($event)" [formControl]="modulo"></p-autoComplete>
                 </div>
-           </div>
+            </div>
+        </div>
+
+        <div class="grid" style="align-items: center">
+
+            <div class="col-9">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="descripcion" style="margin-bottom: 2px;">Descripcion</label>
+                    <textarea id="descripcion" [formControl]="descripcion" rows="3" cols="30" pInputTextarea [autoResize]="true" maxlength="1000"></textarea>
+                </div>
+            </div>
+
+            <div class="col-3" style="display: flex; justify-content: center;">
+                <div class="flex flex-column gap-2">
+
+                    <!-- <div class="custom-file-input">
+                        <input type="file" class="file-input" id="fileInput" accept=".png, .jpg">
+                        <label class="file-label" for="fileInput">
+                            <span class="file-name"></span>
+                            <span class="file-button">
+                                <i class="fa fa-upload"></i>
+                            </span>
+                        </label>
+                    </div> -->
+
+                    <!-- <input type="file" name="Adjunto" id="adjunto"> -->
+                    <!-- <p-fileUpload mode="basic" chooseLabel="Adjunto" name="adjunto" [maxFileSize]="1000000" (onSelect)="onSelect($event)" [showCancelButton]="true" ></p-fileUpload> -->
+                </div>
+            </div>
+
         </div>
 
         <!-- <div class="grid select-att">

@@ -24,7 +24,7 @@ export class ProductoService {
   }
 
   putProducto(producto: Producto){
-    return this.http.put(`${this.URL_COMPLETA}/producto`, producto);
+    return this.http.patch(`${this.URL_COMPLETA}/producto/`+producto.id, producto);
   }
 
   deleteProducto(producto: Producto){

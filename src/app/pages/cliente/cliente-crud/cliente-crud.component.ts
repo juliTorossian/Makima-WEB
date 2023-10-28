@@ -23,7 +23,7 @@ export class ClienteCrudComponent  implements OnInit {
   private config = inject(DynamicDialogConfig);
 
   ngOnInit(){
-    console.log(this.config.data);
+    // console.log(this.config.data);
     this.modo = this.config.data.modo;
     let cliente = this.config.data.cliente;
     
@@ -44,7 +44,7 @@ export class ClienteCrudComponent  implements OnInit {
       activo: this.cliente.get('activo')?.value
     }
 
-    console.log(cliente);
+    // console.log(cliente);
     
 
     this.ref.close(cliente);
