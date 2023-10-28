@@ -75,7 +75,7 @@ export class UsuarioService {
     return this.http.get(`${this.URL_COMPLETA}/usuario/${usuarioId}/preferencias`);
   }
   setDelUsuarioPreferencias(usuarioId: string, preferencia: UsuarioPreferencia){
-    return this.http.get(`${this.URL_COMPLETA}/usuario/${usuarioId}/preferencias/${preferencia}`);
+    return this.http.get(`${this.URL_COMPLETA}/usuario/${usuarioId}/preferencias/${preferencia.clave}`);
   }
 
   // TOKEN

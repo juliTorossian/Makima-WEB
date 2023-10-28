@@ -103,6 +103,14 @@ export class UsuarioComponent implements OnInit{
 
   actualizarPreferencia(preferencia:UsuarioPreferencia) {
     console.log(preferencia);
+    this.usuarioService.setDelUsuarioPreferencias(this.usuario.id, preferencia).subscribe({
+      next: (res:any) => {
+        console.log(res);
+      },
+      error: (err:any) => {
+        console.log(err);
+      }
+    })
   }
 
 }

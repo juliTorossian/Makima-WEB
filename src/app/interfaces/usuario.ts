@@ -37,7 +37,7 @@ export interface UsuarioCorto {
 
 export interface Rol {
     id:         string;
-    descipcion: string;
+    descripcion: string;
     permisos:   PermisoRol[];
 }
 
@@ -63,64 +63,64 @@ export enum PermisoClave {
 }
 
 export const permisosData: PermisoRol[]= [
-    {
-        clave: 'ADM',
-        desc: 'Administrador',
-        nivel: 0
-    },
+    // {
+    //     clave: 'ADM',
+    //     desc: 'Administrador',
+    //     nivel: 0
+    // },
     {
         clave: 'EVT',
         desc: 'Eventos',
-        nivel: 3
+        nivel: 0
     },
     {
         clave: 'USR',
         desc: 'Usuarios',
-        nivel: 3
+        nivel: 0
     },
     {
         clave: 'MOD',
         desc: 'Modulos',
-        nivel: 3
+        nivel: 0
     },
     {
         clave: 'ENT',
         desc: 'Entornos',
-        nivel: 3
+        nivel: 0
     },
     {
         clave: 'PRD',
         desc: 'Productos',
-        nivel: 3
+        nivel: 0
     },
     {
         clave: 'CLI',
         desc: 'Clientes',
-        nivel: 3
+        nivel: 0
     },
     {
         clave: 'HOG',
         desc: 'Horas Generales',
-        nivel: 1
+        nivel: 0
     },
     {
         clave: 'EVD',
         desc: 'Documentos de eventos',
-        nivel: 3
+        nivel: 0
     },
     {
         clave: 'TAR',
         desc: 'Tareas',
-        nivel: 3
+        nivel: 0
     },
     {
         clave: 'TEV',
         desc: 'Tipo de Eventos',
-        nivel: 3
+        nivel: 0
     },
     {
         clave: 'ROL',
         desc: 'Roles',
-        nivel: 3
+        nivel: 0
     },
 ]
