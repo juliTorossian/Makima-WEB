@@ -103,14 +103,27 @@ export class EventosComponent implements OnInit {
     });
   }
 
-  alta(evento : Evento) {
+  alta(evento : any) {
     console.log("alta: ");
     console.log(evento);
     if (evento) {
+
+      let adjunto = evento.adjunto;
+      delete evento.adjunto;
+
       this.eventoService.setEvento(evento).subscribe({
-        next: (res) => {
+        next: (res:any) => {
           console.log(res);
           this.messageService.add({ severity: 'success', summary: 'Evento creado', detail: `Se creo el evento` });
+          let eventoId = res;
+          if (adjunto){
+            this.eventoService.setAdjuntos(eventoId, evento.usuAlta, adjunto).subscribe({
+              next: (r:any) => {
+                console.log(r);
+              }
+            })
+          }
+
         },
         error: (err) => {
           console.log(err);

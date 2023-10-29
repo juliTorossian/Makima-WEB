@@ -23,6 +23,7 @@ export interface Evento {
     madre:          Evento;
     detalle:        EventoDetalle | null;
     busqueda:       string;
+    descripcion?:    string;
 }
 
 export interface EventoDetalle {

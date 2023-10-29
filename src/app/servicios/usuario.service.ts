@@ -100,21 +100,23 @@ export class UsuarioService {
 
   normalizarPermisos(usuario:Usuario) : PermisoRol[] {
     let permisos : PermisoRol[] = []
-    usuario.rol.map( (r:Rol) => {
+    if (usuario ){
+      usuario.rol.map( (r:Rol) => {
 
-      r.permisos.map( (rp) => {
-        let aux = permisos.some((a) => a.clave === rp.clave)
-        if (aux){
-          permisos.map( (p) => {
-            if (p.clave == rp.clave && p.nivel! < rp.nivel!){
-              p.nivel = rp.nivel
-            }
-          })
-        }else{
-          permisos.push(rp);
-        }
-      })
-    });
+        r.permisos.map( (rp) => {
+          let aux = permisos.some((a) => a.clave === rp.clave)
+          if (aux){
+            permisos.map( (p) => {
+              if (p.clave == rp.clave && p.nivel! < rp.nivel!){
+                p.nivel = rp.nivel
+              }
+            })
+          }else{
+            permisos.push(rp);
+          }
+        })
+      });
+    }
     
     // console.log(permisos);
     return permisos;

@@ -12,7 +12,8 @@
                 <h1>{{evento.busqueda}}</h1>
                 <h2>{{evento.titulo}}</h2>
 
-                <p>Etapa actual: {{evento.tareaNombre}}</p>
+                <p *ngIf="!evento.cerrado">Etapa actual: {{evento.tareaNombre}}</p>
+                <p *ngIf="evento.cerrado">EVENTO CERRADO</p>
                 <div class="progress">
                     <p-progressBar [value]="porcentajeAvance"></p-progressBar>
                 </div>
@@ -24,7 +25,41 @@
 
                     <div class="col col-offset-2">
 
-                        <div class="grid">
+                        <table>
+                            <tbody>
+
+                                <tr>
+                                    <th>Cliente:</th>
+                                    <td>{{evento.cliente.sigla}} - {{evento.cliente.nombre}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Producto:</th>
+                                    <td>{{evento.producto.nombre}} | {{evento.producto.entorno}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Usuarios:</th>
+                                    <!-- <td><strong>Actual:</strong>  {{evento.usuarioActual.usuario}}</td>
+                                    <td><strong>Alta:</strong>  {{evento.usuarioAlta.usuario}}</td> -->
+                                    
+                                    <td style="text-align: center;">
+                                        <div class="grid">
+                                            <p><strong>Actual:</strong>  {{evento.usuarioActual.usuario}}</p>
+                                        </div>
+                                        <div class="grid">
+                                            <p><strong>Alta:</strong>  {{evento.usuarioAlta.usuario}}</p>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <th>Ingreso:</th>
+                                    <td>{{evento.fechaAlta | date:'short'}}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                        <!-- <div class="grid">
                             <div class="col-3">
                                 <h4>Cliente:</h4>
                             </div>
@@ -50,11 +85,17 @@
                                 <p>Actual: {{evento.usuarioActual.usuario}}</p>
                                 <p>Alta: {{evento.usuarioAlta.usuario}}</p>
                             </div>
-                        </div>
+                        </div> -->
 
                     </div>
 
                 </div>
+                
+                <p-divider></p-divider>
+
+                <p>
+                    {{evento.descripcion}}
+                </p>
 
             </p-card>
         </div>

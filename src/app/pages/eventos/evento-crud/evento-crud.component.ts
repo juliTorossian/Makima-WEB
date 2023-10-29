@@ -134,6 +134,11 @@ export class EventoCRUDComponent implements OnInit {
   accion($event:any) {
     $event.preventDefault();    
     let ok = true;
+    
+    let aux = document.getElementById('adjunto') as HTMLInputElement;
+    this.adjunto = aux.files![0];
+
+    console.log(this.adjunto)
 
     // console.log(this.clienteId); 
 
@@ -148,7 +153,7 @@ export class EventoCRUDComponent implements OnInit {
         if (this.clienteFc.value){
           if (this.producto.id){
             if (this.titulo.valid){
-              const evento = {
+              let evento = {
                 id:             this.id.value,
                 tipo:           tipo,
                 titulo:         this.titulo.value,
@@ -157,11 +162,12 @@ export class EventoCRUDComponent implements OnInit {
                 modulo:         modulo,
                 usuAlta:        this.usuario.id,
                 prioridad:      this.prioridad.value,
-                descripcion:    this.descripcion.value
+                descripcion:    this.descripcion.value,
                 // madre:          this.eventoMadre.id
+                adjunto:        this.adjunto
               }
-              // console.log(this.adjunto);
-              // console.log(evento);
+              console.log(this.adjunto);
+              console.log(evento);
               this.ref.close(evento);
             }else{
               this.messageService.add({ severity: 'warn', summary: '', detail: 'Debe ingresar un titulo al evento' });

@@ -62,6 +62,7 @@ export class EventoComponent implements OnInit{
     })
     this.eventoService.getEvento(this.eventoId).subscribe({
       next: (res:any) => {
+        console.log(res)
         this.evento = res;
         // calculo el porcentaje de avance del evento
         this.porcentajeAvance = Math.round((res.detalle.eventoCircuito.act.etapa * 100) / res.detalle.eventoCircuito.totalEtapas)
@@ -204,7 +205,7 @@ export class EventoComponent implements OnInit{
   cargarHoras(){
     this.eventoService.getHorasEvento(this.eventoId).subscribe({
       next: (res:any) =>{
-        console.log(res);
+        // console.log(res);
         this.horas = res;
       },
       error: (err) => {
