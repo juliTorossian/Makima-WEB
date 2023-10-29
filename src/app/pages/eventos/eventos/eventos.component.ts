@@ -43,7 +43,9 @@ export class EventosComponent implements OnInit {
   @HostListener('window:'+Shortcut.ALTA, ['$event'])
   sc_altaEvento(event: KeyboardEvent) {
     event.preventDefault();
-    this.mostrarModalCrud(null, 'A');
+    if (this.tieneControl()){
+      this.mostrarModalCrud(null, 'A');
+    }
   }
 
   private dialogService = inject(DialogService);

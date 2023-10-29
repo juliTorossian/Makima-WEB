@@ -65,7 +65,7 @@
                     <!-- <td><p-checkbox [disabled]="true" [value]="tarea.comentario"></p-checkbox></td> -->
                     <td><p-tag [value]="tarea.comentario | activado" [severity]="getSeverity(tarea.comentario)"></p-tag></td>
                     <td *ngIf="tieneControl()">
-                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning botonRedondoChico mr-2" *ngIf="puedeEliminar()" (click)="mostrarModalCrud(tarea, 'M')"></button>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning botonRedondoChico mr-2" *ngIf="tieneControl()" (click)="mostrarModalCrud(tarea, 'M')"></button>
                         <!-- <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger botonRedondoChico mr-2" (click)="deleteClienteSolo(tarea)"></button> -->
                     </td>
                 </tr>

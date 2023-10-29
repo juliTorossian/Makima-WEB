@@ -6,7 +6,7 @@ import { EventoService } from 'src/app/servicios/evento.service';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Location } from '@angular/common';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
-import { Usuario } from 'src/app/interfaces/usuario';
+import { PermisoClave, Usuario } from 'src/app/interfaces/usuario';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { CargarArchivosComponent } from '../componentes/cargar-archivos/cargar-archivos.component';
@@ -136,10 +136,13 @@ export class EventoComponent implements OnInit{
   }
 
   // Eliminar un documento
-  // TODO - [ ] ver de agregar seguridad, todos los usuarios puede eliminar un documento?
-  // TODO - [ ] agregar confirmacion de eliminar
+
+  puedeEliminarAdjunto(){
+    return (this.usuarioService.getNivelPermiso(PermisoClave.EVENTO_DOCUMENTO, this.usuario) >= 3)
+  }
+
   eliminarAdjunto(event:any){
-    console.log(event);
+    // console.log(event);
     this.confirmationService.confirm({
       message: 'Esta seguro de eliminar el Documento?',
       header: 'Eliminar documento',

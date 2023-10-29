@@ -44,7 +44,9 @@ export class ClientesComponent {
   @HostListener('window:'+Shortcut.ALTA, ['$event'])
   sc_alta(event: KeyboardEvent) {
     event.preventDefault();
-    this.mostrarModalCrud(null, 'A');
+    if (this.tieneControl()){
+      this.mostrarModalCrud(null, 'A');
+    }
   }
   usuario!: Usuario;
 

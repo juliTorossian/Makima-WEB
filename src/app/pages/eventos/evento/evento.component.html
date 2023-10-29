@@ -142,7 +142,7 @@
                                         <td>{{ file.tipo }}</td>
                                         <td>
                                             <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-success botonRedondoChico mr-2" (click)="verAdjunto(file)"></button>
-                                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger botonRedondoChico" (click)="eliminarAdjunto(file)"></button>
+                                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger botonRedondoChico" *ngIf="puedeEliminarAdjunto()" (click)="eliminarAdjunto(file)"></button>
                                         </td>
                                     </tr>
                                 </ng-template>
