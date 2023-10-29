@@ -1,30 +1,31 @@
 import { Component, OnInit, inject, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Comentario } from 'src/app/interfaces/comentario';
+import { Adjunto, Comentario } from 'src/app/interfaces/comentario';
 import { Evento } from 'src/app/interfaces/evento';
 import { EventoService } from 'src/app/servicios/evento.service';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Location } from '@angular/common';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
-import { Usuario } from 'src/app/interfaces/usuario';
+import { PermisoClave, Usuario } from 'src/app/interfaces/usuario';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { VidaEventoComponent } from '../componentes/vida-evento/vida-evento.component';
+import { CargarArchivosComponent } from '../componentes/cargar-archivos/cargar-archivos.component';
 
 @Component({
   selector: 'app-evento',
   templateUrl: './evento.component.html',
   styleUrls: ['./evento.component.css'],
-  providers: [
-    DialogService,
-    MessageService,
-    ConfirmationService
-  ]
+  providers: [DialogService, MessageService, ConfirmationService]
 })
+
 export class EventoComponent implements OnInit{
-  @ViewChild("adjunto", {
-    read: ElementRef
-  }) adjunto!: ElementRef;
+  // @ViewChild("adjunto", {
+  //   read: ElementRef
+  // }) adjunto!: ElementRef;
+
+  ref!: DynamicDialogRef;
+  private confirmationService = inject(ConfirmationService);
+  private messageService = inject(MessageService);
 
   private dialogService = inject(DialogService);
 
@@ -35,48 +36,60 @@ export class EventoComponent implements OnInit{
   private eventoService = inject(EventoService);
 
   refVidaEvento!: DynamicDialogRef;
-  
   currentUrl = this.location.path();
 
   eventoId!: string;
   evento!: Evento;
-
   usuario!: Usuario;
   porcentajeAvance! : any;
 
   comentarios!: Comentario[];
+  archivosAdjuntos!: Adjunto[];
+  horas!: any[];
 
 
   public Editor:any = ClassicEditor;
-
   comentario: string = "";
-  archivoSeleccionado!: File;
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
+
+    // Recupero el evento pasado en la URL y el usuario logueado
     this.eventoId = this.rutActiva.snapshot.params['evento'];
     this.usuarioService.getUsuarioToken(this.usuarioService.getToken()).subscribe({
       next: (res:any) => {
         this.usuario = res;
       }
     })
-
     this.eventoService.getEvento(this.eventoId).subscribe({
       next: (res:any) => {
-        // console.log(res);
+        console.log(res)
         this.evento = res;
+        // calculo el porcentaje de avance del evento
         this.porcentajeAvance = Math.round((res.detalle.eventoCircuito.act.etapa * 100) / res.detalle.eventoCircuito.totalEtapas)
-        // console.log(this.porcentajeAvance);
       }
     });
 
-    this.cargarComentarios();
-
+    this.actualizar()
   }
 
-  cargarComentarios(){
-    this.eventoService.getComentarios(this.eventoId).subscribe({
+  actualizar(){
+    this.cargarComentarios();
+    this.cargarAdjuntos();
+    this.cargarHoras();
+  }
+
+
+  // ADJUNTOS
+  
+  // Busca los archivos adjuntos del evento
+  cargarAdjuntos(){
+    this.eventoService.getAdjuntos(this.eventoId).pipe(
+      // tap( (res:any) => console.log(res))
+    )
+    .subscribe({
       next: (res:any) =>{
-        this.comentarios = res;
+        this.archivosAdjuntos = res;
+        // console.log(this.archivosAdjuntos);
       },
       error: (err) => {
         console.log(err);
@@ -84,35 +97,81 @@ export class EventoComponent implements OnInit{
     });
   }
 
-  onUpload($event:any){
-    const uploadedFiles = $event.files;
-    console.log(uploadedFiles);
+  // Abre la ventana para adjuntar nuevos documentos
+  adjuntarDocumentos(){
+    const data = {
+      eventoId: this.eventoId,
+      usuarioId: this.usuario.id
+    }
+    
+    this.ref = this.dialogService.open(CargarArchivosComponent, {
+      header: "Seleccionar archivos",
+      width: '70%',
+      contentStyle: { overflow: 'auto' },
+      baseZIndex: 10000,
+      maximizable: true,
+      data: data
+    });
+
+    this.ref.onClose.subscribe((aux: any) => {
+      if (aux){
+        console.log("ok");
+      }else{
+        console.log("err");
+      }
+      this.cargarAdjuntos();
+    });
   }
 
-  comentar(evento:any){
-    // console.log(this.comentarioForm.get("comentario")?.value);
-    // console.log(this.comentarioForm.get("adjunto")?.value);
-    console.log(this.adjunto.nativeElement.files);
-    console.log(this.adjunto.nativeElement.files[0]);
+  // Visualizar un documento
+  verAdjunto(event:any){
+    // console.log(event);
 
-    const formData = new FormData();
+    const url = `data:${event.tipo};base64,${event.base}`;
+    fetch(url)
+    .then(res => res.blob())
+    .then((a) => {
+      window.open(window.URL.createObjectURL(a), "NOMBRE DE TAB");
+    })
+  }
+
+  // Eliminar un documento
+
+  puedeEliminarAdjunto(){
+    return (this.usuarioService.getNivelPermiso(PermisoClave.EVENTO_DOCUMENTO, this.usuario) >= 3)
+  }
+
+  eliminarAdjunto(event:any){
+    // console.log(event);
+    this.confirmationService.confirm({
+      message: 'Esta seguro de eliminar el Documento?',
+      header: 'Eliminar documento',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+        this.eventoService.deleteAdjunto(event.id).subscribe({
+          complete: () => {
+            this.cargarAdjuntos()
+          },
+        })
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'warn', summary: '', detail: 'No se elimino el documento.' });
+      }
+    });
+  }
+
+  // COMENTARIOS
+
+  // Grabar nuevo comentario
+  comentar(evento:any){
 
     let comentario = {
       "eventoId": evento.id,
       "comentario": this.comentario,
       "usuario": this.usuario.id
     } 
-    // const comentario = {
-    //   "comentario": comentarioAux,
-    //   "file": this.archivoSeleccionado
-    // }
 
-    formData.append('comentario', JSON.stringify(comentario));
-    formData.append('file', this.archivoSeleccionado);
-
-
-    // console.log(comentario);
-    this.eventoService.setComentario(evento.id, formData).subscribe({
+    this.eventoService.setComentario(evento.id, comentario).subscribe({
       next: (res) => {
         console.log(res)
       },
@@ -125,33 +184,37 @@ export class EventoComponent implements OnInit{
       }
     })
   }
+
+  // Busca los comentarios del evento
+  cargarComentarios(){
+    this.eventoService.getComentarios(this.eventoId).subscribe({
+      next: (res:any) =>{
+        this.comentarios = res;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
   
+  // Limpia el editor
   limpiarComentario(){
     this.comentario = "";
-    this.adjunto.nativeElement.value = "";
   }
 
-  seleccionarArchivo(evento: Event) {
-    const input = evento.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.archivoSeleccionado = input.files[0];
-    }
-    // console.log(this.archivoSeleccionado);
-    // this.archivoSeleccionado = input.files[0];
-  }
 
-  verVidaEvento(evento:Evento){
+  // HORAS
 
-    this.refVidaEvento = this.dialogService.open(VidaEventoComponent, {
-      header: 'Vida del evento',
-      width: '60%',
-      contentStyle: { overflow: 'auto' },
-      baseZIndex: 10000,
-      data: evento
+  cargarHoras(){
+    this.eventoService.getHorasEvento(this.eventoId).subscribe({
+      next: (res:any) =>{
+        // console.log(res);
+        this.horas = res;
+      },
+      error: (err) => {
+        console.log(err);
+      }
     });
-
-    // this.refVidaEvento.onClose.subscribe((eventoCrud: Evento) => {
-    // });
   }
 
 }

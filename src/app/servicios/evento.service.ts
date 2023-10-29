@@ -42,18 +42,58 @@ export class EventoService {
     return this.http.delete(`${this.URL_COMPLETA}/evento/${evento.id}`);
   }
 
+  // Comentarios
+
   getComentarios(eventoId : string){
     return this.http.get(`${this.URL_COMPLETA}/evento/${eventoId}/comentarios`).pipe(
       // tap( (res) => console.log(res))
     );
   }
   setComentario(eventoId : string, comentario:any){
-    const headers = new HttpHeaders();
-    headers.set('Content-Type', ['multipart/form-data']);
-    return this.http.post(`${this.URL_COMPLETA}/evento/${eventoId}/comentar`, comentario, { headers });
+    // console.log(comentario);
+    return this.http.post(`${this.URL_COMPLETA}/evento/${eventoId}/comentar`, comentario);
   }
+
+  // Adjuntos
+  setAdjuntos(eventoId: string, usuario: string, adjuntos: any) {
+    // Crea una nueva instancia del objeto FormData
+    const formData = new FormData();
+  
+    // Agrega el archivo al objeto FormData
+    formData.append('files', adjuntos);
+  
+    // Crea los headers de la petición HTTP
+    let headers = new HttpHeaders();
+    headers.set('Content-Type', 'multipart/form-data');
+  
+    // Realiza la petición HTTP
+    return this.http.post(`${this.URL_COMPLETA}/evento/${eventoId}/adjuntar?usuario=${usuario}`, formData, {headers: headers});
+  }
+  // setAdjuntos(eventoId : string, adjuntos: any){
+  //   console.log(adjuntos)
+  //   let headers = new HttpHeaders();
+  //   headers.set('Content-Type', 'multipart/form-data')
+  //   return this.http.post(`${this.URL_COMPLETA}/evento/${eventoId}/adjuntar`, adjuntos, {headers: headers});
+  // }
+  getAdjuntos(eventoId : string){
+    return this.http.get(`${this.URL_COMPLETA}/evento/${eventoId}/adjuntos`).pipe(
+      // tap( (res) => console.log(res))
+    );
+  }
+  deleteAdjunto(adicionId: any){
+    return this.http.delete(`${this.URL_COMPLETA}/evento/adjunto/${adicionId}`);
+  }
+
+  // Vida
   getVidaEvento(eventoId : string){
     return this.http.get(`${this.URL_COMPLETA}/evento/${eventoId}/vida`).pipe(
+      // tap( (res) => console.log(res))
+    );
+  }
+
+  // Horas
+  getHorasEvento(eventoId : string){
+    return this.http.get(`${this.URL_COMPLETA}/evento/${eventoId}/horas`).pipe(
       // tap( (res) => console.log(res))
     );
   }

@@ -12,6 +12,7 @@ import { EncryptDecryptService } from 'src/app/servicios/encrypt-decrypt.service
 })
 export class LoginComponent {
 
+
   errorUsuario: boolean = false;
   errorPassword: boolean = false;
 

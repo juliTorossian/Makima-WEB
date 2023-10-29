@@ -3,10 +3,11 @@
     
     <div class="card">
         <p-toast></p-toast>
+        <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
         <p-toolbar styleClass="mb-4 gap-2" *ngIf="tieneControl()">
             <ng-template pTemplate="left">
                 <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2 botonChico" (click)="mostrarModalCrud(null, 'A')"></button>
-                <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger botonChico" (click)="deleteSeleccion()" [disabled]="!eventoSeleccionado || !eventoSeleccionado.length"></button>
+                <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger botonChico" *ngIf="puedeEliminar()" (click)="deleteSeleccion()" [disabled]="!eventoSeleccionado || !eventoSeleccionado.length"></button>
             </ng-template>
 
             <ng-template pTemplate="right">
@@ -26,6 +27,7 @@
             currentPageReportTemplate="Mostrando desde {first} a {last} de {totalRecords} registros"
             [showCurrentPageReport]="true"
             styleClass="p-datatable-sm"
+            [tableStyle]="{'min-width': '92rem'}"
         >
             <ng-template pTemplate="caption">
                 <div class="flex align-items-center justify-content-between" style="display: flex;">
@@ -64,23 +66,23 @@
                     <td *ngIf="tieneControl()">
                         <p-tableCheckbox [value]="evento" [disabled]="evento.cerrado"></p-tableCheckbox>
                     </td>
-                    <td>
-                        <button type="button" pButton pRipple [pRowToggler]="evento" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                    <td style="height: 61px;">
+                        <button type="button" pButton pRipple [pRowToggler]="evento" class="p-button-text p-button-rounded p-button-plain botonRedondoChico" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" *ngIf="!evento.propio"></button>
                     </td>
-                    <td hidden>{{ evento.tipo }}</td>
+                    <td hidden>{{ evento.tipo.id }}</td>
                     <td hidden>{{ evento.numero }}</td>
-                    <td routerLink="/evento/{{evento.id}}">{{ evento.tipo +'-'+ evento.numero }}</td>
+                    <td><span class="badge" [style.background-color]="evento.tipo.color"  [style.color]="constraste(evento.tipo.color)" routerLink="/evento/{{evento.id}}">{{ evento.tipo.id +'-'+ evento.numero }}</span></td>
                     <td>{{ evento.titulo }}</td>
                     <td>{{ evento.detalle?.eventoCircuito.act.tarea?.nombre }}</td>
                     <td>{{ evento.cliente.nombre }}</td>
                     <td>{{ evento.producto.nombre }}</td>
                     <td>{{ evento.modulo }}</td>
-                    <td>{{ evento.usuarioActual.usuario }}</td>
+                    <td><span class="badge" [style.background-color]="evento.usuarioActual.color"  [style.color]="constraste(evento.usuarioActual.color)" routerLink="/usuario/{{evento.usuarioActual.id}}">{{ evento.usuarioActual.usuario }}</span></td>
                     <td>{{ evento.fechaAlta | date:'short'}}</td>
                     <td hidden>{{ evento.usuarioAlta.usuario }}</td>
                     <td *ngIf="tieneControl()">
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success botonRedondoChico mr-2" (click)="mostrarModalCrud(evento, 'M')" [disabled]="evento.cerrado"></button>
-                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning botonRedondoChico" (click)="deleteSolo(evento)" [disabled]="evento.cerrado"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning botonRedondoChico" *ngIf="puedeEliminar()" (click)="deleteSolo(evento)" [disabled]="evento.cerrado"></button>
                     </td>
                 </tr>
             </ng-template>
@@ -92,16 +94,16 @@
                                 <div class="grid">
                                     <div class="col">
                                         <p>Horas estimadas:</p>
-                                        <p>{{eventoDetalle.detalle?.eventoHoras?.estimacion}}</p>
+                                        <p>{{eventoDetalle.detalle?.eventoHoras?.estimacion.total}}</p>
                                     </div>
                                     <div class="col">
                                         <p>Horas reales:</p>
-                                        <p>{{eventoDetalle.detalle?.eventoHoras?.total}}</p>
+                                        <p>{{eventoDetalle.detalle?.eventoHoras?.trabajadas}}</p>
                                     </div>
                                     <div class="col">
                                         <p>Diferencia:</p>
                                         <p [ngClass]="{'diferenciaPositiva': esPositivo(eventoDetalle), 'diferenciaNegativa': !esPositivo(eventoDetalle)}">
-                                            {{(eventoDetalle.detalle?.eventoHoras?.estimacion - eventoDetalle.detalle?.eventoHoras?.total)}}
+                                            {{(eventoDetalle.detalle?.eventoHoras?.estimacion.total - eventoDetalle.detalle?.eventoHoras?.trabajadas)}}
                                         </p>
                                     </div>
                                 </div>
@@ -111,7 +113,7 @@
                             </div>
                             <div class="col">
                                 <p>Usuario Alta</p>
-                                <p>{{ eventoDetalle.usuarioAlta.usuario }}</p>
+                                <p><span class="badge" [style.background-color]="eventoDetalle.usuarioAlta.color"  [style.color]="constraste(eventoDetalle.usuarioAlta.color)" routerLink="/usuario/{{eventoDetalle.usuarioAlta.id}}">{{ eventoDetalle.usuarioAlta.usuario }}</span></p>
                             </div>
                         </div>
                     </td>

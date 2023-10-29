@@ -1,0 +1,18 @@
+<div>
+    <table>
+        <thead>
+            <th></th>
+            <th>Leer</th>
+            <th>Crear/Modificar</th>
+            <th>Eliminar</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let p of permisosTabla">
+                <th>{{p.desc}}</th>
+                <td><input *ngIf="p.n1!==null" [(ngModel)]="p.n1" type="checkbox" (ngModelChange)="onCheckChange(p)"></td>
+                <td><input *ngIf="p.n2!==null" [(ngModel)]="p.n2" type="checkbox" (ngModelChange)="onCheckChange(p)"></td>
+                <td><input *ngIf="p.n3!==null" [(ngModel)]="p.n3" type="checkbox" (ngModelChange)="onCheckChange(p)"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

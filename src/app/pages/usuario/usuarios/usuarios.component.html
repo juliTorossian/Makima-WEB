@@ -4,14 +4,13 @@
     <div class="card">
         <p-toast></p-toast>
         <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
-        <p-toolbar styleClass="mb-4 gap-2">
+        <p-toolbar styleClass="mb-4 gap-2" *ngIf="tieneControl()">
             <ng-template pTemplate="left">
                 <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2 botonChico" (click)="mostrarModalCrud(usuario, 'A')"></button>
-                <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger botonChico" (click)="deleteSeleccionado()" [disabled]="!usuarioSeleccionado || !usuarioSeleccionado.length"></button>
+                <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger botonChico" *ngIf="puedeEliminar()" (click)="deleteSeleccionado()" [disabled]="!usuarioSeleccionado || !usuarioSeleccionado.length"></button>
             </ng-template>
 
             <ng-template pTemplate="right">
-                
             </ng-template>
         </p-toolbar>
 
@@ -35,6 +34,10 @@
                         <i class="pi pi-search"></i>
                         <input pInputText style="padding-top: 0.4rem !important;padding-bottom: 0.4rem !important;" class="p-component p-element p-inputtext"  type="text" (input)="dt.filterGlobal(getEventValue($event), 'contains')" placeholder="Buscar..." />
                     </span>
+                    <div class="flex align-items-center gap-1" style="margin:auto 10px">
+                        <p-checkbox id="filtroVerCerrados" [(ngModel)]="filtroVerInactivos" (click)="filtraUsuarios()" [binary]="true" inputId="binary"></p-checkbox>
+                        <label for="filtroVerCerrados" class="mr-2"> Ver inactivos</label>
+                    </div>
                 </div>
             </ng-template>
             <ng-template pTemplate="header">
@@ -49,7 +52,7 @@
                     <th pSortableColumn="usuario">Usuario <p-sortIcon field="usuario"></p-sortIcon></th>
                     <th pSortableColumn="rol">Rol <p-sortIcon field="rol"></p-sortIcon></th>
                     <th pSortableColumn="activo">Activo <p-sortIcon field="activo"></p-sortIcon></th>
-                    <th></th>
+                    <th *ngIf="tieneControl()"></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-usuario>
@@ -64,9 +67,10 @@
                     <td>{{ usuario.usuario }}</td>
                     <td><div *ngFor="let rol of usuario.rol"><p-chip label="{{rol.id}}" styleClass="custom-chip"></p-chip></div></td>
                     <td><p-tag [value]="usuario.activo | activo" [severity]="getSeverity(usuario.activo)"></p-tag></td>
-                    <td>
+                    <td *ngIf="tieneControl()">
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning botonRedondoChico mr-2" (click)="mostrarModalCrud(usuario, 'M')"></button>
-                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger botonRedondoChico mr-2" (click)="deleteSolo(usuario)"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger botonRedondoChico mr-2" (click)="deleteSolo(usuario)" *ngIf="(usuario.activo) && puedeEliminar()"></button>
+                        <button pButton pRipple icon="pi pi-replay" class="p-button-rounded p-button-info botonRedondoChico mr-2" (click)="reactivar(usuario)" *ngIf="(!usuario.activo) && puedeEliminar()"></button>
                     </td>
                 </tr>
             </ng-template>

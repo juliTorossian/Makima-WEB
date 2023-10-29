@@ -23,24 +23,29 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let hora of horas; index as i;">
-                        <td><div style="display: flex;align-items:center;"><input type="text" pInputText [(ngModel)]="hora.evento.evento" [disabled]="true" /> <button type="button" pButton icon="pi pi-check-circle" (click)="seleccionarEvento(hora)" class="p-button-rounded p-button-success botonRedondoChico"></button></div></td>
+                        <!-- <td><div style="display: flex;align-items:center;"><input type="text" pInputText [(ngModel)]="hora.evento.evento" [disabled]="true" /> <button type="button" pButton icon="pi pi-check-circle" (click)="seleccionarEvento(hora)" class="p-button-rounded p-button-success botonRedondoChico"></button></div></td> -->
+                        <td><div style="display: flex;align-items:center;">
+                            <p-autoComplete [(ngModel)]="hora.evento" [className]="'clienteInput'" placeholder="Evento" [forceSelection]="true" [suggestions]="eventosFiltrados" (completeMethod)="filtroEvento($event)" field="busqueda" (onSelect)="selEvento($event, hora)"></p-autoComplete>
+                            <button type="button" pButton icon="pi pi-check-circle" (click)="seleccionarEvento(hora)" class="p-button-rounded p-button-success botonRedondoChico"></button>
+                        </div></td>
                         <td><p-inputMask #inputInicio mask="99:99" [(ngModel)]="hora.inicio" placeholder="99:99" (onComplete)="actualizarTotal(hora)"></p-inputMask></td>
+                        <!-- <td><input type="text" [(ngModel)]="hora.inicio" mask="00:00" /></td> -->
                         <td><p-inputMask #inputFinal mask="99:99" [(ngModel)]="hora.final" placeholder="99:99" (onComplete)="actualizarTotal(hora)"></p-inputMask></td>
                         <td><input type="text" pInputText [(ngModel)]="hora.observaciones" /></td>
                         <td><div class="falso-input">{{hora.total | totalComoNumero}} hs</div></td>
-                        <td><button type="button" (click)="eliminarFila(hora)" class="p-button p-button-danger">-</button></td>
+                        <td><button pButton icon="pi pi-trash" (click)="eliminarFila(hora)" class="p-button p-button-danger"></button></td>
                     </tr>
                 </tbody>
             </table>
             <button type="button" (click)="agregarFila()" class="p-button p-button-success botonNuevo">+</button>
         </div>
     </div>
-  
+
     <div [hidden]="!(modo==='A')">
-      <button pButton pRipple label="Crear" class="p-button-success" (click)="accion($event)"></button>
+        <button pButton pRipple label="Crear" class="p-button-success" (click)="accion($event)"></button>
     </div>
     <div [hidden]="!(modo==='M')">
-      <button pButton pRipple label="Modificar" class="p-button-warning" (click)="accion($event)"></button>
+        <button pButton pRipple label="Modificar" class="p-button-warning" (click)="accion($event)"></button>
     </div>
-  
-  </div>
+
+</div>

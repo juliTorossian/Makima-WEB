@@ -48,7 +48,7 @@ export class UsuarioCrudComponent {
   roles! : any;
 
   ngOnInit(){
-    console.log(this.config.data);
+    // console.log(this.config.data);
 
     this.rolService.getRoles().pipe(
       // tap( (res) => console.log(res))
@@ -62,6 +62,7 @@ export class UsuarioCrudComponent {
     let usuario = this.config.data.usuario;
 
     if (usuario){
+      // console.log(usuario)
 
       this.id = usuario.id;
       this.nombre = usuario.nombre;
@@ -70,6 +71,7 @@ export class UsuarioCrudComponent {
       this.usuario = usuario.usuario;
       this.color = usuario.color;
       // this.rol = usuario.rol;
+      // this.color = usuario.color;
       
       let rolAux: any[] = [];
       usuario.rol.map( (r:any) => {
@@ -101,31 +103,42 @@ export class UsuarioCrudComponent {
     // console.log(this.usuario.get('password')?.value);
     // console.log(this.usuario.get('confirmPass')?.value);
 
-    // console.log(this.rol);
-    
+    // console.log(this.usuario);
+    // console.log(this.password);
 
-    if ( (this.password != this.confirmPass) && this.modo !== 'M' ){
-
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: `Las contraseñas deben ser iguales.` });
-
+    if (!this.usuario){
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: `No se especifico usuario.` });
     }else{
+
+      if ( (!this.password) && this.modo !== 'M'){
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `No se especifico una contraseña.` });
+      }else{
+
+        if ( (this.password != this.confirmPass) && this.modo !== 'M' ){
+    
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `Las contraseñas deben ser iguales.` });
+    
+        }else{
+          
+          // console.log(this.password);
+          let pass = this.encryptService.encryptUsingAES256(this.password);
+    
+          const usuario : any = {
+            id: this.id,
+            nombre: this.nombre,
+            apellido: this.apellido,
+            mail: this.mail,
+            usuario: this.usuario,
+            password: (this.password) ? pass : undefined,
+            color: this.color,
+            rol: this.rol
+          }
+          // console.log(usuario);
       
-      const usuario : any = {
-        id: this.id,
-        nombre: this.nombre,
-        apellido: this.apellido,
-        mail: this.mail,
-        usuario: this.usuario,
-        password: this.encryptService.encryptUsingAES256(this.password),
-        color: this.color,
-        rol: this.rol
+          this.ref.close(usuario);
+          
+        }
       }
-      // console.log(usuario);
-  
-      this.ref.close(usuario);
-      
     }
-
   }
-
 }

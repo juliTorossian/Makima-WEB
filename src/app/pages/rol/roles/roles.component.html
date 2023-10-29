@@ -4,10 +4,10 @@
     <div class="card">
         <p-toast></p-toast>
         <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
-        <p-toolbar styleClass="mb-4 gap-2">
+        <p-toolbar styleClass="mb-4 gap-2" *ngIf="tieneControl()">
             <ng-template pTemplate="left">
                 <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2 botonChico" (click)="mostrarModalCrud(rol, 'A')"></button>
-                <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger botonChico" (click)="deleteSeleccionado()" [disabled]="!rolSeleccionado || !rolSeleccionado.length"></button>
+                <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger botonChico" *ngIf="puedeEliminar()" (click)="deleteSeleccionado()" [disabled]="!rolSeleccionado || !rolSeleccionado.length"></button>
             </ng-template>
 
             <ng-template pTemplate="right">
@@ -44,7 +44,7 @@
                     </th>
                     <th pSortableColumn="id">Codigo <p-sortIcon field="id" ></p-sortIcon></th>
                     <th pSortableColumn="descripcion">Descripcion <p-sortIcon field="descripcion"></p-sortIcon></th>
-                    <th></th>
+                    <th *ngIf="tieneControl()"></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-rol>
@@ -54,9 +54,9 @@
                     </td>
                     <td>{{ rol.id }}</td>
                     <td>{{ rol.descripcion }}</td>
-                    <td>
+                    <td *ngIf="tieneControl()">
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning botonRedondoChico mr-2" (click)="mostrarModalCrud(rol, 'M')"></button>
-                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger botonRedondoChico mr-2" (click)="deleteSolo(rol)"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger botonRedondoChico mr-2" *ngIf="puedeEliminar()" (click)="deleteSolo(rol)"></button>
                     </td>
                 </tr>
             </ng-template>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -15,6 +15,9 @@ import { Producto } from 'src/app/interfaces/producto';
 import { ProductoService } from 'src/app/servicios/producto.service';
 import { ProductoCrudComponent } from '../producto-crud/producto-crud.component';
 import { ActivoPipe } from 'src/app/pipes/activo.pipe';
+import { Shortcut } from 'src/app/interfaces/shortcut';
+import { PermisoClave, Usuario } from 'src/app/interfaces/usuario';
+import { UsuarioService } from 'src/app/servicios/usuario.service';
 
 @Component({
   selector: 'app-productos',
@@ -37,6 +40,15 @@ import { ActivoPipe } from 'src/app/pipes/activo.pipe';
   providers: [DialogService, MessageService, ConfirmationService]
 })
 export class ProductosComponent {
+  @HostListener('window:'+Shortcut.ALTA, ['$event'])
+  sc_alta(event: KeyboardEvent) {
+    event.preventDefault();
+    if (this.tieneControl()){
+      this.mostrarModalCrud(null, 'A');
+    }
+  }
+  usuario!: Usuario;
+
   productos!: Producto[];
   producto!: Producto;
   productoSeleccionado!: Producto[];
@@ -48,9 +60,29 @@ export class ProductosComponent {
   private dialogService = inject(DialogService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
+  private usuarioService = inject(UsuarioService);
 
   ngOnInit() {
+    this.identificarUsuario();
     this.llenarTabla();
+  }
+
+  identificarUsuario(){
+    this.usuarioService.getUsuarioToken(this.usuarioService.getToken()).subscribe({
+      next: (res:any) => {
+        this.usuario = res;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+  tieneControl():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.PRODUCTO, this.usuario) >= 2)
+  }
+  puedeEliminar():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.PRODUCTO, this.usuario) >= 3)
   }
 
   llenarTabla(){
@@ -106,7 +138,7 @@ export class ProductosComponent {
   deleteSeleccionado() {
     console.log(this.productoSeleccionado);
     this.confirmationService.confirm({
-      message: 'Esta seguro que queres hacer una eliminacion masiva de Productos??',
+      message: 'Esta seguro que queres hacer una eliminacion masiva de Productos?',
       header: 'Eliminar Producto',
       icon: 'pi pi-info-circle',
       accept: () => {

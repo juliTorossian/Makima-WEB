@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { tap } from 'rxjs';
 import { RegistroHora } from 'src/app/interfaces/hora';
+import { Shortcut } from 'src/app/interfaces/shortcut';
 import { Usuario } from 'src/app/interfaces/usuario';
 import { HoraService } from 'src/app/servicios/hora.service';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
@@ -15,6 +16,12 @@ import { HoraCrudComponent } from '../hora-crud/hora-crud.component';
   providers: [DialogService, MessageService, ConfirmationService]
 })
 export class HorasUsuarioComponent {
+  @HostListener('window:'+Shortcut.ALTA, ['$event'])
+  sc_alta(event: KeyboardEvent) {
+    event.preventDefault();
+    this.mostrarModalCrud(null, 'A');
+  }
+
   private dialogService = inject(DialogService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
@@ -96,7 +103,7 @@ export class HorasUsuarioComponent {
   deleteSeleccion() {
     this.confirmationService.confirm({
       message: 'Esta seguro que queres eliminar masivamente?',
-      header: 'Eliminar Eventos',
+      header: 'Eliminar Horas Masiva',
       icon: 'pi pi-info-circle',
       accept: () => {
         this.horasSeleccionadas.map( (hora) => {
