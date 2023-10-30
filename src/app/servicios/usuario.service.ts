@@ -3,7 +3,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { PermisoClave, PermisoRol, Rol, Usuario, UsuarioPreferencia } from '../interfaces/usuario';
-import { environment } from 'src/environments/environment.development';
+import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 
 @Injectable({
