@@ -88,17 +88,26 @@
             <div class="col-3" style="display: flex; justify-content: center;">
                 <div class="flex flex-column gap-2">
 
-                    <!-- <div class="custom-file-input">
-                        <input type="file" class="file-input" id="fileInput" accept=".png, .jpg">
+                    <!-- <label for="images" class="drop-container" id="dropcontainer">
+                        <span class="drop-title">Drop files here</span>
+                        or
+                        <input type="file" id="images" accept="image/*" required>
+                    </label> -->
+                    <!-- <input type="file" name="adjunto" id="adjunto"> -->
+                    
+
+                    <div class="custom-file-input">
+                        <input type="file" class="file-input" id="adjunto">
                         <label class="file-label" for="fileInput">
-                            <span class="file-name"></span>
+                            <span class="file-name" *ngIf="adjunto">{{adjunto!.name}}</span>
+                            <span class="file-name" *ngIf="!adjunto">Seleccionar adjunto</span>
                             <span class="file-button">
                                 <i class="fa fa-upload"></i>
                             </span>
                         </label>
-                    </div> -->
+                    </div>
 
-                    <input type="file" name="Adjunto" id="adjunto">
+                    <!-- <input type="file" name="Adjunto" id="adjunto"> -->
                     <!-- <p-fileUpload mode="basic" chooseLabel="Adjunto" name="adjunto" [maxFileSize]="1000000" (onSelect)="onSelect($event)" [showCancelButton]="true" ></p-fileUpload> -->
                 </div>
             </div>

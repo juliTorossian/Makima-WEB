@@ -168,7 +168,7 @@ export class EventoCRUDComponent implements OnInit {
               }
               console.log(this.adjunto);
               console.log(evento);
-              this.ref.close(evento);
+              // this.ref.close(evento);
             }else{
               this.messageService.add({ severity: 'warn', summary: '', detail: 'Debe ingresar un titulo al evento' });
             }
