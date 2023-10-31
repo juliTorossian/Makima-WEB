@@ -1,6 +1,7 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { getURL } from 'src/app/helpers/url';
 
 interface UploadEvent {
   originalEvent: Event;
@@ -20,7 +21,8 @@ export class CargarArchivosComponent implements OnInit{
   headers: HttpHeaders = new HttpHeaders;
 
   eventoId!: string;
-  urlCarga: string = "http://localhost:4000/api/v1/evento/";
+  // urlCarga: string = "http://localhost:4000/api/v1/evento/";
+  urlCarga: string = getURL() +'/evento/';
 
   chooseLabel: string = "Seleccionar";
   uploadLabel: string = "Enviar";
