@@ -6,7 +6,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
+import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { map } from 'rxjs';
@@ -268,7 +268,9 @@ export class EventosComponent implements OnInit {
     });
   }
 
-
+  clear(table:Table){
+    table.clear();
+  }
 
   constraste(color:string){
     return invertColor(color);
