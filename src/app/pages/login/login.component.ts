@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { Message, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
+import { EncryptDecryptService } from 'src/app/servicios/encrypt-decrypt.service';
 
 @Component({
   selector: 'app-login',
@@ -10,6 +11,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+
 
   errorUsuario: boolean = false;
   errorPassword: boolean = false;
@@ -20,7 +22,8 @@ export class LoginComponent {
   });
 
   private authService = inject(UsuarioService);
-  private messageService = inject(MessageService)
+  private messageService = inject(MessageService);
+  private encryptService = inject(EncryptDecryptService);
   private router = inject(Router);
 
   login() {
@@ -32,7 +35,8 @@ export class LoginComponent {
     if (this.errorUsuario === false && this.errorPassword === false){
       let usuario = {
         "usuario": this.loginForm.get("usuario")?.value,
-        "password": this.loginForm.get("password")?.value
+        "password": this.encryptService.encryptUsingAES256(this.loginForm.get("password")?.value)
+        // "password": this.loginForm.get("password")?.value
       }
       
       this.authService.login(usuario).subscribe({
@@ -62,4 +66,12 @@ export class LoginComponent {
     // console.log("inicio de sesion satisfactorio");
     this.router.navigateByUrl("/dashboard");
   }
+
+  // ejecutarAccion(e:any){
+  //   console.log(e);
+  //   if (e.keyCode === 13 && !e.shiftKey) {
+  //     e.preventDefault();
+  //     this.login();
+  //   }
+  // }
 }

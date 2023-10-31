@@ -1,8 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { Shortcut } from 'src/app/interfaces/shortcut';
 import { Tarea } from 'src/app/interfaces/tarea';
+import { PermisoClave, Usuario } from 'src/app/interfaces/usuario';
 import { TareaService } from 'src/app/servicios/tarea.service';
+import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { TareaCrudComponent } from '../tarea-crud/tarea-crud.component';
 
 @Component({
@@ -12,6 +15,13 @@ import { TareaCrudComponent } from '../tarea-crud/tarea-crud.component';
   providers: [DialogService, MessageService, ConfirmationService]
 })
 export class TareasComponent {
+  @HostListener('window:'+Shortcut.ALTA, ['$event'])
+  sc_altaEvento(event: KeyboardEvent) {
+    event.preventDefault();
+    this.mostrarModalCrud(null, 'A');
+  }
+  usuario!: Usuario;
+
   tareas!: Tarea[];
   tarea!: Tarea;
   tareaSeleccionada!: Tarea[];
@@ -22,9 +32,29 @@ export class TareasComponent {
   private tareaService = inject(TareaService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
+  private usuarioService = inject(UsuarioService);
 
   ngOnInit() {
+    this.identificarUsuario();
     this.llenarTabla();
+  }
+
+  identificarUsuario(){
+    this.usuarioService.getUsuarioToken(this.usuarioService.getToken()).subscribe({
+      next: (res:any) => {
+        this.usuario = res;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+  tieneControl():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.TAREA, this.usuario) >= 2)
+  }
+  puedeEliminar():boolean{
+    return (this.usuarioService.getNivelPermiso(PermisoClave.TAREA, this.usuario) >= 3)
   }
 
   llenarTabla(){
@@ -88,7 +118,7 @@ export class TareasComponent {
 
   deleteClienteSolo(tarea : Tarea){
     this.confirmationService.confirm({
-      message: 'Esta seguro que queres eliminar el cliente?',
+      message: 'Esta seguro que queres eliminar la Tarea?',
       header: 'Eliminar Cliente',
       icon: 'pi pi-info-circle',
       accept: () => {
@@ -152,6 +182,13 @@ export class TareasComponent {
 
 
 
+  getSeverity(status: boolean) {
+    if (status){
+      return 'success';
+    }else{
+      return 'danger';
+    } 
+  }
 
 
 

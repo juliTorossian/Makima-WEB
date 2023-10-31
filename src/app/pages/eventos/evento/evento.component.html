@@ -1,0 +1,232 @@
+
+<div class="container" *ngIf="evento">
+    <p-toast></p-toast>
+    <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+
+    <app-boton-back></app-boton-back>
+
+    <div class="grid">
+
+        <div class="col-4 text-center">
+            <p-card>
+                <h1>{{evento.busqueda}}</h1>
+                <h2>{{evento.titulo}}</h2>
+
+                <p *ngIf="!evento.cerrado">Etapa actual: {{evento.tareaNombre}}</p>
+                <p *ngIf="evento.cerrado">EVENTO CERRADO</p>
+                <div class="progress">
+                    <p-progressBar [value]="porcentajeAvance"></p-progressBar>
+                </div>
+
+                <p-divider></p-divider>
+
+                <div class="grid">
+
+
+                    <div class="col col-offset-2">
+
+                        <table>
+                            <tbody>
+
+                                <tr>
+                                    <th>Cliente:</th>
+                                    <td>{{evento.cliente.sigla}} - {{evento.cliente.nombre}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Producto:</th>
+                                    <td>{{evento.producto.nombre}} | {{evento.producto.entorno}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Usuarios:</th>
+                                    <!-- <td><strong>Actual:</strong>  {{evento.usuarioActual.usuario}}</td>
+                                    <td><strong>Alta:</strong>  {{evento.usuarioAlta.usuario}}</td> -->
+                                    
+                                    <td style="text-align: center;">
+                                        <div class="grid">
+                                            <p><strong>Actual:</strong>  {{evento.usuarioActual.usuario}}</p>
+                                        </div>
+                                        <div class="grid">
+                                            <p><strong>Alta:</strong>  {{evento.usuarioAlta.usuario}}</p>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <th>Ingreso:</th>
+                                    <td>{{evento.fechaAlta | date:'short'}}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                        <!-- <div class="grid">
+                            <div class="col-3">
+                                <h4>Cliente:</h4>
+                            </div>
+                            <div class="col">
+                                <p>{{evento.cliente.sigla}} - {{evento.cliente.nombre}}</p>
+                            </div>
+                        </div>
+
+                        <div class="grid">
+                            <div class="col-3">
+                                <h4>Producto:</h4>
+                            </div>
+                            <div class="col">
+                                <p>{{evento.producto.nombre}} | {{evento.producto.entorno}}</p>
+                            </div>
+                        </div>
+
+                        <div class="grid">
+                            <div class="col-3">
+                                <h4>Usuario:</h4>
+                            </div>
+                            <div class="col">
+                                <p>Actual: {{evento.usuarioActual.usuario}}</p>
+                                <p>Alta: {{evento.usuarioAlta.usuario}}</p>
+                            </div>
+                        </div> -->
+
+                    </div>
+
+                </div>
+                
+                <p-divider></p-divider>
+
+                <p>
+                    {{evento.descripcion}}
+                </p>
+
+            </p-card>
+        </div>
+
+        <div class="col-8 panel">
+            <div class="card">
+                <div class="card-body">
+                    <p-tabView styleClass="tabview-custom">
+                        <p-tabPanel>
+                            <ng-template pTemplate="header">
+                                <i class="pi pi-heart mr-1"></i>
+                                <span>Vida</span>
+                            </ng-template>
+                            
+                            <app-vida-evento [eventoId]="evento.id"></app-vida-evento>
+                            <!-- <app-grafico-tipos origen="U" [filtro]="usuarioAVer"></app-grafico-tipos> -->
+
+                        </p-tabPanel>
+
+
+                        <p-tabPanel header="Documentos">
+                            <ng-template pTemplate="header">
+                                <i class="pi pi-copy mr-1"></i>
+                                <span>Documentos</span>
+                            </ng-template>
+                            
+                            
+                            <p-table [value]="archivosAdjuntos" styleClass="p-datatable-sm">
+                                <ng-template pTemplate="caption">
+                                    <div class="flex align-items-center justify-content-between" style="display: flex;">
+                                        <button pButton pRipple label="Agregar" icon="pi pi-plus" class="p-button-success botonChico" (click)="adjuntarDocumentos()"></button>
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Tipo</th>
+                                        <th></th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-file>
+                                    <tr>
+                                        <td>{{ file.nombre }}</td>
+                                        <td>{{ file.tipo }}</td>
+                                        <td>
+                                            <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-success botonRedondoChico mr-2" (click)="verAdjunto(file)"></button>
+                                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger botonRedondoChico" *ngIf="puedeEliminarAdjunto()" (click)="eliminarAdjunto(file)"></button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </p-tabPanel>
+
+
+                        <p-tabPanel header="Comentarios">
+                            <ng-template pTemplate="header">
+                                <i class="pi pi-comments mr-1"></i>
+                                <span>Comentarios</span>
+                            </ng-template>
+                            
+                            <div class="grid">
+                                <div class="col-10">
+                                    <ckeditor [editor]="Editor" [(ngModel)]="comentario"></ckeditor>
+                                </div>
+                                <div class="col-2">
+                                    <button pButton type="submit" pRipple label="Comentar" class="p-button-success"style="margin-top:10px;" (click)="comentar(evento)"></button>
+                                </div>
+                            </div>
+
+                            <ng-container *ngFor="let comentario of comentarios" class="mt-5">
+                                <app-comentario [comentario]="comentario"></app-comentario>
+                            </ng-container>
+
+                        </p-tabPanel>
+
+                        
+                        <p-tabPanel header="Horas">
+                            <ng-template pTemplate="header">
+                                <i class="pi pi-clock mr-1"></i>
+                                <span>Horas</span>
+                            </ng-template>
+                            
+                            
+                            <p-table [value]="horas" rowGroupMode="rowspan" groupRowsBy="fecha" sortMode="single"  [tableStyle]="{'min-width': '75rem'}">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th style="width:150px">Fecha</th>
+                                        <th>Usuario</th>
+                                        <th>Inicio</th>
+                                        <th>Final</th>
+                                        <th>Total</th>
+                                        <th>Observaciones</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-registro let-rowIndex="rowIndex" let-rowgroup="rowgroup" let-rowspan="rowspan" let-expanded="expanded">
+                                    <tr>
+                                        <td *ngIf="rowgroup" [attr.rowspan]="rowspan">
+                                            <span class="font-bold ml-2">{{registro.fecha | date:'fullDate'}}</span>
+                                        </td>
+                                        <td>
+                                            <app-badge [text]="registro.usuario.usuario" [color]="registro.usuario.color" [url]="'/usuario/'+registro.usuario.id"></app-badge>
+                                        </td>
+                                        <td>
+                                            {{registro.inicio}}
+                                        </td>
+                                        <td>
+                                            {{registro.final}}
+                                        </td>
+                                        <td>
+                                            {{registro.total}}
+                                        </td>
+                                        <td>
+                                            {{registro.observaciones}}
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                    <tr>
+                                        <td colspan="6">No se cargaron horas.</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </p-tabPanel>
+
+                    </p-tabView>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+</div>

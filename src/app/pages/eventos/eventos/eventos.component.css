@@ -1,4 +1,23 @@
 
 .eventoCerrado{
-    background-color: lightgrey !important;
+    background-color: #d8d8d8 !important;
+}
+
+.eventoDetalle p{
+    margin: 6px 0;
+}
+
+.eventoDetalle .diferenciaPositiva{
+    color: green;
+}
+.eventoDetalle .diferenciaNegativa{
+    color: red;
+}
+.badge {
+    /* display: inline-block; */
+    padding: 4px 8px;
+    border-radius: 16px;
+    font-size: 14px;
+    color: #fff;
+    cursor: pointer;
 }

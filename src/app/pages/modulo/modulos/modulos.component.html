@@ -1,0 +1,72 @@
+
+<div class="container" style="margin: 20px;">
+    
+    <div class="card">
+        <p-toast></p-toast>
+        <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+        <p-toolbar styleClass="mb-4 gap-2" *ngIf="tieneControl()">
+            <ng-template pTemplate="left">
+                <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2 botonChico" (click)="mostrarModalCrud(modulo, 'A')"></button>
+                <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger botonChico" *ngIf="puedeEliminar()" (click)="deleteSeleccionado()" [disabled]="!moduloSeleccionado || !moduloSeleccionado.length"></button>
+            </ng-template>
+
+            <ng-template pTemplate="right">
+                
+            </ng-template>
+        </p-toolbar>
+
+        <p-table
+            #dt
+            [value]="modulos"
+            [rows]="10"
+            [paginator]="true"
+            [globalFilterFields]="['id', 'nombre', 'padre']"
+            [tableStyle]="{ 'min-width': '75rem' }"
+            [(selection)]="moduloSeleccionado"
+            [rowHover]="true"
+            dataKey="id"
+            currentPageReportTemplate="Mostrando desde {first} a {last} de {totalRecords} registros"
+            [showCurrentPageReport]="true"
+            styleClass="p-datatable-sm"
+        >
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between" style="display: flex;">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText style="padding-top: 0.4rem !important;padding-bottom: 0.4rem !important;" type="text" (input)="dt.filterGlobal(getEventValue($event), 'contains')" placeholder="Buscar..." />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 4rem">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th pSortableColumn="id">Id <p-sortIcon field="id" ></p-sortIcon></th>
+                    <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
+                    <th pSortableColumn="padre">Padre <p-sortIcon field="padre"></p-sortIcon></th>
+                    <th *ngIf="tieneControl()"></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-modulo>
+                <tr>
+                    <td>
+                        <p-tableCheckbox [value]="modulo"></p-tableCheckbox>
+                    </td>
+                    <td>{{ modulo.id }}</td>
+                    <td>{{ modulo.nombre }}</td>
+                    <td>{{ modulo.padre }}</td>
+                    <td *ngIf="tieneControl()">
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning botonRedondoChico mr-2" (click)="mostrarModalCrud(modulo, 'M')"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger botonRedondoChico mr-2" *ngIf="puedeEliminar()" (click)="deleteSolo(modulo)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="flex align-items-center justify-content-between">En total hay {{ modulos ? modulos.length : 0 }} Modulos.</div>
+            </ng-template>
+        </p-table>
+    </div>
+
+
+</div>

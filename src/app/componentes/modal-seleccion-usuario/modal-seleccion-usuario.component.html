@@ -1,0 +1,14 @@
+
+<div class="container container-modal">
+
+    <div class="flex flex-column gap-2 input-centrado">
+        <label htmlFor="nombre">{{mensaje}}</label>
+        <p-dropdown appendTo="body" [options]="usuarios" [(ngModel)]="usuario" optionLabel="usuario" styleClass="maxWidth" panelStyle="width: 100%;"></p-dropdown>
+    </div>
+    <div class="flex flex-column gap-2 input-centrado" *ngIf="reqComentario">
+        <label for="comentario">Comentario</label>
+        <textarea id="comentario" rows="5" cols="100" pInputTextarea [autoResize]="true" [(ngModel)]="comentario"></textarea>
+    </div>
+
+    <button pButton pRipple label="Seleccionar" class="p-button-success" (click)="seleccionar($event)"></button>
+</div>

@@ -1,0 +1,13 @@
+
+.container-modal{
+    display: flex;
+    flex-direction: column;
+}
+
+.input-centrado{
+    margin: 20px auto;
+}
+
+p-dropdown div {
+    width: 100% !important;
+}

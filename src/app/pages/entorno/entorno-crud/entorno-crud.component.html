@@ -1,0 +1,32 @@
+
+<div class="container">
+
+    <form [formGroup]="entorno">
+
+        <div class="grid">
+            <div class="col-6">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="id">Id</label>
+                    <input pInputText id="id" aria-describedby="id-help" formControlName="id" maxlength="5"/>
+                    <small id="id-help" [hidden]="entorno.get('id')?.valid">Ingrese un id valido.</small>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="nombre">Nombre</label>
+                    <input pInputText id="nombre" aria-describedby="nombre-help" formControlName="nombre" maxlength="45"/>
+                    <small id="nombre-help" [hidden]="entorno.get('nombre')?.valid">Ingrese un nombre valido.</small>
+                </div>
+            </div>
+        </div>
+
+        <div [hidden]="!(modo==='A')">
+            <button pButton pRipple label="Crear" class="p-button-success" (click)="accion($event)"></button>
+        </div>
+        <div [hidden]="!(modo==='M')">
+            <button pButton pRipple label="Modificar" class="p-button-warning" (click)="accion($event)"></button>
+        </div>
+
+    </form>
+
+</div>

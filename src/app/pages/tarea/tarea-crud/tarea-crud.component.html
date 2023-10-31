@@ -15,8 +15,29 @@
                 <div class="flex flex-column gap-2">
                     <label htmlFor="rol">Rol</label>
                     <!-- <input pInputText id="rol" aria-describedby="rol-help" formControlName="rol" /> -->
-                    <p-autoComplete formControlName="rol" [suggestions]="rolesFiltrados" (completeMethod)="filtroRoles($event)"></p-autoComplete>
+                    <p-dropdown appendTo="body" formControlName="rol" [options]="roles" optionValue="id" optionLabel="descripcion" id="rol" aria-describedby="rol-help"></p-dropdown>
                     <small id="rol-help" [hidden]="tarea.get('rol')?.valid">Ingrese un rol.</small>
+                </div>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="col-4">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="controla">Controla</label>
+                    <p-toggleButton formControlName="controla" onLabel="Si" offLabel="No" id="controla"></p-toggleButton>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="clave">Clave de control</label>
+                    <!-- <input pInputText id="clave" formControlName="clave" maxlength="10"/> -->
+                    <p-dropdown appendTo="body" id="clave" formControlName="clave" [options]="claves"></p-dropdown>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="comentario">Req. Comentario</label>
+                    <p-toggleButton formControlName="comentario" onLabel="Si" offLabel="No" id="comentario"></p-toggleButton>
                 </div>
             </div>
         </div>

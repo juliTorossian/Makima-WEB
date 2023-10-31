@@ -1,39 +1,133 @@
 
-<!-- <div class="surface-card p-4 shadow-2 border-round">
-    <div class="text-3xl font-medium text-900 mb-3">Card Title</div>
-    <div class="font-medium text-500 mb-3">Vivamus id nisl interdum, blandit augue sit amet, eleifend mi.</div>
-    <div style="height: 150px" class="border-2 border-dashed surface-border"></div>
-</div> -->
-
 <div class="container">
 
-    <form [formGroup]="crudEvento">
+    <form>
 
         <div class="grid">
             <div class="col-3">
                 <div class="flex flex-column gap-2">
                     <label htmlFor="username">Tipo</label>
-                    <!-- <input pInputText id="username" aria-describedby="username-help" formControlName="tipo" /> -->
-                    <p-autoComplete [dropdown]="true" [suggestions]="tipoEventoFiltrado" (completeMethod)="filtroTipoEvento($event)" formControlName="tipo" [readonly]="modo==='M'"></p-autoComplete>
-                    <small id="username-help" [hidden]="crudEvento.get('tipo')?.valid" >Enter your username to reset your password.</small>
+                    <p-autoComplete appendTo="body" [dropdown]="true" [suggestions]="tipoEventoFiltrado" (completeMethod)="filtroTipoEvento($event)" [formControl]="tipo" [readonly]="modo==='M'"></p-autoComplete> <!-- field="label" -->
+                    <!-- <p-dropdown [options]="tiposEvento"  [formControl]="tipo" placeholder="Select a City" optionLabel="name"></p-dropdown> -->
+                    <small id="username-help" [hidden]="tipo.valid" >Ingrese un tipo de evento valido.</small>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="numero">Numero</label>
+                    <input pInputText id="numero" pTooltip="El numero se asigna automaticamente" [formControl]="numero" [readonly]="true"/>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="username">Prioridad</label>
+                    <p-dropdown appendTo="body" [options]="prioridades" [formControl]="prioridad" ></p-dropdown>
+                    <small id="username-help" [hidden]="prioridad.valid">Ingrese una prioridad valida.</small>
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="username">Titulo</label>
+                    <input pInputText id="username" aria-describedby="username-help" [formControl]="titulo"  />
+                    <small id="username-help" [hidden]="titulo.valid">Ingrese un titulo valido.</small>
+                </div>
+            </div>
+
+        </div>
+        
+        <div class="grid select-att">
+            <div class="col-10">
+                <div class="flex flex-column gap-2">
+                    <label htmlFor="cliente">Cliente</label>
+                    <!-- <p class="falso-input">{{cliente.sigla}} - {{cliente.nombre}}</p> [(ngModel)]="clienteSel" -->
+                    <p-autoComplete [formControl]="clienteFc" [className]="'clienteInput'" placeholder="Cliente Nombre" [forceSelection]="true" [suggestions]="clientesFiltrado" (completeMethod)="filtroCliente($event)" field="nombre" (onSelect)="selCliente($event)"></p-autoComplete>
+                </div>
+            </div>
+            <div class="col-2 cell-boton">
+                <button pButton pRipple icon="pi pi-search" class="p-button-success" (click)="selectCliente()"></button>
+            </div>
+        </div>
+        
+        <div class="grid mt-1">
+            <div class="col-9">
+                <div class="grid select-att">
+                    <div class="col-6">
+                        <div class="flex flex-column gap-2">
+                            <label htmlFor="producto">Producto</label>
+                            <p class="falso-input">{{producto.nombre}}</p>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="flex flex-column gap-2">
+                            <label htmlFor="entorno">Entorno</label>
+                            <p class="falso-input">{{producto.entorno.id}}</p>
+                        </div>
+                    </div>
+                    <div class="col-2 cell-boton">
+                        <button pButton pRipple icon="pi pi-search" class="p-button-success" (click)="selectProducto()"></button>
+                    </div>
                 </div>
             </div>
             <div class="col-3">
                 <div class="flex flex-column gap-2">
-                    <label htmlFor="username">Prioridad</label>
-                    <!-- <input pInputText id="username" aria-describedby="username-help" formControlName="prioridad" /> -->
-                    <p-dropdown [options]="prioridades" formControlName="prioridad"></p-dropdown>
-                    <small id="username-help" [hidden]="crudEvento.get('prioridad')?.valid">Enter your username to reset your password.</small>
+                    <label htmlFor="modulo">Modulo</label>
+                    <p-autoComplete id="modulo" appendTo="body" [dropdown]="true" [suggestions]="modulosFiltrados" (completeMethod)="filtroModulo($event)" [formControl]="modulo"></p-autoComplete>
                 </div>
             </div>
-            <div class="col">
+        </div>
+
+        <div class="grid" style="align-items: center">
+
+            <div class="col-9">
                 <div class="flex flex-column gap-2">
-                    <label htmlFor="username">Titulo</label>
-                    <input pInputText id="username" aria-describedby="username-help" formControlName="titulo" />
-                    <small id="username-help" [hidden]="crudEvento.get('titulo')?.valid">Enter your username to reset your password.</small>
+                    <label htmlFor="descripcion" style="margin-bottom: 2px;">Descripcion</label>
+                    <textarea id="descripcion" [formControl]="descripcion" rows="3" cols="30" pInputTextarea [autoResize]="true" maxlength="1000"></textarea>
                 </div>
             </div>
 
+            <div class="col-3" style="display: flex; justify-content: center;">
+                <div class="flex flex-column gap-2">
+
+                    <!-- <div class="custom-file-input">
+                        <input type="file" class="file-input" id="fileInput" accept=".png, .jpg">
+                        <label class="file-label" for="fileInput">
+                            <span class="file-name"></span>
+                            <span class="file-button">
+                                <i class="fa fa-upload"></i>
+                            </span>
+                        </label>
+                    </div> -->
+
+                    <input type="file" name="Adjunto" id="adjunto">
+                    <!-- <p-fileUpload mode="basic" chooseLabel="Adjunto" name="adjunto" [maxFileSize]="1000000" (onSelect)="onSelect($event)" [showCancelButton]="true" ></p-fileUpload> -->
+                </div>
+            </div>
+
+        </div>
+
+        <!-- <div class="grid select-att">
+            <div class="col-2" style="min-height: 92px;">
+                <div class="flex flex-column gap-2" style="align-items: center;">
+                    <label htmlFor="hijo">Evento Hijo?</label>
+                    <p-checkbox [formControl]="eventoHijo" [binary]="true" inputId="binary" id="hijo" class="mt-2"></p-checkbox>
+                </div>
+            </div>
+            <div class="col-8" >
+                <div class="flex flex-column gap-2" *ngIf="eventoHijo.value">
+                    <label htmlFor="madre">Evento Madre</label>
+                    <p class="falso-input">{{getDatosEvento()}}</p>
+                </div>
+            </div>
+            <div class="col-2 cell-boton">
+                <button pButton pRipple icon="pi pi-search" class="p-button-success" (click)="selectEventoMadre()" *ngIf="eventoHijo.value"></button>
+            </div>
+        </div> -->
+
+        <div [hidden]="!(modo==='A')">
+            <button pButton pRipple label="Crear" class="p-button-success" (click)="accion($event)"></button>
+        </div>
+        <div [hidden]="!(modo==='M')">
+            <button pButton pRipple label="Modificar" class="p-button-warning" (click)="accion($event)"></button>
         </div>
 
     </form>

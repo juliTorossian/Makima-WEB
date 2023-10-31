@@ -4,10 +4,10 @@
     <div class="card">
         <p-toast></p-toast>
         <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
-        <p-toolbar styleClass="mb-4 gap-2">
+        <p-toolbar styleClass="mb-4 gap-2" *ngIf="tieneControl()">
             <ng-template pTemplate="left">
                 <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2 botonChico" (click)="mostrarModalCrud(tarea, 'A')"></button>
-                <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger botonChico" (click)="deleteClienteSeleccionado()" [disabled]="!tareaSeleccionada || !tareaSeleccionada.length"></button>
+                <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger botonChico" *ngIf="puedeEliminar()" (click)="deleteClienteSeleccionado()" [disabled]="!tareaSeleccionada || !tareaSeleccionada.length"></button>
             </ng-template>
 
             <ng-template pTemplate="right">
@@ -27,6 +27,7 @@
             dataKey="id"
             currentPageReportTemplate="Mostrando desde {first} a {last} de {totalRecords} registros"
             [showCurrentPageReport]="true"
+            styleClass="p-datatable-sm"
         >
             <ng-template pTemplate="caption">
                 <div class="flex align-items-center justify-content-between" style="display: flex;">
@@ -44,7 +45,10 @@
                     <th pSortableColumn="id" hidden>Id <p-sortIcon field="id" hidden></p-sortIcon></th>
                     <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
                     <th pSortableColumn="rol">Rol <p-sortIcon field="rol"></p-sortIcon></th>
-                    <th></th>
+                    <th pSortableColumn="controla">Controla <p-sortIcon field="controla"></p-sortIcon></th>
+                    <th pSortableColumn="clave">Clave control <p-sortIcon field="clave"></p-sortIcon></th>
+                    <th pSortableColumn="comentario">Req. Comentario <p-sortIcon field="comentario"></p-sortIcon></th>
+                    <th *ngIf="tieneControl()"></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-tarea>
@@ -55,8 +59,13 @@
                     <td hidden>{{ tarea.id }}</td>
                     <td>{{ tarea.nombre }}</td>
                     <td>{{ tarea.rol }}</td>
-                    <td>
-                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning botonRedondoChico mr-2" (click)="mostrarModalCrud(tarea, 'M')"></button>
+                    <!-- <td><p-checkbox [disabled]="true" [value]="tarea.controla"></p-checkbox></td> -->
+                    <td><p-tag [value]="tarea.controla | activado" [severity]="getSeverity(tarea.controla)"></p-tag></td>
+                    <td>{{ tarea.clave }}</td>
+                    <!-- <td><p-checkbox [disabled]="true" [value]="tarea.comentario"></p-checkbox></td> -->
+                    <td><p-tag [value]="tarea.comentario | activado" [severity]="getSeverity(tarea.comentario)"></p-tag></td>
+                    <td *ngIf="tieneControl()">
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning botonRedondoChico mr-2" *ngIf="tieneControl()" (click)="mostrarModalCrud(tarea, 'M')"></button>
                         <!-- <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger botonRedondoChico mr-2" (click)="deleteClienteSolo(tarea)"></button> -->
                     </td>
                 </tr>

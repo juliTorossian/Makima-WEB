@@ -1,0 +1,203 @@
+
+<div class="container">
+
+    <div class="grid">
+        <div class="col-5">
+            <div class="flex flex-column gap-2">
+                <label htmlFor="id">Codigo</label>
+                <input pInputText id="id" aria-describedby="id-help" [(ngModel)]="rol.id" maxlength="5"/>
+                <small id="id-help" [hidden]="(rol.id !='') || (modo==='M')">Ingrese un codigo valido.</small>
+            </div>
+        </div>
+        <div class="col-5">
+            <div class="flex flex-column gap-2">
+                <label htmlFor="descripcion">Descripcion</label>
+                <input pInputText id="descripcion" aria-describedby="descripcion-help" [(ngModel)]="rol.descripcion" maxlength="60"/>
+                <small id="descripcion-help" [hidden]="rol.descripcion != ''">Ingrese un descripcion valido.</small>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="flex flex-column gap-2">
+                <label htmlFor="administrador">Administrador</label>
+                <p-toggleButton id="administrador" [(ngModel)]="administrador" onLabel="SI" offLabel="No"></p-toggleButton>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2" *ngIf="!administrador">
+        <div class="grid">
+    
+            <div class="col">
+                <div class="">Eventos</div>
+                <!-- <p-inputNumber inputId="integeronly" [min]="0" [max]="3" [(ngModel)]="permisos[0].nivel" > </p-inputNumber> -->
+                <select [(ngModel)]="permisos[0].nivel" class="p-component p-inputtext" >
+                    <option value="0">Nada</option>
+                    <option value="1">Leer</option>
+                    <option value="2">Leer y Escribir</option>
+                    <option value="3">Leer, Escribir y Eliminar</option>
+                </select>
+            </div>
+    
+            <div class="col">
+                <div class="">Documentos de eventos</div>
+                <!-- <p-inputNumber inputId="integeronly" [min]="3" [max]="3" [(ngModel)]="permisos[1].nivel" > </p-inputNumber> -->
+                <select [(ngModel)]="permisos[1].nivel" class="p-component p-inputtext" >
+                    <option value="0">Nada</option>
+                    <option value="3">Eliminar</option>
+                </select>
+            </div>
+    
+            <div class="col">
+                <div class="">Clientes</div>
+                <!-- <p-inputNumber inputId="integeronly" [min]="0" [max]="3" [(ngModel)]="permisos[2].nivel" > </p-inputNumber> -->
+                <select [(ngModel)]="permisos[2].nivel" class="p-component p-inputtext" >
+                    <option value="0">Nada</option>
+                    <option value="1">Leer</option>
+                    <option value="2">Leer y Escribir</option>
+                    <option value="3">Leer, Escribir y Eliminar</option>
+                </select>
+            </div>
+    
+            <div class="col">
+                <div class="">Horas Generales</div>
+                <!-- <p-inputNumber inputId="integeronly" [min]="0" [max]="3" [(ngModel)]="permisos[3].nivel" > </p-inputNumber> -->
+                <select [(ngModel)]="permisos[3].nivel" class="p-component p-inputtext" >
+                    <option value="0">Nada</option>
+                    <option value="1">Leer</option>
+                </select>
+            </div>
+    
+            <div class="col">
+                <div class="">Modulos</div>
+                <!-- <p-inputNumber inputId="integeronly" [min]="0" [max]="3" [(ngModel)]="permisos[4].nivel" > </p-inputNumber> -->
+                <select [(ngModel)]="permisos[4].nivel" class="p-component p-inputtext" >
+                    <option value="0">Nada</option>
+                    <option value="1">Leer</option>
+                    <option value="2">Leer y Escribir</option>
+                    <option value="3">Leer, Escribir y Eliminar</option>
+                </select>
+            </div>
+    
+        </div>
+        <div class="grid">
+    
+            <div class="col">
+                <div class="">Entornos</div>
+                <!-- <p-inputNumber inputId="integeronly" [min]="0" [max]="3" [(ngModel)]="permisos[5].nivel" > </p-inputNumber> -->
+                <select [(ngModel)]="permisos[5].nivel" class="p-component p-inputtext" >
+                    <option value="0">Nada</option>
+                    <option value="1">Leer</option>
+                    <option value="2">Leer y Escribir</option>
+                    <option value="3">Leer, Escribir y Eliminar</option>
+                </select>
+            </div>
+    
+            <div class="col">
+                <div class="">Productos</div>
+                <!-- <p-inputNumber inputId="integeronly" [min]="0" [max]="3" [(ngModel)]="permisos[6].nivel" > </p-inputNumber> -->
+                <select [(ngModel)]="permisos[6].nivel" class="p-component p-inputtext" >
+                    <option value="0">Nada</option>
+                    <option value="1">Leer</option>
+                    <option value="2">Leer y Escribir</option>
+                    <option value="3">Leer, Escribir y Eliminar</option>
+                </select>
+            </div>
+    
+            <div class="col">
+                <div class="">Tareas</div>
+                <!-- <p-inputNumber inputId="integeronly" [min]="0" [max]="3" [(ngModel)]="permisos[7].nivel" > </p-inputNumber> -->
+                <select [(ngModel)]="permisos[7].nivel" class="p-component p-inputtext" >
+                    <option value="0">Nada</option>
+                    <option value="1">Leer</option>
+                    <option value="2">Leer y Escribir</option>
+                    <option value="3">Leer, Escribir y Eliminar</option>
+                </select>
+            </div>
+    
+            <div class="col">
+                <div class="">Tipo de Eventos</div>
+                <!-- <p-inputNumber inputId="integeronly" [min]="0" [max]="3" [(ngModel)]="permisos[8].nivel" > </p-inputNumber> -->
+                <select [(ngModel)]="permisos[8].nivel" class="p-component p-inputtext" >
+                    <option value="0">Nada</option>
+                    <option value="1">Leer</option>
+                    <option value="2">Leer y Escribir</option>
+                    <option value="3">Leer, Escribir y Eliminar</option>
+                </select>
+            </div>
+    
+            <div class="col">
+                <div class="">Roles</div>
+                <!-- <p-inputNumber inputId="integeronly" [min]="0" [max]="3" [(ngModel)]="permisos[9].nivel" > </p-inputNumber> -->
+                <select [(ngModel)]="permisos[9].nivel" class="p-component p-inputtext" >
+                    <option value="0">Nada</option>
+                    <option value="1">Leer</option>
+                    <option value="2">Leer y Escribir</option>
+                    <option value="3">Leer, Escribir y Eliminar</option>
+                </select>
+            </div>
+    
+            <div class="col">
+                <div class="">Usuarios</div>
+                <!-- <p-inputNumber inputId="integeronly" [min]="0" [max]="3" [(ngModel)]="permisos[10].nivel" > </p-inputNumber> -->
+                <select [(ngModel)]="permisos[10].nivel" class="p-component p-inputtext" >
+                    <option value="0">Nada</option>
+                    <option value="1">Leer</option>
+                    <option value="2">Leer y Escribir</option>
+                    <option value="3">Leer, Escribir y Eliminar</option>
+                </select>
+            </div>
+    </div>
+
+
+        <!-- <div class="col">
+            <div class="flex flex-column gap-2">
+                <label htmlFor="controlTotal">Total</label>
+                <p-toggleButton formControlName="controlTotal" onLabel="Si" offLabel="No" id="controlTotal" (onChange)="cambioPermisos(true)"></p-toggleButton>
+            </div>
+        </div>
+        <div class="col">
+            <div class="flex flex-column gap-2">
+                <label htmlFor="controlEvento">Eventos</label>
+                <p-toggleButton formControlName="controlEvento" onLabel="Si" offLabel="No" id="controlEvento" (onChange)="cambioPermisos(false)"></p-toggleButton>
+            </div>
+        </div>
+        <div class="col">
+            <div class="flex flex-column gap-2">
+                <label htmlFor="controlCliente">Clientes</label>
+                <p-toggleButton formControlName="controlCliente" onLabel="Si" offLabel="No" id="controlCliente" (onChange)="cambioPermisos(false)"></p-toggleButton>
+            </div>
+        </div>
+        <div class="col">
+            <div class="flex flex-column gap-2">
+                <label htmlFor="controlProducto">Productos</label>
+                <p-toggleButton formControlName="controlProducto" onLabel="Si" offLabel="No" id="controlProducto" (onChange)="cambioPermisos(false)"></p-toggleButton>
+            </div>
+        </div>
+        <div class="col">
+            <div class="flex flex-column gap-2">
+                <label htmlFor="controlTipo">Tipos Evento</label>
+                <p-toggleButton formControlName="controlTipo" onLabel="Si" offLabel="No" id="controlTipo" (onChange)="cambioPermisos(false)"></p-toggleButton>
+            </div>
+        </div>
+        <div class="col">
+            <div class="flex flex-column gap-2">
+                <label htmlFor="controlHora">Horas</label>
+                <p-toggleButton formControlName="controlHora" onLabel="Si" offLabel="No" id="controlHora" (onChange)="cambioPermisos(false)"></p-toggleButton>
+            </div>
+        </div>
+        <div class="col">
+            <div class="flex flex-column gap-2">
+                <label htmlFor="controlUsuario">Usuario</label>
+                <p-toggleButton formControlName="controlUsuario" onLabel="Si" offLabel="No" id="controlUsuario" (onChange)="cambioPermisos(false)"></p-toggleButton>
+            </div>
+        </div> -->
+    </div>
+
+    <div [hidden]="!(modo==='A')">
+        <button pButton pRipple label="Crear" class="p-button-success mt-3" (click)="accion($event)"></button>
+    </div>
+    <div [hidden]="!(modo==='M')">
+        <button pButton pRipple label="Modificar" class="p-button-warning mt-3" (click)="accion($event)"></button>
+    </div>
+
+
+</div>

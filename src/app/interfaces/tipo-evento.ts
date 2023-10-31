@@ -4,4 +4,5 @@ export interface TipoEvento {
     activo:     boolean;
     color:      string;
     propio:     boolean;
+    tareas:     any[];
 }

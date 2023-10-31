@@ -1,0 +1,129 @@
+
+<div class="container" style="margin: 20px;">
+    
+    <div class="card">
+        <p-toast></p-toast>
+        <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+        <!-- <p-toolbar styleClass="mb-4 gap-2">
+            <ng-template pTemplate="left">
+                <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2 botonChico" (click)="mostrarModalCrud(null, 'A')"></button>
+                <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger botonChico" (click)="deleteSeleccion()" [disabled]="!horasSeleccionadas || !horasSeleccionadas.length"></button>
+            </ng-template>
+
+            <ng-template pTemplate="right">
+            </ng-template>
+        </p-toolbar> -->
+
+        <p-table
+            #dt
+            [value]="horas"
+            [rows]="10"
+            [paginator]="true"
+            [globalFilterFields]="['id', 'nombre', 'apellido', 'usuario']"
+            [tableStyle]="{ 'min-width': '75rem' }"
+            [rowHover]="true"
+            dataKey="id"
+            currentPageReportTemplate="Mostrando desde {first} a {last} de {totalRecords} registros"
+            [showCurrentPageReport]="true"
+            styleClass="p-datatable-sm"
+        >
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between" style="display: flex;">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText style="padding-top: 0.4rem !important;padding-bottom: 0.4rem !important;" class="p-component p-element p-inputtext" type="text" (input)="dt.filterGlobal(getEventValue($event), 'contains')" placeholder="Search..." />
+                    </span>
+                    <div class="flex align-items-center gap-1" style="margin:auto 10px">
+                        <!-- <p-checkbox id="filtroVerCerrados" [(ngModel)]="filtroVerCerrados" (click)="filtraEventosCerrado()" [binary]="true" inputId="binary"></p-checkbox> -->
+                        <label for="filtroFechas">Fecha: </label>
+                        <p-calendar id="filtroFechas" [(ngModel)]="dateFilter" view="month" dateFormat="mm/yy" [readonlyInput]="true" (onClose)="consultarRegistros(dateFilter)"></p-calendar>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th></th>
+                    <th pSortableColumn="id" hidden>Id <p-sortIcon field="id"></p-sortIcon></th>
+                    <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
+                    <th pSortableColumn="apellido">Apellido <p-sortIcon field="apellido"></p-sortIcon></th>
+                    <th pSortableColumn="usuario">Usuario <p-sortIcon field="usuario"></p-sortIcon></th>
+                    <!-- <th pSortableColumn="promedio">Promedio <p-sortIcon field="promedio"></p-sortIcon></th> -->
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-registro let-expanded="expanded">
+                <tr *ngIf="registro.registros.length > 0">
+                    <td style="width: 10px">
+                        <button type="button" pButton pRipple [pRowToggler]="registro" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                    </td>
+                    <td hidden>{{ registro.id }}</td>
+                    <td>{{ registro.nombre}}</td>
+                    <td>{{ registro.apellido }}</td>
+                    <td>{{ registro.usuario }}</td>
+                    <!-- <td>{{ registro.promedioMes }} Hs</td> -->
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="rowexpansion" let-registrosDetalle>
+                <tr>
+                    <td colspan="4">
+                        <div class="p-3">
+                            <p-table [value]="registrosDetalle.registros" dataKey="id">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th></th>
+                                        <th pSortableColumn="id" hidden>Id <p-sortIcon field="id"></p-sortIcon></th>
+                                        <th pSortableColumn="fecha">Fecha <p-sortIcon field="fecha"></p-sortIcon></th>
+                                        <th pSortableColumn="totalHoras">Total <p-sortIcon field="totalHoras"></p-sortIcon></th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-hora let-expanded="expanded">
+                                    <tr>
+                                        <td style="width: 10px">
+                                            <button type="button" pButton pRipple [pRowToggler]="hora" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                                        </td>
+                                        <td hidden>{{ hora.id }}</td>
+                                        <td>{{ hora.fecha | date:'fullDate'}}</td>
+                                        <td>{{ hora.totalHoras }}</td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="rowexpansion" let-horaDetalle>
+                                    <tr>
+                                        <td colspan="4">
+                                            <div class="p-3">
+                                                <p-table [value]="horaDetalle.horas" dataKey="id">
+                                                    <ng-template pTemplate="header">
+                                                        <tr>
+                                                            <th pSortableColumn="id" hidden>Id </th>
+                                                            <th pSortableColumn="evento">Evento </th>
+                                                            <th pSortableColumn="inicio">Inicio </th>
+                                                            <th pSortableColumn="final">Final </th>
+                                                            <th pSortableColumn="total">Total </th>
+                                                            <th pSortableColumn="observaciones">Obs</th>
+                                                        </tr>
+                                                    </ng-template>
+                                                    <ng-template pTemplate="body" let-hora>
+                                                        <tr>
+                                                            <td hidden>{{ hora.id }}</td>
+                                                            <td>{{ hora.evento.tipo }}-{{hora.evento.numero}} | {{hora.evento.titulo}}</td>
+                                                            <td>{{ hora.inicio }}</td>
+                                                            <td>{{ hora.final }}</td>
+                                                            <td>{{ hora.total }}</td>
+                                                            <td>{{ hora.observaciones }}</td>
+                                                        </tr>
+                                                    </ng-template>
+                                                </p-table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="flex align-items-center justify-content-between">En total hay {{ horas ? horas.length : 0 }} horas.</div>
+            </ng-template>
+        </p-table>
+    </div>
+
+</div>

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { map } from 'rxjs';
-import { environment } from 'src/environments/environment.development';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +18,10 @@ export class ClienteService {
 
   getClientes(){
     return this.http.get(`${this.URL_COMPLETA}/cliente`);
+  }
+
+  getCliente(clienteId : string){
+    return this.http.get(`${this.URL_COMPLETA}/cliente/${clienteId}`);
   }
 
   setCliente(cliente: any){

@@ -1,0 +1,8 @@
+<div class="comentario">
+    <div class="comentario_Head">
+        <span>{{comentario.usuario.usuario}}</span>
+        <span class="momento">{{comentario.fecha | date:'medium'}}</span> 
+    </div>
+    <div class="comentario_Body ck-content" [innerHTML]="commentHtml">
+    </div>
+</div>

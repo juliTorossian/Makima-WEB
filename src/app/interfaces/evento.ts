@@ -1,3 +1,7 @@
+import { Cliente } from "./cliente";
+import { Modulo } from "./modulo";
+import { Producto } from "./producto";
+import { Tarea } from "./tarea";
 import { UsuarioCorto } from "./usuario";
 
 export interface Evento {
@@ -6,19 +10,24 @@ export interface Evento {
     numero:         number;
     titulo:         string;
     tareaNombre:    string;
-    cliente:        string;
-    producto:       string;
+    cliente:        Cliente;
+    producto:       Producto;
+    modulo:         Modulo;
     usuarioAlta:    UsuarioCorto;
     usuarioActual:  UsuarioCorto;
     cerrado:        boolean;
     estimacion:     number;
     prioridad:      number;
     propio:         boolean;
+    fechaAlta:      string;
+    madre:          Evento;
     detalle:        EventoDetalle | null;
+    busqueda:       string;
+    descripcion?:    string;
 }
 
 export interface EventoDetalle {
-    EventoCircuito: EventoCircuito;
+    eventoCircuito: EventoCircuito;
     eventoHoras:    EventoHoras;
 }
 
@@ -32,12 +41,22 @@ export interface EventoCircuito {
 export interface CircuitoMomento {
     tiene: boolean | null;
     etapa: number  | null;
-    tarea: string  | null;
+    tarea: Tarea  | null;
 }
 
 export interface EventoHoras {
-    estimacion: number;
+    estimacion: EventoHorasEstimacion;
+    trabajadas: number;
+}
+
+export interface EventoHorasEstimacion {
     total:      number;
+    detalle:    EventoHorasDetalle[];
+}
+
+export interface EventoHorasDetalle {
+    estimacion: number;
+    rol:        string;
 }
 
 export interface EventoCRUD {

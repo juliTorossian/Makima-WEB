@@ -1,0 +1,99 @@
+<div class="container">
+
+    <div class="grid" *ngIf="usuario">
+        <div class="col-4 text-aling-center">
+            <div class="card">
+                <div class="card-body body-flex">
+    
+                    <div class="cell-title">
+
+                        <img src="https://placehold.co/240" alt="avatar" class="avatar">
+
+                        <p class="title">{{usuario.nombre}} {{usuario.apellido}}</p>
+                        <p class="subtitle">{{usuario.usuario}}</p>
+                    </div>
+
+                    <hr style="width: 50%;">
+                    <!-- <span class="separador"></span> -->
+
+                    <div class="user-att" style="margin-top: 5px;">
+                        <p class="mr-4">{{usuario.mail}}</p>
+                        <a class="boton-redondo" style="display: flex;" target="_blank" href="https://mail.google.com/mail/u/0/?to={{usuario.mail}}&tf=cm" *ngIf="!esUsuario()"><i class="pi pi-send boton-redondo-icon"></i></a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-8 panel">
+            <div class="card">
+                <div class="card-body">
+                    <p-tabView styleClass="tabview-custom">
+                        <p-tabPanel>
+                            <ng-template pTemplate="header">
+                                <i class="pi pi-calendar mr-1"></i>
+                                <span>Datos</span>
+                            </ng-template>
+                            
+                            <app-grafico-tipos origen="U" [filtro]="usuarioAVer"></app-grafico-tipos>
+
+                        </p-tabPanel>
+                        <p-tabPanel header="Mi Usuario" *ngIf="esUsuario()">
+                            <ng-template pTemplate="header">
+                                <i class="pi pi-user mr-1"></i>
+                                <span>Mi Usuario</span>
+                            </ng-template>
+                            <div class="grid">
+                                <div class="col-6">
+                                    <div class="flex flex-column gap-2">
+                                        <label htmlFor="nombre">Nombre</label>
+                                        <input pInputText id="nombre" aria-describedby="nombre-help" [(ngModel)]="usuarioMod.nombre" tabindex="0" [readOnly]="!esUsuario()"/>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="flex flex-column gap-2">
+                                        <label htmlFor="apellido">Apellido</label>
+                                        <input pInputText id="apellido" aria-describedby="apellido-help" [(ngModel)]="usuarioMod.apellido" tabindex="1" [readOnly]="!esUsuario()"/>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="flex flex-column gap-2">
+                                        <label htmlFor="mail">Mail</label>
+                                        <input type="email" pInputText id="mail" aria-describedby="mail-help" [(ngModel)]="usuarioMod.mail" tabindex="2" [readOnly]="!esUsuario()"/>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="flex flex-column gap-2">
+                                        <label htmlFor="usuario">Usuario</label>
+                                        <input pInputText id="usuario" aria-describedby="usuario-help" [(ngModel)]="usuarioMod.usuario" tabindex="3" [readOnly]="true"/>
+                                    </div>
+                                </div>
+                                <div class="col-3" style="display:flex;justify-content: center;">
+                                    <div class="flex flex-column gap-2">
+                                        <label htmlFor="color">Color</label>
+                                        <p-colorPicker appendTo="body" id="color" [(ngModel)]="usuarioMod.color" tabindex="4" [disabled]="!esUsuario()"></p-colorPicker>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="esUsuario()">
+                                <button pButton pRipple label="Modificar" class="p-button-warning" (click)="modificarUsuario()" tabindex="5"></button>
+                            </div>
+                        </p-tabPanel>
+                        <p-tabPanel header="Preferencias" *ngIf="esUsuario()">
+                            <ng-template pTemplate="header">
+                                <i class="pi pi-cog mr-1"></i>
+                                <span>Preferencias</span>
+                            </ng-template>
+                            <div class="grid">
+                                <div class="col" *ngFor="let p of preferencias">
+                                    <p>{{p.desc}}</p>
+                                    <input type="checkbox" [(ngModel)]="p.activo" (ngModelChange)="actualizarPreferencia(p)">
+                                </div>
+                            </div>
+                        </p-tabPanel>
+                    </p-tabView>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
