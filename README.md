@@ -1,27 +1,13 @@
-# MakimaWEB
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.4.
+# Makima-WEB
+Repositorio del font-end del proyecto **Makima**
+El font-end esta hecho en Angular 16
 
-## Development server
+---
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+# Makima: Un sistema de eventos internos para una mejor gestión de proyectos
 
-## Code scaffolding
+Makima es un sistema de eventos internos que ayuda a las empresas a organizar y gestionar sus proyectos de manera más eficiente. El software ofrece herramientas para gestionar tareas, clientes, usuarios, roles y eventos.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Para mas informacion sobre el proyecto: 
+[Notion](https://julitorossian.notion.site/Makima-8f53d2e03a504552b4fe24af07f7d235)
