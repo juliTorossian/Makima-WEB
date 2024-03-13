@@ -17,41 +17,35 @@ export class EventoService {
 
   getEventos(){
     return this.http.get(`${this.URL_COMPLETA}/evento`).pipe(
-      map( (res:any) => res.results )
+      // tap( (res) => console.log(res)),
+      map( (res:any) => res.data.results )
     );
   }
   getEvento(eventoId : string){
-    return this.http.get(`${this.URL_COMPLETA}/evento/${eventoId}`).pipe(
-      // tap( (res) => console.log(res))
-    );
+    return this.http.get(`${this.URL_COMPLETA}/evento/${eventoId}`).pipe(map( (res:any) => res.data ));
   }
   getEventosUsuario(usuarioId: string){
-    return this.http.get(`${this.URL_COMPLETA}/evento/usuario/${usuarioId}`).pipe(
-      map( (res:any) => res.results )
-    );
+    return this.http.get(`${this.URL_COMPLETA}/evento/usuario/${usuarioId}`).pipe(map( (res:any) => res.data.results ))
   }
   setEvento(evento: any){
-    return this.http.post(`${this.URL_COMPLETA}/evento`, evento);
+    return this.http.post(`${this.URL_COMPLETA}/evento`, evento).pipe(map( (res:any) => res.data ));
   }
 
   putEvento(evento: any){
-    return this.http.put(`${this.URL_COMPLETA}/evento`, evento);
+    return this.http.patch(`${this.URL_COMPLETA}/evento/${evento.id}`, evento).pipe(map( (res:any) => res.data ));
   }
 
   deleteEvento(evento: any){
-    return this.http.delete(`${this.URL_COMPLETA}/evento/${evento.id}`);
+    return this.http.delete(`${this.URL_COMPLETA}/evento/${evento.id}`).pipe(map( (res:any) => res.data ));
   }
 
   // Comentarios
 
   getComentarios(eventoId : string){
-    return this.http.get(`${this.URL_COMPLETA}/evento/${eventoId}/comentarios`).pipe(
-      // tap( (res) => console.log(res))
-    );
+    return this.http.get(`${this.URL_COMPLETA}/evento/${eventoId}/comentarios`).pipe(map( (res:any) => res.data ));
   }
   setComentario(eventoId : string, comentario:any){
-    // console.log(comentario);
-    return this.http.post(`${this.URL_COMPLETA}/evento/${eventoId}/comentar`, comentario);
+    return this.http.post(`${this.URL_COMPLETA}/evento/${eventoId}/comentar`, comentario).pipe(map( (res:any) => res.data ));
   }
 
   // Adjuntos
@@ -67,7 +61,7 @@ export class EventoService {
     headers.set('Content-Type', 'multipart/form-data');
   
     // Realiza la petición HTTP
-    return this.http.post(`${this.URL_COMPLETA}/evento/${eventoId}/adjuntar?usuario=${usuario}`, formData, {headers: headers});
+    return this.http.post(`${this.URL_COMPLETA}/evento/${eventoId}/adjuntar?usuario=${usuario}`, formData, {headers: headers}).pipe(map( (res:any) => res.data ));
   }
   // setAdjuntos(eventoId : string, adjuntos: any){
   //   console.log(adjuntos)
@@ -76,25 +70,19 @@ export class EventoService {
   //   return this.http.post(`${this.URL_COMPLETA}/evento/${eventoId}/adjuntar`, adjuntos, {headers: headers});
   // }
   getAdjuntos(eventoId : string){
-    return this.http.get(`${this.URL_COMPLETA}/evento/${eventoId}/adjuntos`).pipe(
-      // tap( (res) => console.log(res))
-    );
+    return this.http.get(`${this.URL_COMPLETA}/evento/${eventoId}/adjuntos`).pipe(map( (res:any) => res.data ));
   }
   deleteAdjunto(adicionId: any){
-    return this.http.delete(`${this.URL_COMPLETA}/evento/adjunto/${adicionId}`);
+    return this.http.delete(`${this.URL_COMPLETA}/evento/adjunto/${adicionId}`).pipe(map( (res:any) => res.data ));
   }
 
   // Vida
   getVidaEvento(eventoId : string){
-    return this.http.get(`${this.URL_COMPLETA}/evento/${eventoId}/vida`).pipe(
-      // tap( (res) => console.log(res))
-    );
+    return this.http.get(`${this.URL_COMPLETA}/evento/${eventoId}/vida`).pipe(map( (res:any) => res.data ));
   }
 
   // Horas
   getHorasEvento(eventoId : string){
-    return this.http.get(`${this.URL_COMPLETA}/evento/${eventoId}/horas`).pipe(
-      // tap( (res) => console.log(res))
-    );
+    return this.http.get(`${this.URL_COMPLETA}/evento/${eventoId}/horas`).pipe(map( (res:any) => res.data ));
   }
 }

@@ -40,8 +40,12 @@ export class LoginComponent {
       }
       
       this.authService.login(usuario).subscribe({
-        next: (res) => {
-          this.authService.setToken(res.toString());
+        next: (res:any) => {
+          if (res.success){
+            this.authService.setToken(res.data.token.toString());
+          }else{
+            console.log(res);
+          }
         },
         error: (err) => {
           this.errorLogin(err);

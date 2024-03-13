@@ -330,15 +330,15 @@ export class HeaderMenuComponent implements OnInit{
             {
                 separator: true,
             },
-            {
-                label: 'Solicitar Licencia',
-                icon: 'pi pi-fw pi-pencil',
-                url: 'https://docs.google.com/a/gaci.com.ar/forms/d/e/1FAIpQLSdbSw6Cs9pj3WF1g5ly8xwnM01Ag3_PaWrpMqFUwCMyHh0wMQ/viewform',
-                target: '_blank'
-            },
-            {
-                separator: true,
-            },
+            // {
+            //     label: 'Solicitar Licencia',
+            //     icon: 'pi pi-fw pi-pencil',
+            //     url: 'https://docs.google.com/a/gaci.com.ar/forms/d/e/1FAIpQLSdbSw6Cs9pj3WF1g5ly8xwnM01Ag3_PaWrpMqFUwCMyHh0wMQ/viewform',
+            //     target: '_blank'
+            // },
+            // {
+            //     separator: true,
+            // },
             {
                 label: 'Cerrar Sesion',
                 icon: 'pi pi-fw pi-sign-out',

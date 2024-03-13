@@ -48,8 +48,6 @@ export class HoraCrudComponent implements OnInit{
   }
 
   ngOnInit(){
-    // console.log(this.config.data.hora.registroHoras);
-
     this.eventoService.getEventos().subscribe({
       next: (res) => {
         this.eventos = res;
@@ -64,11 +62,9 @@ export class HoraCrudComponent implements OnInit{
       this.usuario = registroHoras.usuario;
       this.totalHoras = registroHoras.totalHoras;
 
-      // console.log(registroHoras.horas);
       this.horas = [];
       registroHoras.horas.map( (h:any) => {
-        // console.log(h);
-        this.horas.push( { id: h.id, evento: {id: h.evento.id, evento: `${h.evento.tipo}-${h.evento.numero}`}, inicio: h.inicio, final: h.final, total: h.total, observaciones: h.observaciones } )
+        this.horas.push( { id: h.id, evento: {id: h.evento.id, busqueda: `${h.evento.tipo}-${h.evento.numero}`, evento: `${h.evento.tipo}-${h.evento.numero}`}, inicio: h.inicio, final: h.final, total: h.total, observaciones: h.observaciones } )
       })
 
       // this.horas = registroHoras.horas;

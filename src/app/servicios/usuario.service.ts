@@ -23,32 +23,32 @@ export class UsuarioService {
 
   // {this.URL_COMPLETA}/usuario = localhost:4000/usario
   getUsuarios(){
-    return this.http.get(`${this.URL_COMPLETA}/usuario`);
+    return this.http.get(`${this.URL_COMPLETA}/usuario`).pipe(map( (res:any) => res.data ));
   }
   getUsuariosRol(rol:string){
-    return this.http.get(`${this.URL_COMPLETA}/usuario/rol/${rol}`);
+    return this.http.get(`${this.URL_COMPLETA}/usuario/rol/${rol}`).pipe(map( (res:any) => res.data ));
   }
 
   setUsuario(usuario: any){
-    return this.http.post(`${this.URL_COMPLETA}/usuario`, usuario);
+    return this.http.post(`${this.URL_COMPLETA}/usuario`, usuario).pipe(map( (res:any) => res.data ));
   }
 
   putUsuario(usuario: any){
-    return this.http.patch(`${this.URL_COMPLETA}/usuario/${usuario.id}`, usuario);
+    return this.http.patch(`${this.URL_COMPLETA}/usuario/${usuario.id}`, usuario).pipe(map( (res:any) => res.data ));
   }
 
   deleteUsuario(usuario: any){
-    return this.http.delete(`${this.URL_COMPLETA}/usuario/${usuario.id}`);
+    return this.http.delete(`${this.URL_COMPLETA}/usuario/${usuario.id}`).pipe(map( (res:any) => res.data ));
   }
 
   reactivarUsuario(usuario: any){
-    return this.http.get(`${this.URL_COMPLETA}/usuario/${usuario.id}/reactivar`);
+    return this.http.get(`${this.URL_COMPLETA}/usuario/${usuario.id}/reactivar`).pipe(map( (res:any) => res.data ));
   }
 
   /* */
 
   login(params: any){
-    return this.http.get(`${this.URL_COMPLETA}/usuario/gestion/iniciarSesion`, {params});
+    return this.http.post(`${this.URL_COMPLETA}/usuario/gestion/iniciarSesion`, params);
   }
   logout(){
     return this.cookies.delete("userToken");
@@ -62,20 +62,20 @@ export class UsuarioService {
         this.errorUsuario();
         throw 'error: '+err;
       }),
-      tap( (res:any) => res),
-      map( (res:any) => res.tokenUsuario )
+      // tap( (res:any) => console.log(res)),
+      map( (res:any) => res.data )
     );
   }
   getUsuario(usuarioId: string){
     return this.http.get(`${this.URL_COMPLETA}/usuario/${usuarioId}`).pipe(
-      map( (res:any) => res.tokenUsuario )
+      map( (res:any) => res.data )
     );
   }
   getUsuarioPreferencias(usuarioId: string){
-    return this.http.get(`${this.URL_COMPLETA}/usuario/${usuarioId}/preferencias`);
+    return this.http.get(`${this.URL_COMPLETA}/usuario/${usuarioId}/preferencias`).pipe(map( (res:any) => res.data ));
   }
   setDelUsuarioPreferencias(usuarioId: string, preferencia: UsuarioPreferencia){
-    return this.http.get(`${this.URL_COMPLETA}/usuario/${usuarioId}/preferencias/${preferencia.clave}`);
+    return this.http.get(`${this.URL_COMPLETA}/usuario/${usuarioId}/preferencias/${preferencia.clave}`).pipe(map( (res:any) => res.data ));
   }
 
   // TOKEN
@@ -131,7 +131,7 @@ export class UsuarioService {
   }
 
   getEventosGrafico(usuarioId:string){
-    return this.http.get(`${this.URL_COMPLETA}/usuario/estadisticas/${usuarioId}`);
+    return this.http.get(`${this.URL_COMPLETA}/usuario/estadisticas/${usuarioId}`).pipe(map( (res:any) => res.data ));
   }
 
 }
