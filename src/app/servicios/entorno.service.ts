@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { tap } from 'rxjs';
+import { map, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Entorno } from '../interfaces/entorno';
 
@@ -17,18 +17,18 @@ export class EntornoService {
 
 
   getEntornos(){
-    return this.http.get(`${this.URL_COMPLETA}/entorno`);
+    return this.http.get(`${this.URL_COMPLETA}/entorno`).pipe(map( (res:any) => res.data ));
   }
 
   setEntorno(entorno: Entorno){
-    return this.http.post(`${this.URL_COMPLETA}/entorno`, entorno);
+    return this.http.post(`${this.URL_COMPLETA}/entorno`, entorno).pipe(map( (res:any) => res.data ));
   }
 
   putEntorno(entorno: Entorno){
-    return this.http.put(`${this.URL_COMPLETA}/entorno`, entorno);
+    return this.http.patch(`${this.URL_COMPLETA}/entorno/${entorno.id}`, entorno).pipe(map( (res:any) => res.data ));
   }
 
   deleteEntorno(entorno: Entorno){
-    return this.http.delete(`${this.URL_COMPLETA}/entorno/${entorno.id}`);
+    return this.http.delete(`${this.URL_COMPLETA}/entorno/${entorno.id}`).pipe(map( (res:any) => res.data ));
   }
 }

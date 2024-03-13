@@ -15,27 +15,27 @@ export class HoraService {
   private URL_COMPLETA = `${this.API_BASEURL}:${this.API_PORT}/${this.API_VERSION}`;
 
   getHoras(){
-    return this.http.get(`${this.URL_COMPLETA}/hora`);
+    return this.http.get(`${this.URL_COMPLETA}/hora`).pipe(map( (res:any) => res.data ));
   }
   getHora(horaId : string){
-    return this.http.get(`${this.URL_COMPLETA}/hora/${horaId}`);
+    return this.http.get(`${this.URL_COMPLETA}/hora/${horaId}`).pipe(map( (res:any) => res.data ));
   }
   getHorasUsuario(usuarioId: string){
-    return this.http.get(`${this.URL_COMPLETA}/hora/usuario/${usuarioId}`);
+    return this.http.get(`${this.URL_COMPLETA}/hora/usuario/${usuarioId}`).pipe(map( (res:any) => res.data ));
   }
   getHorasGenerales(){
-    return this.http.get(`${this.URL_COMPLETA}/hora/generales`);
+    return this.http.get(`${this.URL_COMPLETA}/hora/generales`).pipe(map( (res:any) => res.data ));
   }
   
   setHora(hora: any){
-    return this.http.post(`${this.URL_COMPLETA}/hora`, hora);
+    return this.http.post(`${this.URL_COMPLETA}/hora`, hora).pipe(map( (res:any) => res.data ));
   }
 
   putHora(hora: any){
-    return this.http.put(`${this.URL_COMPLETA}/hora`, hora);
+    return this.http.patch(`${this.URL_COMPLETA}/hora/${hora.id}`, hora).pipe(map( (res:any) => res.data ));
   }
 
   deleteHora(hora: any){
-    return this.http.delete(`${this.URL_COMPLETA}/hora/${hora.id}`);
+    return this.http.delete(`${this.URL_COMPLETA}/hora/${hora.id}`).pipe(map( (res:any) => res.data ));
   }
 }

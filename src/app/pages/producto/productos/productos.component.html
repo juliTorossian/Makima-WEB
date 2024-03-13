@@ -6,8 +6,8 @@
         <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
         <p-toolbar styleClass="mb-4 gap-2" *ngIf="tieneControl()">
             <ng-template pTemplate="left">
-                <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2 botonChico" (click)="mostrarModalCrud(producto, 'A')"></button>
-                <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger botonChico" *ngIf="puedeEliminar()" (click)="deleteSeleccionado()" [disabled]="!productoSeleccionado || !productoSeleccionado.length"></button>
+                <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2 botonChico" (click)="mostrarModalCrud(producto, 'A')"></button>
+                <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger botonChico" *ngIf="puedeEliminar()" (click)="deleteSeleccionado()" [disabled]="!productoSeleccionado || !productoSeleccionado.length"></button>
             </ng-template>
 
             <ng-template pTemplate="right">

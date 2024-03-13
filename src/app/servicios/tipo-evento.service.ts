@@ -16,22 +16,23 @@ export class TipoEventoService {
 
 
   getTipoEventos(){
-    return this.http.get(`${this.URL_COMPLETA}/tipoEvento`);
+    return this.http.get(`${this.URL_COMPLETA}/tipoEvento`).pipe(map( (res:any) => res.data ));
   }
   setTipoEvento(tipoEvento: any){
-    return this.http.post(`${this.URL_COMPLETA}/tipoEvento`, tipoEvento);
+    return this.http.post(`${this.URL_COMPLETA}/tipoEvento`, tipoEvento).pipe(map( (res:any) => res.data ));
   }
   putTipoEvento(tipoEvento: any){
-    return this.http.put(`${this.URL_COMPLETA}/tipoEvento`, tipoEvento);
+    return this.http.patch(`${this.URL_COMPLETA}/tipoEvento/${tipoEvento.id}`, tipoEvento).pipe(map( (res:any) => res.data ));
   }
   deleteTipoEvento(tipoEvento: any){
-    return this.http.delete(`${this.URL_COMPLETA}/tipoEvento/${tipoEvento.id}`);
+    return this.http.delete(`${this.URL_COMPLETA}/tipoEvento/${tipoEvento.id}`).pipe(map( (res:any) => res.data ));
   }
 
   getTiposEventoBusqueda(): Observable<any[]> {
     return this.http.get<any[]>(`${this.URL_COMPLETA}/tipoEvento`).pipe(
       // map((response: any[]) => response.map(item => ({ value: item.id, label: `${item.id} - ${item.descripcion}` })))
-      map((response: any[]) => response.map(item => (item.id)))
+      // tap( (res:any) => console.log(res)),
+      map((response:any) => response.data.map((item:any) => (item.id)))
     );
   }
 }

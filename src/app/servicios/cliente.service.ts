@@ -17,26 +17,26 @@ export class ClienteService {
 
 
   getClientes(){
-    return this.http.get(`${this.URL_COMPLETA}/cliente`);
+    return this.http.get(`${this.URL_COMPLETA}/cliente/`).pipe(map( (res:any) => res.data ));
   }
 
   getCliente(clienteId : string){
-    return this.http.get(`${this.URL_COMPLETA}/cliente/${clienteId}`);
+    return this.http.get(`${this.URL_COMPLETA}/cliente/${clienteId}`).pipe(map( (res:any) => res.data ));
   }
 
   setCliente(cliente: any){
-    return this.http.post(`${this.URL_COMPLETA}/cliente`, cliente);
+    return this.http.post(`${this.URL_COMPLETA}/cliente/`, cliente).pipe(map( (res:any) => res.data ));
   }
 
   putCliente(cliente: any){
-    return this.http.put(`${this.URL_COMPLETA}/cliente`, cliente);
+    return this.http.patch(`${this.URL_COMPLETA}/cliente/${cliente.id}`, cliente).pipe(map( (res:any) => res.data ));
   }
 
   deleteCliente(cliente: any){
-    return this.http.delete(`${this.URL_COMPLETA}/cliente/${cliente.id}`);
+    return this.http.delete(`${this.URL_COMPLETA}/cliente/${cliente.id}`).pipe(map( (res:any) => res.data ));
   }
 
   reactivarCliente(cliente: any){
-    return this.http.get(`${this.URL_COMPLETA}/cliente/${cliente.id}/reactivar`);
+    return this.http.get(`${this.URL_COMPLETA}/cliente/${cliente.id}/reactivar`).pipe(map( (res:any) => res.data ));
   }
 }

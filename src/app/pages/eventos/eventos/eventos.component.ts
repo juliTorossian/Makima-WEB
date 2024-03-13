@@ -190,7 +190,7 @@ export class EventosComponent implements OnInit {
   }
 
   delete(evento : Evento){
-    console.log(evento);
+    // console.log(evento);
     this.eventoService.deleteEvento(evento).subscribe({
       next: () => {
         this.messageService.add({ severity: 'info', summary: '', detail: 'Evento Eliminado' });

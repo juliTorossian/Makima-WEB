@@ -17,24 +17,26 @@ export class ModuloService {
 
 
   getModulos(){
-    return this.http.get(`${this.URL_COMPLETA}/modulo`);
+    return this.http.get(`${this.URL_COMPLETA}/modulo`).pipe(map( (res:any) => res.data ));
   }
 
   setModulo(modulo: Modulo){
-    return this.http.post(`${this.URL_COMPLETA}/modulo`, modulo);
+    return this.http.post(`${this.URL_COMPLETA}/modulo`, modulo).pipe(map( (res:any) => res.data ));
   }
 
   putModulo(modulo: Modulo){
-    return this.http.put(`${this.URL_COMPLETA}/modulo`, modulo);
+    return this.http.patch(`${this.URL_COMPLETA}/modulo/${modulo.id}`, modulo).pipe(map( (res:any) => res.data ));
   }
 
   deleteModulo(modulo: Modulo){
-    return this.http.delete(`${this.URL_COMPLETA}/modulo/${modulo.id}`);
+    return this.http.delete(`${this.URL_COMPLETA}/modulo/${modulo.id}`).pipe(map( (res:any) => res.data ));
   }
 
   getModulosBusqueda(): Observable<any[]> {
     return this.http.get<any[]>(`${this.URL_COMPLETA}/modulo`).pipe(
-      map((response: any[]) => response.map(item => (item.id)))
+      
+      // tap( (res:any) => console.log(res)),
+      map((response:any) => response.data.map((item:any) => (item.id)))
     );
   }
   // getModulosBusqueda(): Observable<any[]> {

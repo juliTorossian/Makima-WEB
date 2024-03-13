@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { tap } from 'rxjs';
+import { map, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -15,14 +15,10 @@ export class DashboardService {
   private URL_COMPLETA = `${this.API_BASEURL}:${this.API_PORT}/${this.API_VERSION}`;
 
   getTareasPorTipo(){
-    return this.http.get(`${this.URL_COMPLETA}/evento/dashboard/tareaPortipo`).pipe(
-      // tap( (res:any) => console.log(res) )
-    );
+    return this.http.get(`${this.URL_COMPLETA}/evento/dashboard/tareaPortipo`).pipe(map( (res:any) => res.data ));
   }
   getNovedades(cantidad:number){
-    return this.http.get(`${this.URL_COMPLETA}/dashboard/ultimosMovimientos?cantidad=${cantidad}`).pipe(
-      // tap( (res:any) => console.log(res) )
-    );
+    return this.http.get(`${this.URL_COMPLETA}/dashboard/ultimosMovimientos?cantidad=${cantidad}`).pipe(map( (res:any) => res.data ));
   }
 
 }

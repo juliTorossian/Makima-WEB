@@ -141,7 +141,7 @@ export class UsuariosComponent {
   }
 
   deleteSeleccionado() {
-    console.log(this.usuarioSeleccionado);
+    // console.log(this.usuarioSeleccionado);
     this.confirmationService.confirm({
       message: 'Esta seguro que queres hacer una eliminacion masiva de Usuarios?',
       header: 'Eliminar Usuario',
